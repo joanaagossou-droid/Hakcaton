@@ -7,7 +7,7 @@
      empreinte sha256. Toute modification du script change l'empreinte et
      le bloque. Il faut alors recalculer la valeur de script-src : la console
      du navigateur (F12) affiche la nouvelle empreinte attendue. -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-+kPdf3ostDkVLgPsIQqAYgID0xruvFc4DH7e7sKPOKA='; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; form-action 'none'; base-uri 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-vxA9yEJkPVBM2dwyOOjZ3WuWmXYzXKGKefJZGapwf7I='; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; form-action 'none'; base-uri 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IRÉ-ISHÈ · Laboratoire virtuel</title>
@@ -69,7 +69,7 @@ textarea{min-height:88px;resize:vertical}
 <body>
 <header>
 <h1>IRÉ-ISHÈ · Laboratoire virtuel</h1>
-<p>Huit expériences pour s'entraîner avant de passer à la paillasse : mécanique, physique, chimie, biologie, et un cahier de TP pour rédiger ses comptes rendus. Ce sont des simulations pédagogiques. Les valeurs cachées (frottement, raideur du ressort, résistance, focale, concentrations, culture) sont tirées au hasard et fictives : elles ne décrivent aucun matériau ni appareil réel.</p>
+<p>Pour les étudiants de l'université : huit expériences pour s'entraîner avant de passer à la paillasse : mécanique, physique, chimie, biologie, et un cahier de TP pour rédiger ses comptes rendus. Ce sont des simulations pédagogiques. Les valeurs cachées (frottement, raideur du ressort, résistance, focale, concentrations, culture) sont tirées au hasard et fictives : elles ne décrivent aucun matériau ni appareil réel.</p>
 </header>
 <nav role="tablist" aria-label="Expériences">
 <button role="tab" aria-selected="true" data-t="meca">Mécanique : pendule</button>
@@ -642,7 +642,7 @@ textarea{min-height:88px;resize:vertical}
 <input type="text" id="nbTitle" maxlength="120">
 <div class="grid">
 <div><label for="nbDate">Date</label><input type="date" id="nbDate"></div>
-<div><label for="nbGroup">Classe ou groupe</label><input type="text" id="nbGroup" maxlength="60"></div>
+<div><label for="nbGroup">Filière ou groupe de TP</label><input type="text" id="nbGroup" maxlength="60"></div>
 </div>
 <button class="btn alt" id="nbFill">Reprendre l'objectif, le matériel et le protocole de l'expérience</button>
 </div>
@@ -1339,7 +1339,7 @@ function nbBuildPrint(c){
   var a=$("printArea");a.innerHTML="";
   function el(tag,txt){var e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;a.appendChild(e);return e;}
   el("h1",c.title||"Compte rendu de TP");
-  el("p","Expérience : "+expName(c.exp)+(c.date?" · Date : "+c.date:"")+(c.group?" · Classe ou groupe : "+c.group:""));
+  el("p","Expérience : "+expName(c.exp)+(c.date?" · Date : "+c.date:"")+(c.group?" · Filière ou groupe de TP : "+c.group:""));
   for(var i=0;i<FIELDS.length;i++){
     var k=FIELDS[i][0];
     if(k==="Obs"&&c.data){el("h2","Mesures");var d=document.createElement("div");nbData(d,c.data);a.appendChild(d);}
