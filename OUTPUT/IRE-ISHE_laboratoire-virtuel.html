@@ -1,0 +1,1387 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<!-- Règle de sécurité (CSP). La page ne charge rien et n'envoie rien.
+     Seul le script de cette page peut s'exécuter : il est reconnu par son
+     empreinte sha256. Toute modification du script change l'empreinte et
+     le bloque. Il faut alors recalculer la valeur de script-src : la console
+     du navigateur (F12) affiche la nouvelle empreinte attendue. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-+kPdf3ostDkVLgPsIQqAYgID0xruvFc4DH7e7sKPOKA='; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; font-src 'none'; media-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; manifest-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRÉ-ISHÈ · Laboratoire virtuel</title>
+<style>
+:root{--bg:#f6f4ee;--card:#fff;--ink:#1d2430;--mute:#566070;--line:#d9d4c7;--acc:#0b5d7a;--acc2:#8a3b12;--ok:#17653a;--warn:#9a2a1a}
+@media (prefers-color-scheme:dark){:root{--bg:#14181f;--card:#1d232d;--ink:#e8ebf0;--mute:#a3adbb;--line:#364050;--acc:#6cc4e2;--acc2:#f0a574;--ok:#6fd49a;--warn:#ff9c8c}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-wrap:anywhere}
+header{padding:20px 16px 8px;max-width:960px;margin:0 auto}
+h1{font-size:1.5rem;margin:0 0 4px}
+header p{margin:0;color:var(--mute)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;gap:8px;overflow-x:auto;white-space:nowrap;max-width:960px;margin:0 auto}
+nav button{flex:0 0 auto;min-height:44px;padding:0 16px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:22px;font:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+main{max-width:960px;margin:0 auto;padding:16px}
+section{display:none}
+section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:0 0 16px}
+h2{font-size:1.25rem;margin:0 0 8px}
+h3{font-size:1.05rem;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+label{display:block;margin:10px 0 2px;font-weight:600}
+input[type=range]{width:100%;min-height:36px}
+select,input[type=number]{width:100%;min-height:44px;font:inherit;padding:0 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.btn{min-height:44px;padding:0 16px;border-radius:8px;border:1px solid var(--acc);background:var(--acc);color:#fff;font:inherit;font-weight:600;cursor:pointer;margin:6px 6px 0 0}
+.btn.alt{background:transparent;color:var(--acc)}
+.btn:focus-visible,nav button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
+.val{font-variant-numeric:tabular-nums;font-weight:700}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:12px 0}
+.read div{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg)}
+.read small{display:block;color:var(--mute);font-size:.8rem}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:right;font-size:.9rem}
+th{background:var(--bg);white-space:nowrap}
+svg{display:block;width:100%;height:auto}
+.note{border-left:4px solid var(--acc2);padding:6px 12px;background:var(--bg);margin:10px 0;border-radius:0 8px 8px 0}
+.warn{color:var(--warn);font-weight:700}
+.ok{color:var(--ok);font-weight:700}
+details{margin:8px 0}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:600}
+ul,ol{padding-left:22px;margin:6px 0}
+.plate td{min-width:44px;height:44px;text-align:center;font-size:.8rem;padding:2px}
+.plate th{font-size:.8rem;padding:2px 6px}
+.chk{display:flex;align-items:center;gap:8px;min-height:44px;font-weight:400;margin:0}
+.chk input{width:22px;height:22px}
+footer{max-width:960px;margin:0 auto;padding:16px;color:var(--mute);font-size:.9rem;border-top:1px solid var(--line)}
+textarea,input[type=text],input[type=date]{width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+input[type=text],input[type=date]{min-height:44px}
+textarea{min-height:88px;resize:vertical}
+.nbdata table{margin:8px 0}
+.nbdata svg{max-width:520px}
+#printArea{display:none}
+@media print{header,nav,main,footer{display:none!important}body{background:#fff;color:#000}#printArea{display:block;color:#000}#printArea h1{font-size:20pt}#printArea h2{font-size:13pt;margin:14pt 0 4pt}#printArea p{white-space:pre-wrap;margin:0 0 6pt}#printArea table{border-collapse:collapse;width:auto}#printArea th,#printArea td{border:1px solid #999;padding:3pt 8pt}#printArea svg{max-width:14cm;color:#000}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+<h1>IRÉ-ISHÈ · Laboratoire virtuel</h1>
+<p>Huit expériences pour s'entraîner avant de passer à la paillasse : mécanique, physique, chimie, biologie, et un cahier de TP pour rédiger ses comptes rendus. Ce sont des simulations pédagogiques. Les valeurs cachées (frottement, raideur du ressort, résistance, focale, concentrations, culture) sont tirées au hasard et fictives : elles ne décrivent aucun matériau ni appareil réel.</p>
+</header>
+<nav role="tablist" aria-label="Expériences">
+<button role="tab" aria-selected="true" data-t="meca">Mécanique : pendule</button>
+<button role="tab" aria-selected="false" data-t="plan">Mécanique : plan incliné</button>
+<button role="tab" aria-selected="false" data-t="hooke">Mécanique : ressort</button>
+<button role="tab" aria-selected="false" data-t="phys">Physique : loi d'Ohm</button>
+<button role="tab" aria-selected="false" data-t="lent">Physique : lentille</button>
+<button role="tab" aria-selected="false" data-t="chim">Chimie : dosage acide-base</button>
+<button role="tab" aria-selected="false" data-t="bio">Biologie : dosage sur plaque</button>
+<button role="tab" aria-selected="false" data-t="cult">Biologie : culture</button>
+<button role="tab" aria-selected="false" data-t="cahier">Cahier de TP</button>
+<button role="tab" aria-selected="false" data-t="regles">Règles du labo</button>
+</nav>
+<main>
+
+<!-- ============ MECANIQUE ============ -->
+<section id="meca" class="on">
+<div class="card">
+<h2>Le pendule simple : mesurer l'accélération de la pesanteur</h2>
+<p><b>Question de recherche.</b> La période d'un pendule dépend-elle de sa longueur, de l'angle de départ, du lieu ? Et peut-on retrouver <i>g</i> avec un fil et une masse ?</p>
+<div class="note">Pour de petits angles, la théorie donne T = 2π√(L/g). Donc T² = (4π²/g)·L : en traçant T² en fonction de L, on obtient une droite de pente 4π²/g.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Montage</h3>
+<svg id="pSvg" viewBox="0 0 320 250" role="img" aria-labelledby="pT pD">
+<title id="pT">Pendule simple</title>
+<desc id="pD">Une masse suspendue à un fil oscille autour de la verticale. La longueur du fil et l'angle de départ sont réglables.</desc>
+<line x1="100" y1="20" x2="220" y2="20" stroke="currentColor" stroke-width="4"/>
+<line x1="160" y1="20" x2="160" y2="235" stroke="currentColor" stroke-dasharray="4 4" opacity=".5"/>
+<text x="166" y="232" font-size="11" fill="currentColor">verticale</text>
+<line id="pL" x1="160" y1="20" x2="160" y2="130" stroke="currentColor" stroke-width="2"/>
+<circle id="pB" cx="160" cy="130" r="12" fill="var(--acc)" stroke="currentColor" stroke-width="2"/>
+</svg>
+<label for="pLen">Longueur du fil : <span class="val" id="pLenV"></span></label>
+<input type="range" id="pLen" min="0.2" max="2" step="0.05" value="1">
+<label for="pAng">Angle de départ : <span class="val" id="pAngV"></span></label>
+<input type="range" id="pAng" min="5" max="80" step="1" value="10">
+<label for="pG">Lieu</label>
+<select id="pG"><option value="9.81">Terre (g = 9,81 m/s²)</option><option value="3.71">Mars (g = 3,71 m/s²)</option><option value="1.62">Lune (g = 1,62 m/s²)</option></select>
+<label for="pSp">Vitesse de la simulation</label>
+<select id="pSp"><option value="1">Temps réel</option><option value="4">Accélérée ×4</option></select>
+<button class="btn" id="pRun">Pause</button>
+<button class="btn alt" id="pReset">Relâcher à nouveau</button>
+</div>
+<div class="card">
+<h3>Mesure</h3>
+<div class="read">
+<div><small>Temps écoulé</small><span class="val" id="pTime">0,00 s</span></div>
+<div><small>Période mesurée</small><span class="val" id="pMeas">…</span></div>
+<div><small>Période théorique (petits angles)</small><span class="val" id="pTh"></span></div>
+<div><small>Écart</small><span class="val" id="pDiff">…</span></div>
+</div>
+<p id="pHint" class="note">La période se mesure entre deux passages montants par la verticale. Attendez deux passages, puis enregistrez.</p>
+<button class="btn" id="pRec">Enregistrer cette mesure</button>
+<button class="btn alt" id="pClr">Vider le tableau</button>
+</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>L (m)</th><th>Angle (°)</th><th>g (m/s²)</th><th>T (s)</th><th>T² (s²)</th></tr></thead><tbody id="pTab"></tbody></table></div>
+<p id="pEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Graphique T² en fonction de L</h3>
+<svg id="pPlot" viewBox="0 0 360 260" role="img" aria-label="Graphique de T au carré en fonction de L"></svg>
+<p id="pFit">Enregistrez au moins deux longueurs différentes pour obtenir la droite.</p>
+</div>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Fixez L = 1 m et changez l'angle de 10° à 70°. La période change-t-elle ? Où la formule de petits angles cesse-t-elle d'être bonne ?</li>
+<li>Changez la masse du pendule : vous ne pouvez pas, et c'est voulu. Pourquoi la masse n'apparaît-elle pas dans la formule ?</li>
+<li>Faites six mesures de L = 0,3 à 1,8 m à 10° sur la Terre. Quelle valeur de g trouvez-vous ? Comparez avec 9,81.</li>
+<li>Même expérience sur la Lune. Le rapport des périodes correspond-il à celui des racines de g ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : fil fin non extensible, masse (bille métallique), potence, rapporteur, chronomètre, mètre ruban.</li>
+<li>Mesurer L du point d'attache au centre de la masse. Lâcher sans élan, à un petit angle.</li>
+<li>Chronométrer 10 oscillations et diviser par 10 pour réduire l'erreur de réaction humaine. Répéter 3 fois.</li>
+<li>Sécurité : masse bien nouée, zone dégagée autour du balancement, lunettes si la masse peut être éjectée.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ PHYSIQUE ============ -->
+<section id="phys">
+<div class="card">
+<h2>Loi d'Ohm : trouver une résistance inconnue</h2>
+<p><b>Question de recherche.</b> Une résistance cachée est branchée dans un circuit. En variant la tension et en mesurant le courant, peut-on la découvrir sans la lire ?</p>
+<div class="note">Loi d'Ohm : U = R·I. Si on trace I en fonction de U, on obtient une droite de pente 1/R. Les mesures ont une petite incertitude, comme en vrai.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Circuit</h3>
+<svg viewBox="0 0 320 170" role="img" aria-labelledby="oT oD">
+<title id="oT">Circuit série</title>
+<desc id="oD">Une source de tension, un ampèremètre et une résistance cachée reliés en boucle. Un voltmètre est branché en parallèle sur la résistance.</desc>
+<g fill="none" stroke="currentColor" stroke-width="2">
+<path d="M40 85 V30 H120 M160 30 H260 V60 M260 110 V140 H40 V105"/>
+<circle cx="140" cy="30" r="20"/>
+<rect x="235" y="60" width="50" height="50" fill="var(--bg)"/>
+<path d="M30 85 H50 M35 105 H45" stroke-width="3"/>
+<path d="M285 85 H300 V135 H140" stroke-dasharray="4 3"/>
+<circle cx="140" cy="135" r="18" fill="var(--bg)"/>
+</g>
+<g font-size="12" fill="currentColor" text-anchor="middle">
+<text x="140" y="34">A</text><text x="260" y="90">R ?</text><text x="140" y="139">V</text>
+<text x="65" y="80">+</text><text x="20" y="80">−</text>
+<text x="140" y="68" font-size="11">ampèremètre</text><text x="140" y="165" font-size="11">voltmètre</text></g>
+</svg>
+<label for="oU">Tension appliquée : <span class="val" id="oUV"></span></label>
+<input type="range" id="oU" min="0" max="12" step="0.5" value="0">
+<div class="read">
+<div><small>Tension lue</small><span class="val" id="oUr">0,0 V</span></div>
+<div><small>Courant lu</small><span class="val" id="oIr">0,00 mA</span></div>
+<div><small>Puissance dissipée</small><span class="val" id="oP">0,000 W</span></div>
+</div>
+<p id="oWarn" role="status"></p>
+<button class="btn" id="oRec">Enregistrer cette mesure</button>
+<button class="btn alt" id="oClr">Vider</button>
+<button class="btn alt" id="oNew">Nouvelle résistance cachée</button>
+</div>
+<div class="card">
+<h3>Graphique I en fonction de U</h3>
+<svg id="oPlot" viewBox="0 0 360 260" role="img" aria-label="Graphique du courant en fonction de la tension"></svg>
+<p id="oFit">Enregistrez au moins deux mesures.</p>
+<button class="btn alt" id="oRev">Révéler la vraie valeur</button>
+<p id="oAns"></p>
+</div>
+</div>
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>U (V)</th><th>I (mA)</th><th>U/I (Ω)</th></tr></thead><tbody id="oTab"></tbody></table></div>
+<p id="oEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Pourquoi la droite passe-t-elle (presque) par l'origine ?</li>
+<li>Calculez U/I pour chaque ligne. Les valeurs sont-elles identiques ? Que disent les petites différences ?</li>
+<li>Une résistance courante supporte 0,25 W. Jusqu'à quelle tension peut-on monter sans l'abîmer ? (Réponse : P = U²/R, donc U max = √(0,25·R).)</li>
+<li>Pourquoi vaut-il mieux faire dix mesures qu'une seule ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : alimentation réglable, résistance, multimètres (ampèremètre en série, voltmètre en parallèle), fils.</li>
+<li>Monter le circuit hors tension. Choisir le calibre le plus haut, puis le réduire.</li>
+<li>Augmenter la tension par paliers. Surveiller l'échauffement de la résistance.</li>
+<li>Sécurité : ne jamais brancher un ampèremètre en parallèle d'une source (court-circuit). Couper l'alimentation avant de modifier le montage.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ CHIMIE ============ -->
+<section id="chim">
+<div class="card">
+<h2>Dosage acide-base : trouver la concentration d'un acide</h2>
+<p><b>Question de recherche.</b> Une solution d'acide a une concentration inconnue. En y versant peu à peu une solution de soude de concentration connue, peut-on la déterminer ?</p>
+<div class="note">Réaction du dosage : H₃O⁺ + HO⁻ → 2 H₂O pour l'acide chlorhydrique, CH₃COOH + HO⁻ → CH₃COO⁻ + H₂O pour l'acide éthanoïque. À l'équivalence, acide et base ont été mélangés en proportions stœchiométriques : C<sub>a</sub>·V<sub>a</sub> = C<sub>b</sub>·V<sub>bE</sub>. On repère l'équivalence par le saut de pH, ou par le virage d'un indicateur coloré bien choisi.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Montage</h3>
+<svg id="tSvg" viewBox="0 0 320 300" role="img" aria-labelledby="tSt tSd">
+<title id="tSt">Dosage acide-base</title>
+<desc id="tSd">Une burette graduée contenant la soude est placée au-dessus d'un bécher d'acide. Un pH-mètre mesure le pH du mélange, dont la couleur dépend de l'indicateur.</desc>
+<rect x="196" y="10" width="6" height="200" fill="currentColor" opacity=".35"/>
+<line x1="170" y1="40" x2="200" y2="40" stroke="currentColor" stroke-width="3"/>
+<rect x="150" y="20" width="18" height="150" fill="none" stroke="currentColor" stroke-width="2"/>
+<rect id="tBurL" x="152" y="22" width="14" height="146" fill="var(--acc)" fill-opacity=".25"/>
+<g id="tGrad"></g>
+<path d="M155 170 H163 V182 H155 Z M152 176 H166" fill="none" stroke="currentColor" stroke-width="2"/>
+<path d="M159 182 V196" stroke="currentColor" stroke-width="2"/>
+<path id="tLiq" d="M112 236 H206 V284 Q206 290 200 290 H118 Q112 290 112 284 Z" fill="#dfe4ea"/>
+<path d="M108 206 V284 Q108 294 118 294 H200 Q210 294 210 284 V206" fill="none" stroke="currentColor" stroke-width="2.5"/>
+<line x1="132" y1="190" x2="132" y2="270" stroke="currentColor" stroke-width="3"/>
+<rect x="20" y="200" width="78" height="44" rx="6" fill="var(--card)" stroke="currentColor" stroke-width="2"/>
+<text id="tPhTxt" x="59" y="228" font-size="15" font-weight="700" text-anchor="middle" fill="currentColor">pH 1,00</text>
+<path d="M98 222 H120 V196 H132" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<rect x="150" y="282" width="18" height="4" rx="2" fill="currentColor"/>
+<text x="176" y="16" font-size="11" fill="currentColor">soude</text>
+<text x="214" y="270" font-size="11" fill="currentColor">acide</text>
+</svg>
+<label for="tAcid">Acide dosé</label>
+<select id="tAcid"><option value="fort">Acide chlorhydrique (acide fort)</option><option value="faible">Acide éthanoïque (acide faible, pKa = 4,8)</option></select>
+<label for="tInd">Indicateur coloré</label>
+<select id="tInd"><option value="bbt">Bleu de bromothymol (BBT)</option><option value="phph">Phénolphtaléine</option><option value="hel">Hélianthine</option><option value="none">Aucun (pH-mètre seul)</option></select>
+<p>Burette : soude, C<sub>b</sub> = 0,100 mol/L. Bécher : V<sub>a</sub> = 20,0 mL d'acide de concentration inconnue.</p>
+<button class="btn" id="tAdd2">Verser 2 mL</button>
+<button class="btn" id="tAdd1">Verser 1 mL</button>
+<button class="btn" id="tAdd05">Verser 0,5 mL</button>
+<button class="btn" id="tAdd01">Goutte à goutte (0,1 mL)</button>
+<button class="btn alt" id="tReset">Recommencer le dosage</button>
+<button class="btn alt" id="tNew">Nouvel acide inconnu</button>
+</div>
+<div class="card">
+<h3>Mesure</h3>
+<div class="read">
+<div><small>Volume de soude versé</small><span class="val" id="tV">0,00 mL</span></div>
+<div><small>pH lu</small><span class="val" id="tPh">…</span></div>
+<div><small>Couleur du mélange</small><span class="val" id="tCol">…</span></div>
+</div>
+<p id="tMsg" class="note" role="status">Choisissez l'acide et l'indicateur, puis versez la soude. Enregistrez le pH après chaque ajout.</p>
+<button class="btn" id="tRec">Enregistrer cette mesure</button>
+<button class="btn alt" id="tClr">Vider le tableau</button>
+<label class="chk"><input type="checkbox" id="tAuto"> Enregistrer automatiquement après chaque ajout</label>
+</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>V<sub>b</sub> (mL)</th><th>pH</th><th>Couleur</th></tr></thead><tbody id="tTab"></tbody></table></div>
+<p id="tEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Courbe pH en fonction de V<sub>b</sub></h3>
+<svg id="tPlot" viewBox="0 0 360 260" role="img" aria-label="Courbe du pH en fonction du volume de soude versé"></svg>
+<p id="tFit">Enregistrez des mesures avant, pendant et après le saut de pH.</p>
+</div>
+</div>
+<div class="card">
+<h3>Exploitation</h3>
+<p id="tDer">La méthode de la dérivée repère le volume où le pH varie le plus vite. Il faut des mesures serrées autour du saut.</p>
+<label for="tVe">Votre volume à l'équivalence V<sub>bE</sub> (mL)</label>
+<input type="number" id="tVe" step="0.05" min="0" max="50" inputmode="decimal">
+<button class="btn" id="tCalc">Calculer la concentration de l'acide</button>
+<p id="tRes" role="status"></p>
+<button class="btn alt" id="tRev">Révéler la vraie valeur</button>
+<p id="tAns"></p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Pourquoi le pH varie-t-il peu au début, puis brusquement autour de l'équivalence ?</li>
+<li>Déterminez V<sub>bE</sub> par la méthode des tangentes ou de la dérivée, puis calculez C<sub>a</sub> = C<sub>b</sub>·V<sub>bE</sub> / V<sub>a</sub>.</li>
+<li>Dosez l'acide chlorhydrique puis l'acide éthanoïque. Quel est le pH à l'équivalence dans chaque cas ? Pourquoi est-il différent ?</li>
+<li>Pour chaque acide, quel indicateur vire au bon moment ? Justifiez avec sa zone de virage : hélianthine 3,1 à 4,4 ; BBT 6,0 à 7,6 ; phénolphtaléine 8,2 à 10.</li>
+<li>Pour l'acide éthanoïque, lisez le pH à la demi-équivalence (V<sub>bE</sub> / 2). Que retrouvez-vous ?</li>
+<li>Pourquoi verse-t-on goutte à goutte près de l'équivalence ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : burette graduée de 25 ou 50 mL, pipette jaugée de 20,0 mL avec poire ou propipette, bécher, agitateur magnétique, pH-mètre étalonné, indicateur coloré, solution de soude de concentration connue.</li>
+<li>Rincer la burette avec la soude, la remplir au-dessous du niveau des yeux, chasser la bulle d'air sous le robinet, ajuster le zéro.</li>
+<li>Prélever l'acide à la pipette jaugée, jamais à la bouche. Étalonner le pH-mètre avec deux solutions tampons avant les mesures.</li>
+<li>Verser mL par mL, puis goutte à goutte près du saut de pH. Noter le volume et le pH après chaque ajout, agitation en marche.</li>
+<li>Sécurité : blouse, lunettes et gants. La soude et les acides sont corrosifs : en cas de projection, rincer abondamment à l'eau et prévenir l'encadrant. Neutraliser les solutions avant de les jeter, selon le règlement du laboratoire.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ BIOLOGIE ============ -->
+<section id="bio">
+<div class="card">
+<h2>Dosage sur plaque de 96 puits : courbe d'étalonnage</h2>
+<p><b>Question de recherche.</b> Comment connaître la concentration d'une substance dans un échantillon avec un lecteur de microplaques ?</p>
+<div class="note">Principe : plus la solution est concentrée, plus elle absorbe la lumière. On prépare des solutions de concentration connue (les <b>étalons</b>), on mesure leur absorbance, on trace la droite, puis on lit la concentration de l'échantillon inconnu sur cette droite. Cette expérience est une simulation. Elle ne reproduit pas un appareil précis.</div>
+</div>
+<div class="card">
+<h3>1. La plaque</h3>
+<p>Lignes A et B : six étalons en double (de 0 à 80 µg/mL). Ligne C : l'échantillon inconnu, en double. Les autres puits sont vides.</p>
+<div class="tw"><table class="plate" id="plate" aria-label="Plaque de 96 puits"></table></div>
+<button class="btn" id="bRead">Lire la plaque</button>
+<button class="btn alt" id="bNew">Nouvel échantillon inconnu</button>
+<p id="bMsg" role="status"></p>
+</div>
+<div class="grid">
+<div class="card">
+<h3>2. Absorbances moyennes des étalons</h3>
+<p>Cochez les étalons à garder pour tracer la droite.</p>
+<div id="bChecks"></div>
+</div>
+<div class="card">
+<h3>3. Courbe d'étalonnage</h3>
+<svg id="bPlot" viewBox="0 0 360 260" role="img" aria-label="Absorbance en fonction de la concentration des étalons"></svg>
+<p id="bFit">Lisez la plaque pour tracer la courbe.</p>
+</div>
+</div>
+<div class="card">
+<h3>4. Concentration de l'échantillon inconnu</h3>
+<p id="bUnk">Lisez la plaque d'abord.</p>
+<button class="btn alt" id="bRev">Révéler la vraie valeur</button>
+<p id="bAns"></p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Gardez les six étalons, puis retirez le plus concentré. Que devient la droite ? Que devient l'estimation de l'inconnu ?</li>
+<li>À forte absorbance, la courbe s'aplatit. Pourquoi une courbe qui s'aplatit rend-elle le dosage moins fiable dans cette zone ?</li>
+<li>Pourquoi mesure-t-on chaque étalon en double ? Que feriez-vous si les deux puits d'un même étalon différaient beaucoup ?</li>
+<li>L'étalon à 0 µg/mL ne donne pas une absorbance nulle. À quoi correspond ce « blanc » et comment l'utilise-t-on ?</li>
+<li>Si l'absorbance de l'inconnu dépasse celle du plus fort étalon, que faut-il faire avant de refaire la mesure ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : lecteur de microplaques (la page d'un fabricant de lecteur multimode ne donne pas de caractéristiques précises, il faut donc consulter la notice de l'appareil de votre laboratoire), plaque 96 puits adaptée, micropipettes, réactif de dosage, tampon.</li>
+<li>Préparer la gamme d'étalons par dilution. Pipeter chaque point en double. Ajouter le réactif, respecter le temps d'incubation du fabricant.</li>
+<li>Choisir la longueur d'onde indiquée par la notice du dosage, jamais « au hasard ».</li>
+<li>Sécurité : gants et blouse, réactifs étiquetés, déchets biologiques et chimiques triés selon le règlement du laboratoire.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ PLAN INCLINE ============ -->
+<section id="plan">
+<div class="card">
+<h2>Le plan incliné : mesurer le frottement</h2>
+<p><b>Question de recherche.</b> À partir de quel angle un bloc se met-il à glisser, et que dit cet angle de la surface ?</p>
+<div class="note">Un bloc glisse quand tan θ dépasse le coefficient de frottement μ de la surface. En glissant, son accélération vaut a = g (sin θ − μ cos θ). Cette simulation retient un seul μ pour le départ et pour le glissement, ce qui est une simplification.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Montage</h3>
+<svg id="qSvg" viewBox="0 0 320 220" role="img" aria-labelledby="qSt qSd">
+<title id="qSt">Plan incliné</title>
+<desc id="qSd">Un bloc posé en haut d'un plan dont l'angle avec l'horizontale est réglable. Il glisse ou reste immobile selon l'angle.</desc>
+<line x1="10" y1="200" x2="310" y2="200" stroke="currentColor" stroke-width="2"/>
+<polygon id="qInc" points="30,200 290,200 290,200" fill="var(--bg)" stroke="currentColor" stroke-width="2"/>
+<g id="qBlk"><rect x="-14" y="-26" width="28" height="26" fill="var(--acc)" stroke="currentColor" stroke-width="2"/></g>
+</svg>
+<label for="qAng">Angle du plan : <span class="val" id="qAngV"></span></label>
+<input type="range" id="qAng" min="0" max="45" step="1" value="10">
+<label for="qMas">Masse du bloc : <span class="val" id="qMasV"></span></label>
+<input type="range" id="qMas" min="0.5" max="5" step="0.5" value="1">
+<button class="btn" id="qGo">Lâcher le bloc</button>
+<button class="btn alt" id="qBack">Remettre en haut</button>
+<button class="btn alt" id="qNewB">Nouvelle surface cachée</button>
+</div>
+<div class="card">
+<h3>Mesure (distance de glissement : 1,00 m)</h3>
+<div class="read">
+<div><small>Résultat</small><span class="val" id="qRes">…</span></div>
+<div><small>Temps sur 1 m</small><span class="val" id="qT">…</span></div>
+<div><small>Accélération</small><span class="val" id="qA">…</span></div>
+</div>
+<p id="qSum" class="note">Lâchez le bloc à plusieurs angles. Chaque essai s'ajoute au tableau.</p>
+<button class="btn alt" id="qRev">Révéler le vrai μ</button>
+<p id="qAns"></p>
+</div>
+</div>
+<div class="card">
+<h3>Tableau des essais</h3>
+<div class="tw"><table><thead><tr><th>Angle (°)</th><th>Masse (kg)</th><th>Résultat</th><th>t (s)</th><th>a (m/s²)</th><th>μ estimé</th></tr></thead><tbody id="qTab"></tbody></table></div>
+<p id="qEmpty">Aucun essai pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Changez la masse sans changer l'angle. Le résultat change-t-il ? Pourquoi la masse n'apparaît-elle pas dans μ = tan θ ?</li>
+<li>Cherchez l'angle limite à 1° près. Quel μ en déduisez-vous ?</li>
+<li>Comparez ce μ avec les μ estimés par le temps de glissement. Lequel est le plus précis près de l'angle limite, et pourquoi ?</li>
+<li>Pourquoi les temps deviennent-ils très longs juste après l'angle limite ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : planche réglable avec rapporteur ou niveau numérique, bloc, balance, chronomètre ou capteur, règle.</li>
+<li>Surface propre et sèche. Relever l'angle avec soin : une erreur d'un degré change μ.</li>
+<li>Répéter chaque essai au moins trois fois et garder la moyenne.</li>
+<li>Sécurité : zone dégagée en bas du plan, bloc de masse modérée, ne jamais placer la main devant un bloc qui glisse.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ RESSORT ============ -->
+<section id="hooke">
+<div class="card">
+<h2>Le ressort : mesurer sa raideur</h2>
+<p><b>Question de recherche.</b> De combien un ressort s'allonge-t-il quand on accroche une masse, et jusqu'où cette règle reste-t-elle vraie ?</p>
+<div class="note">Loi de Hooke : F = k·x. La force F est le poids de la masse, F = m·g, avec g = 9,81 m/s². Le ressort se tend d'une longueur x proportionnelle à F. Au-delà de la limite d'élasticité, la proportionnalité cesse.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Montage</h3>
+<svg id="kSvg" viewBox="0 0 320 330" role="img" aria-labelledby="kSt kSd">
+<title id="kSt">Ressort et règle graduée</title>
+<desc id="kSd">Un ressort suspendu porte une masse. Une règle graduée en centimètres, à droite, permet de lire l'allongement.</desc>
+<line x1="110" y1="30" x2="190" y2="30" stroke="currentColor" stroke-width="4"/>
+<g id="kRuler"></g>
+<path id="kSp" d="M150 30 L150 100" fill="none" stroke="currentColor" stroke-width="2"/>
+<line id="kPtr" x1="170" y1="100" x2="250" y2="100" stroke="var(--acc2)" stroke-width="1.5" stroke-dasharray="4 3"/>
+<rect id="kM" x="130" y="100" width="40" height="24" fill="var(--acc)" stroke="currentColor" stroke-width="2"/>
+<text id="kMT" x="150" y="116" font-size="11" text-anchor="middle" fill="#fff">0 g</text>
+<text x="262" y="24" font-size="11" fill="currentColor">cm</text>
+</svg>
+<label for="kMas">Masse accrochée : <span class="val" id="kMasV"></span></label>
+<input type="range" id="kMas" min="0" max="500" step="50" value="0">
+<div class="read">
+<div><small>Force (poids)</small><span class="val" id="kF">0,00 N</span></div>
+<div><small>Allongement lu</small><span class="val" id="kX">0,0 cm</span></div>
+</div>
+<button class="btn" id="kRec">Enregistrer cette mesure</button>
+<button class="btn alt" id="kClr">Vider</button>
+<button class="btn alt" id="kNewB">Nouveau ressort</button>
+</div>
+<div class="card">
+<h3>Graphique F en fonction de x</h3>
+<svg id="kPlot" viewBox="0 0 360 260" role="img" aria-label="Force en fonction de l'allongement du ressort"></svg>
+<p id="kFit">Enregistrez au moins deux mesures.</p>
+<button class="btn alt" id="kRev">Révéler les vraies valeurs</button>
+<p id="kAns"></p>
+</div>
+</div>
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>m (g)</th><th>F (N)</th><th>x (cm)</th><th>Garder</th></tr></thead><tbody id="kTab"></tbody></table></div>
+<p id="kEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Prenez toutes les masses de 0 à 500 g. Les points restent-ils alignés ? Où la droite se casse-t-elle ?</li>
+<li>Décochez les points après la cassure. Que devient R² ? Que devient k ?</li>
+<li>La pente est en N par cm. Comment la convertir en N/m, l'unité de k ?</li>
+<li>En vrai, que devient un ressort qu'on a tendu au-delà de sa limite d'élasticité ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : ressort, potence, masses marquées, règle graduée verticale.</li>
+<li>Noter la position de l'extrémité sans masse, puis après chaque masse. Lire au niveau de l'œil pour éviter l'erreur de parallaxe.</li>
+<li>Ne pas dépasser la charge maximale indiquée pour le ressort. Décharger doucement.</li>
+<li>Sécurité : lunettes, ne jamais lâcher un ressort tendu, car il peut fouetter. Masses accrochées au-dessus d'une table libre, pas des pieds.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ LENTILLE ============ -->
+<section id="lent">
+<div class="card">
+<h2>La lentille convergente : trouver sa distance focale</h2>
+<p><b>Question de recherche.</b> Peut-on trouver la distance focale d'une lentille en cherchant simplement où l'image est nette ?</p>
+<div class="note">Relation de conjugaison : 1/f = 1/do + 1/di, où do est la distance objet-lentille et di la distance lentille-image, toutes deux positives pour une image réelle. En traçant 1/di en fonction de 1/do, on attend une droite de pente −1 qui coupe l'axe vertical en 1/f.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Banc d'optique</h3>
+<svg id="zSvg" viewBox="0 0 360 140" role="img" aria-labelledby="zSt zSd">
+<title id="zSt">Banc d'optique</title>
+<desc id="zSd">Un objet à gauche, une lentille au centre et un écran à droite. L'image sur l'écran est nette seulement à la bonne distance.</desc>
+<defs><filter id="zBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur id="zBlurN" stdDeviation="0"/></filter></defs>
+<line x1="5" y1="70" x2="355" y2="70" stroke="currentColor" stroke-dasharray="3 4" opacity=".5"/>
+<ellipse cx="110" cy="70" rx="6" ry="50" fill="none" stroke="currentColor" stroke-width="2.5"/>
+<g id="zO" transform="translate(60 70)"><line x1="0" y1="0" x2="0" y2="-30" stroke="currentColor" stroke-width="3"/><polygon points="-5,-24 0,-33 5,-24" fill="currentColor"/></g>
+<line id="zScr" x1="200" y1="20" x2="200" y2="120" stroke="currentColor" stroke-width="4"/>
+<g id="zI" filter="url(#zBlur)" transform="translate(200 70) scale(1 -1)"><line x1="0" y1="0" x2="0" y2="30" stroke="var(--acc)" stroke-width="3"/><polygon points="-5,24 0,33 5,24" fill="var(--acc)"/></g>
+<text x="60" y="132" font-size="11" fill="currentColor" text-anchor="middle">objet</text>
+<text x="110" y="132" font-size="11" fill="currentColor" text-anchor="middle">lentille</text>
+</svg>
+<label for="zObj">Distance objet-lentille : <span class="val" id="zObjV"></span></label>
+<input type="range" id="zObj" min="20" max="80" step="1" value="40">
+<label for="zScr2">Position de l'écran (depuis la lentille) : <span class="val" id="zScrV"></span></label>
+<input type="range" id="zScr2" min="0" max="100" step="0.5" value="30">
+<div class="read">
+<div><small>Netteté de l'image</small><span class="val" id="zSharp">0 %</span></div>
+</div>
+<p id="zMsg" role="status" class="note">Déplacez l'écran jusqu'à une netteté d'au moins 85 %, puis enregistrez.</p>
+<button class="btn" id="zRec">Enregistrer cette mesure</button>
+<button class="btn alt" id="zClr">Vider</button>
+<button class="btn alt" id="zNewB">Nouvelle lentille</button>
+</div>
+<div class="card">
+<h3>Graphique 1/di en fonction de 1/do</h3>
+<svg id="zPlot" viewBox="0 0 360 260" role="img" aria-label="Inverse de la distance image en fonction de l'inverse de la distance objet"></svg>
+<p id="zFit">Enregistrez au moins deux distances objet différentes.</p>
+<button class="btn alt" id="zRev">Révéler la vraie focale</button>
+<p id="zAns"></p>
+</div>
+</div>
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>do (cm)</th><th>di (cm)</th><th>1/do (m⁻¹)</th><th>1/di (m⁻¹)</th></tr></thead><tbody id="zTab"></tbody></table></div>
+<p id="zEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>Votre pente est-elle proche de −1 ? Que signifierait une pente très différente ?</li>
+<li>Quelle focale trouvez-vous ? Comparez avec la valeur révélée.</li>
+<li>Si l'objet était plus proche de la lentille que sa distance focale, l'image se formerait-elle sur l'écran ? Que verrait-on en regardant à travers la lentille ?</li>
+<li>Pourquoi l'image est-elle renversée, et que devient sa taille quand l'objet s'éloigne ?</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : banc d'optique, source lumineuse avec objet (lettre ou flèche), lentille convergente, écran.</li>
+<li>Pour chaque position de l'objet, déplacer l'écran des deux côtés de la netteté et retenir le milieu des deux limites.</li>
+<li>Mesurer les distances depuis le centre de la lentille.</li>
+<li>Sécurité : lampe chaude, ne pas fixer une source intense. Ce montage n'emploie pas de laser. Tout laser exige les consignes de classe de l'établissement (IEC 60825-1, à confirmer).</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ CULTURE ============ -->
+<section id="cult">
+<div class="card">
+<h2>La culture d'une bactérie fictive : mesurer son temps de doublement</h2>
+<p><b>Question de recherche.</b> À quelle vitesse une population de cellules se multiplie-t-elle, et comment la mesurer sans les compter une à une ?</p>
+<div class="note">On suit le trouble du milieu avec un spectrophotomètre : c'est la densité optique (DO). Une culture passe par trois phases : latence, croissance exponentielle, plateau. Pendant la phase exponentielle, ln(DO) en fonction du temps est une droite de pente μ, et le temps de doublement vaut ln 2 / μ. L'organisme et les valeurs sont fictifs.</div>
+</div>
+<div class="grid">
+<div class="card">
+<h3>Le flacon</h3>
+<svg id="cSvg" viewBox="0 0 320 240" role="img" aria-labelledby="cSt cSd">
+<title id="cSt">Flacon de culture</title>
+<desc id="cSd">Un flacon conique contenant un milieu de culture dont le trouble augmente avec le temps.</desc>
+<path d="M116 110 H204 L240 190 Q245 205 230 205 H90 Q75 205 80 190 Z" id="cFlask" fill="var(--acc)" fill-opacity=".1"/>
+<path d="M130 20 H190 V80 L240 190 Q245 205 230 205 H90 Q75 205 80 190 L130 80 Z" fill="none" stroke="currentColor" stroke-width="2.5"/>
+<text id="cTurb" x="160" y="230" font-size="12" text-anchor="middle" fill="currentColor">Milieu limpide</text>
+</svg>
+<label for="cT">Temps écoulé : <span class="val" id="cTV"></span></label>
+<input type="range" id="cT" min="0" max="12" step="0.5" value="0">
+<button class="btn" id="cRec">Mesurer la densité optique</button>
+<button class="btn alt" id="cClr">Vider</button>
+<button class="btn alt" id="cNewB">Nouvelle culture</button>
+</div>
+<div class="card">
+<h3>Courbe de croissance</h3>
+<label for="cMode">Échelle</label>
+<select id="cMode"><option value="lin">Linéaire (DO)</option><option value="log">Logarithmique (ln DO)</option></select>
+<svg id="cPlot" viewBox="0 0 360 260" role="img" aria-label="Croissance de la culture en fonction du temps"></svg>
+<p id="cFit">Mesurez la DO à plusieurs instants, de 0 à 12 h.</p>
+<button class="btn alt" id="cRev">Révéler les vraies valeurs</button>
+<p id="cAns"></p>
+</div>
+</div>
+<div class="card">
+<h3>Tableau de mesures</h3>
+<div class="tw"><table><thead><tr><th>t (h)</th><th>DO</th><th>ln(DO)</th><th>Garder</th></tr></thead><tbody id="cTab"></tbody></table></div>
+<p id="cEmpty">Aucune mesure pour l'instant.</p>
+</div>
+<div class="card">
+<h3>Questions</h3>
+<ol>
+<li>En échelle linéaire, repérez les trois phases. Où commence et où finit la phase exponentielle ?</li>
+<li>Passez en échelle logarithmique. Pourquoi la phase exponentielle devient-elle une droite ?</li>
+<li>Décochez les points de la latence et du plateau. Quel temps de doublement obtenez-vous ? Ne gardez ensuite que les points les plus bas de la phase exponentielle : l'estimation s'améliore-t-elle ? Pourquoi la courbe se tasse-t-elle avant le plateau ?</li>
+<li>Pourquoi la culture ne croît-elle pas indéfiniment ?</li>
+<li>Un spectrophotomètre réel perd sa linéarité à forte DO. Quelle limite donne la notice de votre appareil ? À confirmer.</li>
+</ol>
+<details><summary>Protocole réel (à faire ensuite en travaux pratiques)</summary>
+<ul>
+<li>Matériel : souche fournie par l'enseignant, milieu stérile, flacon, incubateur agité, spectrophotomètre, cuves.</li>
+<li>Technique aseptique : travail près d'une flamme ou en poste de sécurité, matériel stérile, flacons étiquetés.</li>
+<li>Faire le blanc avec du milieu stérile. Prélever à intervalles réguliers. Diluer si la DO dépasse la zone linéaire de l'appareil.</li>
+<li>Sécurité : le niveau de confinement dépend de l'organisme (à confirmer avec l'ISO 35001 et le manuel de l'OMS). Gants, blouse, désinfection des surfaces, déchets biologiques autoclavés selon le règlement du laboratoire. Jamais d'organisme inconnu prélevé dans l'environnement.</li>
+</ul></details>
+</div>
+</section>
+
+<!-- ============ CAHIER DE TP ============ -->
+<section id="cahier">
+<div class="card">
+<h2>Cahier de TP</h2>
+<p>Rédigez ici le compte rendu de chaque expérience. Le cahier s'enregistre automatiquement <b>sur cet appareil</b>, même sans connexion. Exportez-le en PDF ou en fichier pour le remettre à votre enseignant.</p>
+<p class="note">Rien n'est envoyé sur internet. Le cahier reste dans ce navigateur : si vous effacez les données du navigateur, il disparaît. Exportez-le régulièrement.</p>
+<label for="nbList">Mes cahiers</label>
+<select id="nbList"></select>
+<button class="btn" id="nbNew">Nouveau cahier</button>
+<button class="btn alt" id="nbDel">Supprimer ce cahier</button>
+<p id="nbStatus" role="status"></p>
+</div>
+<div id="nbForm">
+<div class="card">
+<h3>En-tête</h3>
+<label for="nbExp">Expérience</label>
+<select id="nbExp"></select>
+<label for="nbTitle">Titre du TP</label>
+<input type="text" id="nbTitle" maxlength="120">
+<div class="grid">
+<div><label for="nbDate">Date</label><input type="date" id="nbDate"></div>
+<div><label for="nbGroup">Classe ou groupe</label><input type="text" id="nbGroup" maxlength="60"></div>
+</div>
+<button class="btn alt" id="nbFill">Reprendre l'objectif, le matériel et le protocole de l'expérience</button>
+</div>
+<div class="card">
+<h3>Préparation</h3>
+<label for="nbObj">Objectif</label><textarea id="nbObj"></textarea>
+<label for="nbHyp">Hypothèse</label><textarea id="nbHyp"></textarea>
+<label for="nbMat">Matériel</label><textarea id="nbMat"></textarea>
+<label for="nbSec">Sécurité</label><textarea id="nbSec"></textarea>
+<label for="nbProt">Protocole</label><textarea id="nbProt"></textarea>
+</div>
+<div class="card">
+<h3>Mesures et graphique</h3>
+<p>Faites l'expérience dans son onglet, puis importez ici le tableau, le graphique et le résultat obtenus.</p>
+<button class="btn" id="nbImp">Importer les mesures de l'expérience</button>
+<button class="btn alt" id="nbImpClr">Retirer les mesures importées</button>
+<p id="nbImpMsg" role="status"></p>
+<div id="nbData" class="nbdata"></div>
+<label for="nbObs">Observations</label><textarea id="nbObs"></textarea>
+</div>
+<div class="card">
+<h3>Exploitation</h3>
+<label for="nbCalc">Calculs et résultats</label><textarea id="nbCalc"></textarea>
+<label for="nbAna">Analyse et interprétation</label><textarea id="nbAna"></textarea>
+<label for="nbConc">Conclusion</label><textarea id="nbConc"></textarea>
+</div>
+<div class="card">
+<h3>Exporter</h3>
+<button class="btn" id="nbPdf">Exporter en PDF</button>
+<button class="btn alt" id="nbHtml">Télécharger le fichier</button>
+<p class="note">« Exporter en PDF » ouvre la fenêtre d'impression : choisissez « Enregistrer au format PDF ». « Télécharger le fichier » produit une page qui s'ouvre dans n'importe quel navigateur et peut être envoyée à l'enseignant.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ REGLES ============ -->
+<section id="regles">
+<div class="card">
+<h2>Règles du laboratoire</h2>
+<ol>
+<li><b>Une simulation prépare, elle ne remplace pas.</b> Toute manipulation réelle se fait sous la direction d'un encadrant.</li>
+<li><b>Les valeurs viennent des mesures</b>, pas de la mémoire. Si un chiffre normatif est en jeu (limite d'exposition, distance, charge), on le vérifie dans le règlement de l'établissement et la norme en vigueur.</li>
+<li><b>On note tout</b> : date, montage, valeurs, incertitudes, anomalies. Un résultat sans cahier de laboratoire n'est pas exploitable.</li>
+<li><b>On répète.</b> Une seule mesure ne dit pas si elle est bonne.</li>
+<li><b>On dit ce qu'on ne sait pas.</b> Une réserve honnête vaut mieux qu'un chiffre qui paraît certain.</li>
+</ol>
+<p class="note">Ces règles sont générales. Elles ne remplacent ni le règlement de sécurité de votre établissement ni la formation obligatoire en santé et sécurité.</p>
+</div>
+</section>
+</main>
+<div id="printArea"></div>
+<footer>IRÉ-ISHÈ · Laboratoire virtuel, simulations pédagogiques.</footer>
+
+<script>
+(function(){
+"use strict";
+/* Refus d'encadrement : GitHub Pages ne permet pas l'en-tête HTTP
+   frame-ancestors, d'où ce contrôle côté page. Pour intégrer volontairement
+   le laboratoire dans une plateforme de cours (Moodle...), retirer ce bloc. */
+var encadree=true;
+try{encadree=window.top!==window.self;}catch(e){}
+if(encadree){
+  var nv=document.querySelector("nav");if(nv)nv.parentNode.removeChild(nv);
+  document.querySelector("main").textContent="Ce laboratoire doit être ouvert directement, pas à l'intérieur d'un autre site.";
+  return;
+}
+var $=function(id){return document.getElementById(id);};
+function fr(x,d){return Number(x).toFixed(d).replace(".",",");}
+function reduceMotion(){try{return window.matchMedia("(prefers-reduced-motion: reduce)").matches;}catch(e){return false;}}
+
+/* ---------- onglets ---------- */
+var tabs=document.querySelectorAll("nav button");
+function show(id){
+  for(var i=0;i<tabs.length;i++){tabs[i].setAttribute("aria-selected",tabs[i].getAttribute("data-t")===id?"true":"false");}
+  var ss=document.querySelectorAll("main section");
+  for(var j=0;j<ss.length;j++){ss[j].className=ss[j].id===id?"on":"";}
+  window.scrollTo(0,0);
+}
+for(var t=0;t<tabs.length;t++){(function(b){b.addEventListener("click",function(){show(b.getAttribute("data-t"));});})(tabs[t]);}
+
+/* ---------- outils ---------- */
+function linfit(pts){
+  var n=pts.length;if(n<2)return null;
+  var sx=0,sy=0,sxx=0,sxy=0,i;
+  for(i=0;i<n;i++){sx+=pts[i].x;sy+=pts[i].y;sxx+=pts[i].x*pts[i].x;sxy+=pts[i].x*pts[i].y;}
+  var d=n*sxx-sx*sx;if(Math.abs(d)<1e-12)return null;
+  var m=(n*sxy-sx*sy)/d,b=(sy-m*sx)/n;
+  var my=sy/n,sst=0,sse=0;
+  for(i=0;i<n;i++){sst+=Math.pow(pts[i].y-my,2);sse+=Math.pow(pts[i].y-(m*pts[i].x+b),2);}
+  return {m:m,b:b,r2:sst>0?1-sse/sst:1};
+}
+function nice(max){var p=Math.pow(10,Math.floor(Math.log(max)/Math.LN10));var f=max/p;var n=f<=1?1:f<=2?2:f<=5?5:10;return n*p;}
+function plot(svg,pts,o){
+  var W=360,H=260,L=52,R=14,T=14,B=44;
+  var xm=1,ym=1,i;
+  for(i=0;i<pts.length;i++){if(pts[i].x>xm)xm=pts[i].x;if(pts[i].y>ym)ym=pts[i].y;}
+  if(!pts.length){xm=o.xd;ym=o.yd;}
+  xm=nice(xm*1.08);ym=nice(ym*1.08);
+  var ymin=0,yd;
+  if(o.ymin!==undefined){ymin=o.ymin;ym=o.ymax;}
+  yd=o.ydec!==undefined?o.ydec:(ym<10?(ym<2?2:1):0);
+  function X(v){return L+(v/xm)*(W-L-R);} function Y(v){return H-B-((v-ymin)/(ym-ymin))*(H-T-B);}
+  var s='<defs><clipPath id="clip-'+svg.id+'"><rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'"/></clipPath></defs><g stroke="currentColor" fill="none" stroke-width="1.5"><path d="M'+L+' '+T+' V'+(H-B)+' H'+(W-R)+'"/></g>';
+  s+='<g font-size="11" fill="currentColor" stroke="none">';
+  for(i=0;i<=4;i++){
+    var vx=xm*i/4,vy=ymin+(ym-ymin)*i/4;
+    s+='<line x1="'+X(vx)+'" x2="'+X(vx)+'" y1="'+(H-B)+'" y2="'+(H-B+4)+'" stroke="currentColor"/>';
+    s+='<text x="'+X(vx)+'" y="'+(H-B+16)+'" text-anchor="middle">'+fr(vx,xm<10?(xm<2?2:1):0)+'</text>';
+    s+='<line x1="'+(L-4)+'" x2="'+L+'" y1="'+Y(vy)+'" y2="'+Y(vy)+'" stroke="currentColor"/>';
+    s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(vy)+'" y2="'+Y(vy)+'" stroke="currentColor" opacity=".12"/>';
+    s+='<text x="'+(L-7)+'" y="'+(Y(vy)+4)+'" text-anchor="end">'+fr(vy,yd)+'</text>';
+  }
+  s+='<text x="'+((L+W-R)/2)+'" y="'+(H-6)+'" text-anchor="middle">'+o.xl+'</text>';
+  s+='<text transform="translate(12 '+((T+H-B)/2)+') rotate(-90)" text-anchor="middle">'+o.yl+'</text></g>';
+  if(o.fit){
+    var y0=o.fit.b,y1=o.fit.m*xm+o.fit.b;
+    s+='<line x1="'+X(0)+'" y1="'+Y(y0)+'" x2="'+X(xm)+'" y2="'+Y(y1)+'" stroke="var(--acc2)" stroke-width="2" stroke-dasharray="6 3" clip-path="url(#clip-'+svg.id+')"/>';
+  }
+  for(i=0;i<pts.length;i++){
+    var p=pts[i];
+    if(p.off){s+='<rect x="'+(X(p.x)-5)+'" y="'+(Y(p.y)-5)+'" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"/>';}
+    else{s+='<circle cx="'+X(p.x)+'" cy="'+Y(p.y)+'" r="5" fill="var(--acc)" stroke="currentColor" stroke-width="1.5"/>';}
+  }
+  svg.innerHTML=s;
+}
+function row(cells){return "<tr><td>"+cells.join("</td><td>")+"</td></tr>";}
+
+/* ---------- MECANIQUE ---------- */
+var P={th:0,w:0,t:0,run:true,cross:[],last:0,meas:null,prev:0,L:1,a0:10,g:9.81,sp:1};
+var pRows=[];
+function pReadParams(){
+  P.L=parseFloat($("pLen").value);P.a0=parseFloat($("pAng").value);P.g=parseFloat($("pG").value);P.sp=parseFloat($("pSp").value);
+  $("pLenV").textContent=fr(P.L,2)+" m";$("pAngV").textContent=P.a0+"°";
+  $("pTh").textContent=fr(2*Math.PI*Math.sqrt(P.L/P.g),3)+" s";
+}
+function pRelease(){
+  pReadParams();
+  P.th=P.a0*Math.PI/180;P.w=0;P.t=0;P.cross=[];P.meas=null;P.prev=P.th;
+  $("pMeas").textContent="…";$("pDiff").textContent="…";$("pTime").textContent="0,00 s";
+  pDraw();
+}
+function pDraw(){
+  var px=P.L*105,x=160+px*Math.sin(P.th),y=20+px*Math.cos(P.th);
+  $("pL").setAttribute("x2",x);$("pL").setAttribute("y2",y);
+  $("pB").setAttribute("cx",x);$("pB").setAttribute("cy",y);
+}
+function pStep(h){
+  var a=-(P.g/P.L)*Math.sin(P.th);
+  P.w+=a*h/2;P.prev=P.th;P.th+=P.w*h;
+  a=-(P.g/P.L)*Math.sin(P.th);P.w+=a*h/2;
+  P.t+=h;
+  if(P.prev<0&&P.th>=0&&P.w>0){
+    var tc=P.t-h*P.th/(P.th-P.prev);
+    P.cross.push(tc);
+    if(P.cross.length>=2){
+      P.meas=P.cross[P.cross.length-1]-P.cross[P.cross.length-2];
+      var th=2*Math.PI*Math.sqrt(P.L/P.g);
+      $("pMeas").textContent=fr(P.meas,3)+" s";
+      $("pDiff").textContent=fr(100*(P.meas-th)/th,1)+" %";
+    }
+  }
+}
+function pFrame(ts){
+  if(P.run){
+    var dt=Math.min((ts-P.last)/1000,0.05)*P.sp;
+    while(dt>1e-9){var h=Math.min(dt,0.002);pStep(h);dt-=h;}
+    $("pTime").textContent=fr(P.t,2)+" s";pDraw();
+  }
+  P.last=ts;requestAnimationFrame(pFrame);
+}
+function pTable(){
+  var h="";for(var i=0;i<pRows.length;i++){var r=pRows[i];h+=row([fr(r.L,2),r.a,fr(r.g,2),fr(r.T,3),fr(r.T*r.T,3)]);}
+  $("pTab").innerHTML=h;$("pEmpty").style.display=pRows.length?"none":"block";
+  var pts=[],same=[],i2;
+  for(i2=0;i2<pRows.length;i2++){pts.push({x:pRows[i2].L,y:pRows[i2].T*pRows[i2].T});}
+  for(i2=0;i2<pRows.length;i2++){if(pRows[i2].g===P.g)same.push({x:pRows[i2].L,y:pRows[i2].T*pRows[i2].T});}
+  var f=linfit(same);
+  plot($("pPlot"),pts,{xl:"L (m)",yl:"T² (s²)",xd:2,yd:4,fit:f});
+  if(f&&f.m>0){
+    var g=4*Math.PI*Math.PI/f.m;
+    $("pFit").innerHTML="Pente = "+fr(f.m,3)+" s²/m, donc g estimé = 4π²/pente = <b>"+fr(g,2)+" m/s²</b> (qualité de la droite R² = "+fr(f.r2,3)+"). Valeur utilisée par la simulation pour ce lieu : "+fr(P.g,2)+" m/s².";
+  }else{$("pFit").textContent="Enregistrez au moins deux longueurs différentes, pour le même lieu, pour obtenir la droite.";}
+}
+$("pRec").addEventListener("click",function(){
+  if(P.meas===null){$("pHint").textContent="Pas encore de période : attendez deux passages montants par la verticale.";return;}
+  pRows.push({L:P.L,a:P.a0,g:P.g,T:P.meas});pTable();
+  $("pHint").textContent="Mesure enregistrée. Changez la longueur et recommencez.";
+});
+$("pClr").addEventListener("click",function(){pRows=[];pTable();});
+$("pReset").addEventListener("click",pRelease);
+$("pRun").addEventListener("click",function(){P.run=!P.run;this.textContent=P.run?"Pause":"Reprendre";});
+["pLen","pAng","pG","pSp"].forEach(function(id){$(id).addEventListener("input",pRelease);});
+P.run=!reduceMotion();$("pRun").textContent=P.run?"Pause":"Reprendre";
+pRelease();pTable();requestAnimationFrame(pFrame);
+
+/* ---------- PHYSIQUE ---------- */
+var O={R:100,rows:[],last:null};
+function oNew(){
+  var cands=[47,68,100,150,220,330,470,680];
+  O.R=cands[Math.floor(Math.random()*cands.length)]*(1+(Math.random()-.5)*0.04);
+  O.rows=[];O.last=null;$("oAns").textContent="";$("oU").value=0;oTable();oRead();
+}
+function oRead(){
+  var U=parseFloat($("oU").value);$("oUV").textContent=fr(U,1)+" V";
+  var I=U/O.R*1000*(1+(Math.random()-.5)*0.03);
+  if(U===0)I=0;
+  var P_=U*U/O.R;
+  $("oUr").textContent=fr(U,1)+" V";$("oIr").textContent=fr(I,2)+" mA";$("oP").textContent=fr(P_,3)+" W";
+  O.last={U:U,I:I};
+  var w=$("oWarn");
+  if(P_>0.25){w.className="warn";w.textContent="Attention : au-delà de 0,25 W, une résistance courante chauffe trop. En vrai, il faudrait couper.";}
+  else{w.className="ok";w.textContent="Puissance dans la limite de 0,25 W.";}
+}
+function oTable(){
+  var h="",pts=[],i;
+  for(i=0;i<O.rows.length;i++){var r=O.rows[i];h+=row([fr(r.U,1),fr(r.I,2),r.U>0?fr(r.U/r.I*1000,0):"-"]);pts.push({x:r.U,y:r.I});}
+  $("oTab").innerHTML=h;$("oEmpty").style.display=O.rows.length?"none":"block";
+  var f=linfit(pts);
+  plot($("oPlot"),pts,{xl:"U (V)",yl:"I (mA)",xd:12,yd:100,fit:f});
+  if(f&&f.m>0){$("oFit").innerHTML="Pente = "+fr(f.m,3)+" mA/V, donc R estimée = 1/pente = <b>"+fr(1000/f.m,0)+" Ω</b>.";}
+  else{$("oFit").textContent="Enregistrez au moins deux mesures à des tensions différentes.";}
+}
+$("oU").addEventListener("input",oRead);
+$("oRec").addEventListener("click",function(){if(O.last){O.rows.push({U:O.last.U,I:O.last.I});oTable();}});
+$("oClr").addEventListener("click",function(){O.rows=[];oTable();});
+$("oNew").addEventListener("click",oNew);
+$("oRev").addEventListener("click",function(){$("oAns").innerHTML="La résistance cachée valait <b>"+fr(O.R,0)+" Ω</b>. Comparez avec votre estimation.";});
+oNew();
+
+/* ---------- BIOLOGIE ---------- */
+var STD=[0,5,10,20,40,80];
+var B={unk:30,std:[],unkA:[],read:false,keep:[true,true,true,true,true,true]};
+function bAbs(c){
+  var blank=0.04,asat=3,k=0.02;
+  var a=blank+asat*(1-Math.exp(-k*c/asat));
+  return Math.max(0,a*(1+(Math.random()-.5)*0.03)+(Math.random()-.5)*0.01);
+}
+function bPlate(){
+  var h='<tr><th></th>',c,r;
+  for(c=1;c<=12;c++)h+="<th scope='col'>"+c+"</th>";
+  h+="</tr>";
+  for(r=0;r<8;r++){
+    h+="<tr><th scope='row'>"+"ABCDEFGH".charAt(r)+"</th>";
+    for(c=0;c<12;c++){
+      var txt="",title="vide";
+      if(r<2&&c<6){txt=B.read?fr(B.std[c][r],2):"S"+STD[c];title="étalon "+STD[c];}
+      if(r===2&&c<2){txt=B.read?fr(B.unkA[c],2):"?";title="inconnu";}
+      var bg="";
+      if(B.read&&txt!==""&&(r<2&&c<6||r===2&&c<2)){var v=parseFloat(txt.replace(",","."));var op=Math.min(0.55,v/2.2);bg=' style="background:rgba(11,93,122,'+op.toFixed(2)+')"';}
+      h+="<td"+bg+" title='"+title+"'>"+txt+"</td>";
+    }
+    h+="</tr>";
+  }
+  $("plate").innerHTML=h;
+}
+function bNew(){
+  B.unk=Math.round((12+Math.random()*48)*10)/10;
+  B.std=[];for(var i=0;i<6;i++){B.std.push([bAbs(STD[i]),bAbs(STD[i])]);}
+  B.unkA=[bAbs(B.unk),bAbs(B.unk)];
+  B.read=false;B.keep=[true,true,true,true,true,true];
+  $("bMsg").textContent="Nouvelle plaque prête. Cliquez sur « Lire la plaque ».";$("bAns").textContent="";
+  bPlate();bUpdate();
+}
+function bUpdate(){
+  if(!B.read){$("bChecks").textContent="Lisez la plaque pour voir les absorbances.";plot($("bPlot"),[],{xl:"Concentration (µg/mL)",yl:"Absorbance",xd:80,yd:1.5,fit:null});
+    $("bFit").textContent="Lisez la plaque pour tracer la courbe.";$("bUnk").textContent="Lisez la plaque d'abord.";return;}
+  var h="",pts=[],kept=[],i;
+  for(i=0;i<6;i++){
+    var m=(B.std[i][0]+B.std[i][1])/2;
+    h+='<label class="chk"><input type="checkbox" data-i="'+i+'"'+(B.keep[i]?" checked":"")+'> '+STD[i]+' µg/mL : A = '+fr(m,3)+' (puits '+fr(B.std[i][0],3)+' et '+fr(B.std[i][1],3)+')</label>';
+    pts.push({x:STD[i],y:m,off:!B.keep[i]});
+    if(B.keep[i])kept.push({x:STD[i],y:m});
+  }
+  $("bChecks").innerHTML=h;
+  var bs=$("bChecks").querySelectorAll("input");
+  for(i=0;i<bs.length;i++){bs[i].addEventListener("change",function(){B.keep[parseInt(this.getAttribute("data-i"),10)]=this.checked;bUpdate();});}
+  var f=linfit(kept);
+  plot($("bPlot"),pts,{xl:"Concentration (µg/mL)",yl:"Absorbance",xd:80,yd:1.5,fit:f});
+  var au=(B.unkA[0]+B.unkA[1])/2;
+  if(f&&f.m>0){
+    $("bFit").innerHTML="Droite : A = "+fr(f.m,4)+"·c + "+fr(f.b,3)+" (R² = "+fr(f.r2,4)+"). Carrés vides = étalons écartés.";
+    var c=(au-f.b)/f.m;
+    var top=0;for(i=0;i<6;i++){if(B.keep[i]&&STD[i]>top)top=STD[i];}
+    var msg="Absorbance moyenne de l'inconnu : "+fr(au,3)+". Concentration estimée : <b>"+fr(c,1)+" µg/mL</b>.";
+    if(c>top)msg+=' <span class="warn">Hors de la gamme gardée : diluer l\'échantillon et recommencer.</span>';
+    $("bUnk").innerHTML=msg;
+  }else{$("bFit").textContent="Gardez au moins deux étalons de concentrations différentes.";$("bUnk").textContent="Pas de droite, pas d'estimation.";}
+}
+$("bRead").addEventListener("click",function(){B.read=true;$("bMsg").textContent="Plaque lue. Les puits colorés sont plus absorbants, et le chiffre donne la valeur exacte.";bPlate();bUpdate();});
+$("bNew").addEventListener("click",bNew);
+$("bRev").addEventListener("click",function(){$("bAns").innerHTML="La vraie concentration valait <b>"+fr(B.unk,1)+" µg/mL</b>.";});
+bNew();
+
+/* ---------- case « garder » ---------- */
+function bindKeep(id,rows,cb){
+  var bs=$(id).querySelectorAll("input[type=checkbox]");
+  for(var i=0;i<bs.length;i++){bs[i].addEventListener("change",function(){rows[parseInt(this.getAttribute("data-i"),10)].keep=this.checked;cb();});}
+}
+function keepCell(i,on){return '<label class="chk"><input type="checkbox" data-i="'+i+'"'+(on?" checked":"")+'> garder</label>';}
+
+/* ---------- PLAN INCLINE ---------- */
+var Q={mu:0.4,rows:[],busy:false};
+function qNew(){
+  var c=[0.18,0.27,0.36,0.46,0.58,0.7];
+  Q.mu=c[Math.floor(Math.random()*c.length)]*(1+(Math.random()-.5)*0.06);
+  Q.rows=[];Q.busy=false;$("qAns").textContent="";
+  $("qRes").textContent="…";$("qT").textContent="…";$("qA").textContent="…";
+  qTable();qDraw(0);
+}
+function qDraw(f){
+  var th=parseFloat($("qAng").value),r=th*Math.PI/180;
+  $("qAngV").textContent=th+"°";$("qMasV").textContent=fr(parseFloat($("qMas").value),1)+" kg";
+  var Lp=260,x0=30,y0=200,tx=x0+Lp*Math.cos(r),ty=y0-Lp*Math.sin(r);
+  $("qInc").setAttribute("points",x0+","+y0+" "+tx+","+ty+" "+tx+","+y0);
+  var d=20+f*200,bx=tx-d*Math.cos(r),by=ty+d*Math.sin(r);
+  $("qBlk").setAttribute("transform","translate("+bx+" "+by+") rotate("+(-th)+")");
+}
+function qRelease(){
+  if(Q.busy)return;
+  var th=parseFloat($("qAng").value),m=parseFloat($("qMas").value),r=th*Math.PI/180,g=9.81;
+  var slides=Math.tan(r)>Q.mu;
+  var row={th:th,m:m,slide:slides};
+  if(slides){
+    var a=g*(Math.sin(r)-Q.mu*Math.cos(r));
+    row.t=Math.sqrt(2/a)*(1+(Math.random()-.5)*0.04);
+    row.a=2/(row.t*row.t);
+    row.mu=Math.tan(r)-row.a/(g*Math.cos(r));
+    $("qRes").textContent="Le bloc glisse";$("qT").textContent=fr(row.t,2)+" s";$("qA").textContent=fr(row.a,2)+" m/s²";
+  }else{
+    $("qRes").textContent="Le bloc reste immobile";$("qT").textContent="-";$("qA").textContent="-";
+  }
+  Q.rows.push(row);qTable();
+  if(!slides){qDraw(0);return;}
+  if(reduceMotion()){qDraw(1);return;}
+  Q.busy=true;
+  var T=Math.min(row.t,3),t0=null;
+  function stepA(ts){
+    if(t0===null)t0=ts;
+    var u=Math.min((ts-t0)/1000/T,1);qDraw(u*u);
+    if(u<1)requestAnimationFrame(stepA);else Q.busy=false;
+  }
+  requestAnimationFrame(stepA);
+}
+function qTable(){
+  var h="",imm=null,gl=null,sm=0,sn=0,i;
+  for(i=0;i<Q.rows.length;i++){
+    var r=Q.rows[i];
+    h+=row([r.th,fr(r.m,1),r.slide?"glisse":"immobile",r.slide?fr(r.t,2):"-",r.slide?fr(r.a,2):"-",r.slide?fr(r.mu,2):"-"]);
+    if(!r.slide&&(imm===null||r.th>imm))imm=r.th;
+    if(r.slide){if(gl===null||r.th<gl)gl=r.th;sm+=r.mu;sn++;}
+  }
+  $("qTab").innerHTML=h;$("qEmpty").style.display=Q.rows.length?"none":"block";
+  var t;
+  if(imm!==null&&gl!==null){t="Le bloc tient à "+imm+"° et glisse à "+gl+"° : μ est entre "+fr(Math.tan(imm*Math.PI/180),2)+" et "+fr(Math.tan(gl*Math.PI/180),2)+".";}
+  else if(imm!==null){t="Il reste immobile jusqu'à "+imm+"° : augmentez l'angle.";}
+  else if(gl!==null){t="Il glisse déjà à "+gl+"° : essayez un angle plus petit.";}
+  else{t="Lâchez le bloc à plusieurs angles. Chaque essai s'ajoute au tableau.";}
+  if(sn>=2)t+=" Moyenne des μ estimés par le glissement : "+fr(sm/sn,2)+".";
+  $("qSum").textContent=t;
+}
+$("qGo").addEventListener("click",qRelease);
+$("qBack").addEventListener("click",function(){if(!Q.busy)qDraw(0);});
+$("qNewB").addEventListener("click",qNew);
+$("qRev").addEventListener("click",function(){$("qAns").innerHTML="Le vrai coefficient de frottement valait <b>μ = "+fr(Q.mu,2)+"</b>, donc un angle limite de "+fr(Math.atan(Q.mu)*180/Math.PI,1)+"°.";});
+$("qAng").addEventListener("input",function(){if(!Q.busy)qDraw(0);});
+$("qMas").addEventListener("input",function(){if(!Q.busy)qDraw(0);});
+qNew();
+
+/* ---------- RESSORT ---------- */
+var K={k:30,fl:3.5,rows:[],cur:null};
+function kExt(F){
+  var x=F/K.k;
+  if(F>K.fl)x=K.fl/K.k+2.2*(F-K.fl)/K.k;
+  return x*100;
+}
+function kNew(){
+  K.k=Math.round((20+Math.random()*40)*10)/10;K.fl=3+Math.random();
+  K.rows=[];$("kAns").textContent="";kRead();kTable();
+}
+function kRuler(){
+  var s="",c;
+  for(c=0;c<=38;c++){
+    var y=100+6*c;
+    s+='<line x1="250" y1="'+y+'" x2="'+(250+(c%5===0?10:5))+'" y2="'+y+'" stroke="currentColor"/>';
+    if(c%5===0)s+='<text x="264" y="'+(y+4)+'" font-size="11" fill="currentColor">'+c+'</text>';
+  }
+  $("kRuler").innerHTML=s;
+}
+function kRead(){
+  var mg=parseFloat($("kMas").value),F=mg/1000*9.81,x=kExt(F);
+  var xr=Math.round((x+(Math.random()-.5)*0.2)*10)/10;
+  if(xr<0)xr=0;
+  K.cur={m:mg,F:F,x:xr};
+  $("kMasV").textContent=mg+" g";$("kF").textContent=fr(F,2)+" N";$("kX").textContent=fr(xr,1)+" cm";
+  var y2=100+6*xr,n=10,step=(y2-8-38)/n,p="M150 30 L150 38",i;
+  for(i=0;i<n;i++){p+=" L"+(i%2===0?164:136)+" "+(38+step*(i+0.5));}
+  p+=" L150 "+(y2-8)+" L150 "+y2;
+  $("kSp").setAttribute("d",p);
+  $("kM").setAttribute("y",y2);$("kMT").setAttribute("y",y2+16);$("kMT").textContent=mg+" g";
+  $("kPtr").setAttribute("y1",y2);$("kPtr").setAttribute("y2",y2);
+}
+function kTable(){
+  var h="",pts=[],kept=[],i;
+  for(i=0;i<K.rows.length;i++){
+    var r=K.rows[i];
+    h+=row([r.m,fr(r.F,2),fr(r.x,1),keepCell(i,r.keep)]);
+    pts.push({x:r.x,y:r.F,off:!r.keep});
+    if(r.keep)kept.push({x:r.x,y:r.F});
+  }
+  $("kTab").innerHTML=h;$("kEmpty").style.display=K.rows.length?"none":"block";
+  bindKeep("kTab",K.rows,kTable);
+  var f=linfit(kept);
+  plot($("kPlot"),pts,{xl:"Allongement x (cm)",yl:"Force F (N)",xd:20,yd:5,fit:f});
+  if(f&&f.m>0){$("kFit").innerHTML="Pente = "+fr(f.m,3)+" N/cm, donc k estimé = <b>"+fr(f.m*100,1)+" N/m</b> (R² = "+fr(f.r2,4)+"). Carrés vides = mesures écartées.";}
+  else{$("kFit").textContent="Gardez au moins deux mesures d'allongements différents.";}
+}
+$("kMas").addEventListener("input",kRead);
+$("kRec").addEventListener("click",function(){if(K.cur){K.rows.push({m:K.cur.m,F:K.cur.F,x:K.cur.x,keep:true});kTable();}});
+$("kClr").addEventListener("click",function(){K.rows=[];kTable();});
+$("kNewB").addEventListener("click",kNew);
+$("kRev").addEventListener("click",function(){$("kAns").innerHTML="Le vrai ressort avait <b>k = "+fr(K.k,1)+" N/m</b>. Sa limite d'élasticité se situait à une force d'environ <b>"+fr(K.fl,1)+" N</b>, soit une masse d'environ "+Math.round(K.fl/9.81*1000)+" g.";});
+kRuler();kNew();
+
+/* ---------- LENTILLE ---------- */
+var Z={f:12,rows:[],sharp:0};
+function zNew(){
+  var c=[8,10,12.5,15];
+  Z.f=c[Math.floor(Math.random()*c.length)]*(1+(Math.random()-.5)*0.02);
+  Z.rows=[];$("zAns").textContent="";zRead();zTable();
+}
+function zRead(){
+  var d=parseFloat($("zObj").value),s=parseFloat($("zScr2").value);
+  $("zObjV").textContent=d+" cm";$("zScrV").textContent=fr(s,1)+" cm";
+  var di=d*Z.f/(d-Z.f),err=Math.abs(s-di);
+  Z.sharp=Math.max(0,Math.round(100-10*err));
+  $("zSharp").textContent=Z.sharp+" %";
+  $("zO").setAttribute("transform","translate("+(110-d*1.2)+" 70)");
+  var sx=110+s*1.2,m=Math.max(0.3,Math.min(2,di/d));
+  $("zScr").setAttribute("x1",sx);$("zScr").setAttribute("x2",sx);
+  $("zI").setAttribute("transform","translate("+sx+" 70) scale(1 "+(-m)+")");
+  $("zBlurN").setAttribute("stdDeviation",Math.min(8,err*0.6).toFixed(2));
+}
+function zTable(){
+  var h="",pts=[],i;
+  for(i=0;i<Z.rows.length;i++){
+    var r=Z.rows[i];
+    h+=row([fr(r.d,0),fr(r.s,1),fr(100/r.d,2),fr(100/r.s,2)]);
+    pts.push({x:100/r.d,y:100/r.s});
+  }
+  $("zTab").innerHTML=h;$("zEmpty").style.display=Z.rows.length?"none":"block";
+  var f=linfit(pts);
+  plot($("zPlot"),pts,{xl:"1/do (m⁻¹)",yl:"1/di (m⁻¹)",xd:5,yd:10,fit:f});
+  if(f&&f.b>0){$("zFit").innerHTML="Pente = "+fr(f.m,2)+" (attendue : −1). Ordonnée à l'origine = 1/f = "+fr(f.b,2)+" m⁻¹, donc f estimée = <b>"+fr(100/f.b,1)+" cm</b>.";}
+  else{$("zFit").textContent="Enregistrez au moins deux distances objet différentes.";}
+}
+$("zObj").addEventListener("input",zRead);
+$("zScr2").addEventListener("input",zRead);
+$("zRec").addEventListener("click",function(){
+  if(Z.sharp<85){$("zMsg").textContent="Image trop floue pour une mesure honnête ("+Z.sharp+" %). Cherchez mieux la netteté.";return;}
+  Z.rows.push({d:parseFloat($("zObj").value),s:parseFloat($("zScr2").value)});
+  zTable();$("zMsg").textContent="Mesure enregistrée. Changez la distance objet et cherchez de nouveau la netteté.";
+});
+$("zClr").addEventListener("click",function(){Z.rows=[];zTable();});
+$("zNewB").addEventListener("click",zNew);
+$("zRev").addEventListener("click",function(){$("zAns").innerHTML="La vraie distance focale valait <b>f = "+fr(Z.f,1)+" cm</b>.";});
+zNew();
+
+/* ---------- CULTURE ---------- */
+var C={td:0.8,lag:1,rows:[]};
+function cOD(t){
+  var N0=0.02,Kc=1.8;
+  if(t<=C.lag)return N0;
+  return Kc/(1+(Kc/N0-1)*Math.pow(2,-(t-C.lag)/C.td));
+}
+function cNew(){
+  C.td=0.45+Math.random()*0.75;C.lag=0.5+Math.random()*1.5;
+  C.rows=[];$("cAns").textContent="";cRead();cTable();
+}
+function cRead(){
+  var t=parseFloat($("cT").value),od=cOD(t);
+  $("cTV").textContent=fr(t,1)+" h";
+  $("cFlask").setAttribute("fill-opacity",(0.08+0.8*Math.min(od,1.8)/1.8).toFixed(2));
+  $("cTurb").textContent=od<0.1?"Milieu limpide":od<0.6?"Milieu légèrement trouble":od<1.2?"Milieu trouble":"Milieu très trouble";
+}
+function cTable(){
+  var h="",kept=[],all=[],i,log=$("cMode").value==="log";
+  for(i=0;i<C.rows.length;i++){
+    var r=C.rows[i];
+    h+=row([fr(r.t,1),fr(r.od,3),fr(Math.log(r.od),2),keepCell(i,r.keep)]);
+    all.push({x:r.t,y:log?Math.log(r.od):r.od,off:!r.keep});
+    if(r.keep)kept.push({x:r.t,y:Math.log(r.od)});
+  }
+  $("cTab").innerHTML=h;$("cEmpty").style.display=C.rows.length?"none":"block";
+  bindKeep("cTab",C.rows,cTable);
+  if(!log){
+    plot($("cPlot"),all,{xl:"Temps (h)",yl:"Densité optique (DO)",xd:12,yd:2,fit:null});
+    $("cFit").textContent="En échelle linéaire, on voit les phases mais on ne lit pas bien la vitesse. Passez en échelle logarithmique pour mesurer.";
+    return;
+  }
+  var mn=0,mx=1,j;
+  if(all.length){mn=all[0].y;mx=all[0].y;for(j=1;j<all.length;j++){if(all[j].y<mn)mn=all[j].y;if(all[j].y>mx)mx=all[j].y;}}
+  mn=Math.floor(mn);mx=mn+Math.max(4,Math.ceil((Math.ceil(mx)-mn)/4)*4);
+  var f=linfit(kept);
+  plot($("cPlot"),all,{xl:"Temps (h)",yl:"ln(DO)",xd:12,yd:2,ymin:mn,ymax:mx,ydec:0,fit:f});
+  if(f&&f.m>0){$("cFit").innerHTML="Pente μ = "+fr(f.m,3)+" h⁻¹ (R² = "+fr(f.r2,3)+"), donc temps de doublement = ln 2 / μ = <b>"+fr(Math.LN2/f.m,2)+" h</b>. Carrés vides = mesures écartées.";}
+  else{$("cFit").textContent="Gardez au moins deux mesures de la phase exponentielle (pente positive).";}
+}
+$("cT").addEventListener("input",cRead);
+$("cMode").addEventListener("change",cTable);
+$("cRec").addEventListener("click",function(){
+  var t=parseFloat($("cT").value);
+  var od=Math.max(0.001,cOD(t)*(1+(Math.random()-.5)*0.06)+(Math.random()-.5)*0.004);
+  C.rows.push({t:t,od:od,keep:true});cTable();
+});
+$("cClr").addEventListener("click",function(){C.rows=[];cTable();});
+$("cNewB").addEventListener("click",cNew);
+$("cRev").addEventListener("click",function(){$("cAns").innerHTML="Vraies valeurs : temps de doublement <b>"+fr(C.td,2)+" h</b>, latence d'environ <b>"+fr(C.lag,1)+" h</b>, plateau vers une DO de 1,8.";});
+cNew();
+
+/* ---------- CHIMIE : DOSAGE ACIDE-BASE ---------- */
+var T={acid:"fort",ind:"bbt",Ca:0.1,Va:20,Cb:0.1,Vb:0,rows:[],ph:1,virage:null,lastCol:""};
+var VMAX=50;
+function tPH(Vb){
+  var Vt=T.Va+Vb,Ct=T.Ca*T.Va/Vt,Na=T.Cb*Vb/Vt,Kw=1e-14,Ka=Math.pow(10,-4.76),lo=-14.5,hi=1,i;
+  for(i=0;i<80;i++){
+    var m=(lo+hi)/2,h=Math.pow(10,m);
+    var A=T.acid==="fort"?Ct:Ct*Ka/(Ka+h);
+    if(h+Na-Kw/h-A>0)hi=m;else lo=m;
+  }
+  return -(lo+hi)/2;
+}
+function mix(a,b,t){t=Math.max(0,Math.min(1,t));return [Math.round(a[0]+(b[0]-a[0])*t),Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)];}
+function tColor(ph){
+  var t;
+  if(T.ind==="bbt"){t=(ph-6)/1.6;var y=[232,196,58],g=[76,175,80],b=[47,111,208];
+    return {rgb:t<0.5?mix(y,g,t*2):mix(g,b,(t-0.5)*2),name:t<0.15?"jaune":t>0.85?"bleu":"vert"};}
+  if(T.ind==="phph"){t=(ph-8.2)/1.8;return {rgb:mix([236,238,232],[224,64,154],t),name:t<0.15?"incolore":t>0.85?"rose":"rose pâle"};}
+  if(T.ind==="hel"){t=(ph-3.1)/1.3;return {rgb:mix([217,69,43],[240,168,48],t),name:t<0.15?"rouge":t>0.85?"jaune":"orange"};}
+  return {rgb:[223,228,234],name:"incolore"};
+}
+function tVe(){return T.Ca*T.Va/T.Cb;}
+function tGrad(){
+  var s="",v;
+  for(v=0;v<=VMAX;v+=5){var y=22+v*146/VMAX;s+='<line x1="150" x2="'+(v%10===0?158:155)+'" y1="'+y+'" y2="'+y+'" stroke="currentColor"/>';
+    if(v%10===0)s+='<text x="146" y="'+(y+4)+'" font-size="9" text-anchor="end" fill="currentColor">'+v+'</text>';}
+  $("tGrad").innerHTML=s;
+}
+function tShow(){
+  T.ph=tPH(T.Vb);
+  var lu=Math.round((T.ph+(Math.random()-.5)*0.04)*100)/100;T.lu=lu;
+  var c=tColor(T.ph);T.col=c.name;
+  $("tV").textContent=fr(T.Vb,2)+" mL";$("tPh").textContent=fr(lu,2);$("tCol").textContent=c.name;
+  $("tPhTxt").textContent="pH "+fr(lu,2);
+  $("tLiq").setAttribute("fill","rgb("+c.rgb.join(",")+")");
+  var top=236-Math.min(24,T.Vb*0.5);
+  $("tLiq").setAttribute("d","M112 "+top+" H206 V284 Q206 290 200 290 H118 Q112 290 112 284 Z");
+  $("tBurL").setAttribute("y",22+T.Vb*146/VMAX);$("tBurL").setAttribute("height",Math.max(0,146-T.Vb*146/VMAX));
+}
+function tStart(){
+  T.acid=$("tAcid").value;T.ind=$("tInd").value;T.Vb=0;T.rows=[];T.virage=null;
+  tShow();T.lastCol=T.col;tTable();
+  $("tRes").textContent="";$("tAns").textContent="";
+  $("tMsg").textContent="Dosage prêt. Versez la soude et enregistrez le pH après chaque ajout.";
+}
+function tNew(){T.Ca=Math.round((0.05+Math.random()*0.1)*1000)/1000;tStart();}
+function tAdd(v){
+  if(T.Vb+v>VMAX+1e-9){$("tMsg").textContent="La burette est vide. Recommencez le dosage.";return;}
+  T.Vb=Math.round((T.Vb+v)*100)/100;tShow();
+  var msg="Volume versé : "+fr(T.Vb,2)+" mL.";
+  if(T.ind!=="none"&&T.col!==T.lastCol&&T.virage===null&&(T.col==="vert"||T.col==="rose pâle"||T.col==="orange"||T.col==="bleu"||T.col==="rose"||T.col==="jaune")){
+    T.virage=T.Vb;
+    msg="Changement de couleur vers "+fr(T.Vb,2)+" mL : l'indicateur commence à virer.";
+    if(Math.abs(T.Vb-tVe())>0.6)msg+=" Comparez ce volume avec le saut de pH sur la courbe : cet indicateur convient-il pour cet acide ?";
+  }
+  if(T.Vb>tVe()+3&&T.rows.length<4)msg+=" Vous avez probablement dépassé l'équivalence : sans mesures avant le saut, la courbe sera difficile à exploiter.";
+  T.lastCol=T.col;
+  $("tMsg").textContent=msg;
+  if($("tAuto").checked)tRecord();
+}
+function tRecord(){
+  for(var i=0;i<T.rows.length;i++){if(Math.abs(T.rows[i].v-T.Vb)<1e-9){$("tMsg").textContent="Ce volume est déjà dans le tableau. Versez de la soude avant d'enregistrer.";return;}}
+  T.rows.push({v:T.Vb,ph:T.lu,col:T.col});T.rows.sort(function(a,b){return a.v-b.v;});tTable();
+}
+function tDeriv(){
+  var r=T.rows,best=null,i;
+  for(i=1;i<r.length;i++){var dv=r[i].v-r[i-1].v;if(dv<=0)continue;var s=(r[i].ph-r[i-1].ph)/dv;if(best===null||s>best.s)best={s:s,v:(r[i].v+r[i-1].v)/2,w:dv};}
+  return best;
+}
+function tTable(){
+  var h="",pts=[],i;
+  for(i=0;i<T.rows.length;i++){var r=T.rows[i];h+=row([fr(r.v,2),fr(r.ph,2),r.col]);pts.push({x:r.v,y:r.ph});}
+  $("tTab").innerHTML=h;$("tEmpty").style.display=T.rows.length?"none":"block";
+  plot($("tPlot"),pts,{xl:"Volume de soude Vb (mL)",yl:"pH",xd:30,yd:14,ymin:0,ymax:16,ydec:0,fit:null});
+  $("tFit").textContent=T.rows.length<3?"Enregistrez des mesures avant, pendant et après le saut de pH.":T.rows.length+" mesures. Repérez le saut de pH : c'est là que se trouve l'équivalence.";
+  var d=tDeriv();
+  if(d&&d.s>1){$("tDer").innerHTML="Méthode de la dérivée : le pH varie le plus vite vers <b>V<sub>b</sub> = "+fr(d.v,2)+" mL</b> (pente "+fr(d.s,1)+" unités de pH par mL, entre deux mesures espacées de "+fr(d.w,2)+" mL)."+(d.w>0.3?" Resserrez les mesures autour de ce volume pour plus de précision.":"");}
+  else{$("tDer").textContent="La méthode de la dérivée repère le volume où le pH varie le plus vite. Il faut des mesures serrées autour du saut.";}
+}
+$("tAdd2").addEventListener("click",function(){tAdd(2);});
+$("tAdd1").addEventListener("click",function(){tAdd(1);});
+$("tAdd05").addEventListener("click",function(){tAdd(0.5);});
+$("tAdd01").addEventListener("click",function(){tAdd(0.1);});
+$("tRec").addEventListener("click",tRecord);
+$("tClr").addEventListener("click",function(){T.rows=[];tTable();});
+$("tReset").addEventListener("click",tStart);
+$("tNew").addEventListener("click",tNew);
+$("tAcid").addEventListener("change",tStart);
+$("tInd").addEventListener("change",function(){T.ind=$("tInd").value;tShow();T.lastCol=T.col;T.virage=null;});
+$("tCalc").addEventListener("click",function(){
+  var ve=parseFloat(String($("tVe").value).replace(",","."));
+  if(!(ve>0)){$("tRes").textContent="Entrez d'abord votre volume à l'équivalence, en mL.";return;}
+  var ca=T.Cb*ve/T.Va;
+  $("tRes").innerHTML="C<sub>a</sub> = C<sub>b</sub>·V<sub>bE</sub> / V<sub>a</sub> = 0,100 × "+fr(ve,2)+" / 20,0 = <b>"+fr(ca,4)+" mol/L</b>.";
+});
+$("tRev").addEventListener("click",function(){$("tAns").innerHTML="La vraie concentration valait <b>"+fr(T.Ca,4)+" mol/L</b>, soit une équivalence à <b>"+fr(tVe(),2)+" mL</b>. pH à l'équivalence : "+fr(tPH(tVe()),2)+".";});
+tGrad();tNew();
+
+/* ---------- CAHIER DE TP ---------- */
+var EXPS=[["meca","Le pendule simple"],["plan","Le plan incliné"],["hooke","Le ressort"],["phys","La loi d'Ohm"],["lent","La lentille convergente"],["chim","Le dosage acide-base"],["bio","Le dosage sur plaque de 96 puits"],["cult","La culture d'une bactérie fictive"]];
+var FIELDS=[["Obj","Objectif"],["Hyp","Hypothèse"],["Mat","Matériel"],["Sec","Sécurité"],["Prot","Protocole"],["Obs","Observations"],["Calc","Calculs et résultats"],["Ana","Analyse et interprétation"],["Conc","Conclusion"]];
+function expName(id){for(var i=0;i<EXPS.length;i++){if(EXPS[i][0]===id)return EXPS[i][1];}return id;}
+function cells(rows,f){var o=[];for(var i=0;i<rows.length;i++)o.push(f(rows[i],i));return o;}
+var GET={
+  meca:function(){return {h:["L (m)","Angle (°)","g (m/s²)","T (s)","T² (s²)"],r:cells(pRows,function(r){return [fr(r.L,2),String(r.a),fr(r.g,2),fr(r.T,3),fr(r.T*r.T,3)];}),res:$("pFit").textContent,svg:"pPlot"};},
+  plan:function(){return {h:["Angle (°)","Masse (kg)","Résultat","t (s)","a (m/s²)","μ estimé"],r:cells(Q.rows,function(r){return [String(r.th),fr(r.m,1),r.slide?"glisse":"immobile",r.slide?fr(r.t,2):"-",r.slide?fr(r.a,2):"-",r.slide?fr(r.mu,2):"-"];}),res:$("qSum").textContent,svg:null};},
+  hooke:function(){return {h:["m (g)","F (N)","x (cm)","Gardée"],r:cells(K.rows,function(r){return [String(r.m),fr(r.F,2),fr(r.x,1),r.keep?"oui":"non"];}),res:$("kFit").textContent,svg:"kPlot"};},
+  phys:function(){return {h:["U (V)","I (mA)","U/I (Ω)"],r:cells(O.rows,function(r){return [fr(r.U,1),fr(r.I,2),r.U>0?fr(r.U/r.I*1000,0):"-"];}),res:$("oFit").textContent,svg:"oPlot"};},
+  lent:function(){return {h:["do (cm)","di (cm)","1/do (m⁻¹)","1/di (m⁻¹)"],r:cells(Z.rows,function(r){return [fr(r.d,0),fr(r.s,1),fr(100/r.d,2),fr(100/r.s,2)];}),res:$("zFit").textContent,svg:"zPlot"};},
+  chim:function(){return {h:["Vb (mL)","pH","Couleur"],r:cells(T.rows,function(r){return [fr(r.v,2),fr(r.ph,2),r.col];}),res:"Acide : "+$("tAcid").options[$("tAcid").selectedIndex].text+". Indicateur : "+$("tInd").options[$("tInd").selectedIndex].text+". "+$("tDer").textContent+" "+$("tRes").textContent,svg:"tPlot"};},
+  bio:function(){if(!B.read)return {h:[],r:[],res:"",svg:null};
+    var r=[],i;for(i=0;i<6;i++){r.push([STD[i]+" µg/mL",fr((B.std[i][0]+B.std[i][1])/2,3),B.keep[i]?"oui":"non"]);}
+    r.push(["Inconnu",fr((B.unkA[0]+B.unkA[1])/2,3),"-"]);
+    return {h:["Étalon","Absorbance moyenne","Gardé"],r:r,res:$("bFit").textContent+" "+$("bUnk").textContent,svg:"bPlot"};},
+  cult:function(){return {h:["t (h)","DO","ln(DO)","Gardée"],r:cells(C.rows,function(r){return [fr(r.t,1),fr(r.od,3),fr(Math.log(r.od),2),r.keep?"oui":"non"];}),res:$("cFit").textContent,svg:"cPlot"};}
+};
+var NBKEY="ireishe.cahiers.v1",NB={list:[],cur:null},nbTimer=null;
+function nbLoad(){
+  try{var s=localStorage.getItem(NBKEY);var l=s?JSON.parse(s):[];NB.list=Array.isArray(l)?l:[];}
+  catch(e){NB.list=[];nbStatus("Ce navigateur bloque l'enregistrement : le cahier sera perdu à la fermeture. Exportez-le avant de quitter.",true);}
+}
+function nbStatus(t,bad){var s=$("nbStatus");s.className=bad?"warn":"ok";s.textContent=t;}
+function nbSave(){
+  var c=nbCur();if(c)c.updated=new Date().toISOString();
+  try{localStorage.setItem(NBKEY,JSON.stringify(NB.list));var d=new Date();nbStatus("Enregistré sur cet appareil à "+("0"+d.getHours()).slice(-2)+" h "+("0"+d.getMinutes()).slice(-2)+".");}
+  catch(e){nbStatus("Enregistrement impossible (stockage bloqué ou plein). Exportez votre cahier pour ne pas le perdre.",true);}
+}
+function nbLater(){if(nbTimer)clearTimeout(nbTimer);nbTimer=setTimeout(nbSave,400);}
+function nbCur(){for(var i=0;i<NB.list.length;i++){if(NB.list[i].id===NB.cur)return NB.list[i];}return null;}
+function today(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);}
+function nbCreate(exp){
+  var c={id:Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36),exp:exp,title:"TP : "+expName(exp),date:today(),group:"",f:{},data:null,updated:""};
+  nbPrefill(c,false);NB.list.unshift(c);NB.cur=c.id;nbSave();nbRender();
+}
+function nbPrefill(c,force){
+  var sec=$(c.exp);if(!sec)return;
+  var q=sec.querySelector(".card p"),lis=sec.querySelectorAll("details li"),mat="",secu="",prot=[],i;
+  for(i=0;i<lis.length;i++){var t=lis[i].textContent.trim();
+    if(/^Matériel\s*:/.test(t))mat=t.replace(/^Matériel\s*:\s*/,"");
+    else if(/^Sécurité\s*:/.test(t))secu=t.replace(/^Sécurité\s*:\s*/,"");
+    else prot.push((prot.length+1)+". "+t);}
+  var v={Obj:q?q.textContent.replace(/^Question de recherche\.\s*/,""):"",Mat:mat,Sec:secu,Prot:prot.join("\n")};
+  for(var k in v){if(v.hasOwnProperty(k)&&(force||!c.f[k]))c.f[k]=v[k];}
+}
+function nbList(){
+  var s=$("nbList"),h="",i;
+  if(!NB.list.length){h='<option value="">Aucun cahier pour l\'instant</option>';}
+  for(i=0;i<NB.list.length;i++){var c=NB.list[i];h+='<option value="'+c.id+'"></option>';}
+  s.innerHTML=h;
+  var o=s.querySelectorAll("option");
+  for(i=0;i<NB.list.length;i++){o[i].textContent=(NB.list[i].title||"Sans titre")+" · "+(NB.list[i].date||"");}
+  if(NB.cur)s.value=NB.cur;
+}
+function nbData(el,data){
+  el.innerHTML="";if(!data)return;
+  if(data.r&&data.r.length){
+    var tw=document.createElement("div");tw.className="tw";var tb=document.createElement("table"),tr=document.createElement("tr"),i,j;
+    for(i=0;i<data.h.length;i++){var th=document.createElement("th");th.textContent=data.h[i];tr.appendChild(th);}
+    var thead=document.createElement("thead");thead.appendChild(tr);tb.appendChild(thead);var tbody=document.createElement("tbody");
+    for(i=0;i<data.r.length;i++){var r=document.createElement("tr");for(j=0;j<data.r[i].length;j++){var td=document.createElement("td");td.textContent=data.r[i][j];r.appendChild(td);}tbody.appendChild(r);}
+    tb.appendChild(tbody);tw.appendChild(tb);el.appendChild(tw);
+  }
+  if(data.svg){var g=document.createElement("div");g.innerHTML=data.svg;el.appendChild(g);}
+  if(data.res){var p=document.createElement("p");p.textContent=data.res;el.appendChild(p);}
+}
+function nbRender(){
+  nbList();
+  var c=nbCur();$("nbForm").style.display=c?"block":"none";$("nbDel").style.display=c?"":"none";
+  if(!c)return;
+  $("nbExp").value=c.exp;$("nbTitle").value=c.title||"";$("nbDate").value=c.date||"";$("nbGroup").value=c.group||"";
+  for(var i=0;i<FIELDS.length;i++){$("nb"+FIELDS[i][0]).value=c.f[FIELDS[i][0]]||"";}
+  nbData($("nbData"),c.data);$("nbImpMsg").textContent="";
+}
+function nbBuildPrint(c){
+  var a=$("printArea");a.innerHTML="";
+  function el(tag,txt){var e=document.createElement(tag);if(txt!==undefined)e.textContent=txt;a.appendChild(e);return e;}
+  el("h1",c.title||"Compte rendu de TP");
+  el("p","Expérience : "+expName(c.exp)+(c.date?" · Date : "+c.date:"")+(c.group?" · Classe ou groupe : "+c.group:""));
+  for(var i=0;i<FIELDS.length;i++){
+    var k=FIELDS[i][0];
+    if(k==="Obs"&&c.data){el("h2","Mesures");var d=document.createElement("div");nbData(d,c.data);a.appendChild(d);}
+    el("h2",FIELDS[i][1]);el("p",c.f[k]||"…");
+  }
+}
+function nbEsc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+(function(){
+  var o="",i;for(i=0;i<EXPS.length;i++)o+='<option value="'+EXPS[i][0]+'">'+nbEsc(EXPS[i][1])+'</option>';$("nbExp").innerHTML=o;
+  nbLoad();if(NB.list.length)NB.cur=NB.list[0].id;nbRender();
+})();
+$("nbNew").addEventListener("click",function(){var c=nbCur();nbCreate(c?c.exp:"chim");});
+$("nbDel").addEventListener("click",function(){
+  var c=nbCur();if(!c)return;
+  if(!window.confirm("Supprimer définitivement le cahier « "+(c.title||"Sans titre")+" » ?"))return;
+  NB.list=NB.list.filter(function(x){return x.id!==c.id;});NB.cur=NB.list.length?NB.list[0].id:null;nbSave();nbRender();
+});
+$("nbList").addEventListener("change",function(){NB.cur=this.value||null;nbRender();});
+$("nbExp").addEventListener("change",function(){var c=nbCur();if(!c)return;c.exp=this.value;nbPrefill(c,false);nbRender();nbSave();});
+$("nbFill").addEventListener("click",function(){var c=nbCur();if(!c)return;nbPrefill(c,true);nbRender();nbSave();});
+$("nbTitle").addEventListener("input",function(){var c=nbCur();if(c){c.title=this.value;nbList();nbLater();}});
+$("nbDate").addEventListener("input",function(){var c=nbCur();if(c){c.date=this.value;nbList();nbLater();}});
+$("nbGroup").addEventListener("input",function(){var c=nbCur();if(c){c.group=this.value;nbLater();}});
+FIELDS.forEach(function(f){$("nb"+f[0]).addEventListener("input",function(){var c=nbCur();if(c){c.f[f[0]]=this.value;nbLater();}});});
+$("nbImp").addEventListener("click",function(){
+  var c=nbCur();if(!c)return;var g=GET[c.exp]();
+  if(!g.r.length){$("nbImpMsg").textContent="Aucune mesure dans l'expérience « "+expName(c.exp)+" ». Faites l'expérience dans son onglet, puis revenez importer.";return;}
+  var svg=null;if(g.svg){svg='<svg viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg" role="img">'+$(g.svg).innerHTML+'</svg>';}
+  c.data={h:g.h,r:g.r,res:g.res.trim(),svg:svg};nbData($("nbData"),c.data);nbSave();
+  $("nbImpMsg").textContent=g.r.length+" mesures importées.";
+});
+$("nbImpClr").addEventListener("click",function(){var c=nbCur();if(!c)return;c.data=null;nbData($("nbData"),null);nbSave();});
+$("nbPdf").addEventListener("click",function(){var c=nbCur();if(!c)return;nbSave();nbBuildPrint(c);window.print();});
+$("nbHtml").addEventListener("click",function(){
+  var c=nbCur();if(!c)return;nbSave();nbBuildPrint(c);
+  var css=":root{--acc:#0b5d7a;--acc2:#8a3b12;--bg:#fff}body{font:16px/1.5 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;max-width:800px;margin:0 auto;padding:16px;color:#1d2430}h1{font-size:1.5rem}h2{font-size:1.1rem;margin:20px 0 4px}p{white-space:pre-wrap;margin:0 0 8px}table{border-collapse:collapse;margin:8px 0}th,td{border:1px solid #bbb;padding:4px 8px;text-align:right}svg{display:block;width:100%;max-width:520px;height:auto}";
+  var html='<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+nbEsc(c.title||"Compte rendu de TP")+'</title><style>'+css+'</style></head><body>'+$("printArea").innerHTML+'</body></html>';
+  var url=URL.createObjectURL(new Blob([html],{type:"text/html"})),a=document.createElement("a");
+  a.href=url;a.download=("cahier-TP-"+c.exp+"-"+(c.date||today())).replace(/[^a-zA-Z0-9-]/g,"")+".html";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(url);},2000);
+});
+})();
+</script>
+</body>
+</html>

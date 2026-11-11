@@ -1,7 +1,6 @@
 ---
 title: "Créer et faire vivre un laboratoire universitaire"
 subtitle: "La carte des compétences, pour les étudiants"
-author: "ASSEREOU BRICE AGOSSOU"
 date: "23 octobre 2026"
 lang: fr-FR
 ---
