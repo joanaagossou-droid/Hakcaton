@@ -1,11 +1,11 @@
 {
-  "case": "light",
-  "title": "LIGHT (plateforme corrigée)",
-  "path": "light/",
+  "case": "safeher",
+  "title": "SafeHer (plateforme corrigée)",
+  "path": "safeher/",
   "auditType": "self",
   "testedBy": "Équipe NUKUN (auto-évaluation, non certifiée)",
   "testedOn": "2026-11-13",
-  "note": "Évaluation de référence des critères qui demandent un humain. Les critères observables viennent de l'analyse automatique exécutée au moment de l'audit. Les points non encore validés sont laissés tels quels : LIGHT n'obtient pas 100/100. Refaites ces tests vous-même : vos réponses remplacent celles-ci.",
+  "note": "Évaluation de référence des critères qui demandent un humain. Les critères observables viennent de l'analyse automatique exécutée au moment de l'audit. Les points non encore validés sont laissés tels quels : SafeHer n'obtient pas 100/100. Refaites ces tests vous-même : vos réponses remplacent celles-ci.",
   "assessments": {
     "C5": {
       "note": 2,
@@ -111,7 +111,7 @@
   "scenarios": {
     "T1": {
       "verdict": "protected",
-      "notes": "Titres neutres (« Light · Formulaire »), adresses neutres (ecrire.html), sortie par location.replace. L'adresse du site reste dans l'historique : la navigation privée est conseillée."
+      "notes": "Titres neutres (« SafeHer · Formulaire »), adresses neutres (ecrire.html), sortie par location.replace. L'adresse du site reste dans l'historique : la navigation privée est conseillée."
     },
     "T2": {
       "verdict": "protected",
@@ -119,7 +119,7 @@
     },
     "T3": {
       "verdict": "protected",
-      "notes": "Mode discret : LIGHT s'installe sous le nom « Calculatrice » avec une icône de calculatrice, et ne s'ouvre qu'avec le code secret (code leurre disponible). Manifeste et calculatrice vérifiés par test automatisé sur ordinateur ; installation sur Android et iPhone à refaire."
+      "notes": "Mode discret : SafeHer s'installe sous le nom « Calculatrice » avec une icône de calculatrice, et ne s'ouvre qu'avec le code secret (code leurre disponible). Manifeste et calculatrice vérifiés par test automatisé sur ordinateur ; installation sur Android et iPhone à refaire."
     },
     "T4": {
       "verdict": "protected",

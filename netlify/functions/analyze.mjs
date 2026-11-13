@@ -4,7 +4,7 @@
  * Pourquoi une fonction serveur ? Un navigateur ne peut pas lire le code et les
  * en-têtes d'un autre site (règle de même origine). Cette fonction le fait,
  * strictement pour les adresses de la liste autorisée (variable NUKUN_ALLOWLIST
- * + /haven/ et /light/ du site lui-même), sans rien enregistrer.
+ * + /haven/ et /safeher/ du site lui-même), sans rien enregistrer.
  *
  * Limite : la limitation de débit et le cache sont en mémoire, par instance de
  * fonction ; sur plusieurs instances, la limite effective est plus élevée.

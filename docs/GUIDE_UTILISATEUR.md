@@ -5,7 +5,7 @@ NUKUN s'utilise dans un navigateur, sur téléphone ou ordinateur, sans compte. 
 ## Règles avant de commencer
 
 - N'utilisez **jamais** d'information réelle concernant une survivante, ni de vrai témoignage, ni de capture contenant des données personnelles.
-- N'auditez que des outils pour lesquels vous avez une **autorisation** (votre propre outil, HAVEN, LIGHT, ou un outil dont le responsable a donné son accord écrit).
+- N'auditez que des outils pour lesquels vous avez une **autorisation** (votre propre outil, HAVEN, SafeHer, ou un outil dont le responsable a donné son accord écrit).
 
 ## Deux façons de commencer
 
@@ -14,7 +14,7 @@ NUKUN s'utilise dans un navigateur, sur téléphone ou ordinateur, sans compte. 
 
 ## Étape 1 — Décrire l'outil
 
-Choisissez un cas fictif (HAVEN ou LIGHT) ou saisissez une adresse, puis le nom, le type d'outil, la fonction principale, le public et le **type d'audit** :
+Choisissez un cas fictif (HAVEN ou SafeHer) ou saisissez une adresse, puis le nom, le type d'outil, la fonction principale, le public et le **type d'audit** :
 - *auto-évaluation* : par l'équipe qui conçoit l'outil (non certifiée) ;
 - *audit croisé* : par une autre équipe ou le jury ;
 - *audit tiers* : par un organisme indépendant mandaté.

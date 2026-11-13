@@ -36,7 +36,7 @@ async function audits() {
   const srv = await startServer();
   try {
     const out = {};
-    for (const site of ['haven', 'light']) {
+    for (const site of ['haven', 'safeher']) {
       const a = createAudit({ projectName: site.toUpperCase() + ' <script>alert(1)</script>', caseId: site, url: `/${site}/` });
       applyAnalysis(a, await runAnalysis(`${srv.base}/${site}/`, localFetcher, { mode: 'navigateur' }));
       applyReference(a, readJson(`src/data/reference/${site}.json`));
@@ -48,7 +48,7 @@ async function audits() {
 }
 
 test('les 6 documents PDF sont générés, valides et contiennent le socle commun', async () => {
-  const { haven, light } = await audits();
+  const { haven, safeher: light } = await audits();
   const rh = buildReport(haven, data);
   const rl = buildReport(light, data);
   const dir = path.join(ROOT, 'tests', 'output');
@@ -68,7 +68,7 @@ test('les 6 documents PDF sont générés, valides et contiennent le socle commu
 });
 
 test('export JSON réimportable et ré-import assaini', async () => {
-  const { light } = await audits();
+  const { safeher: light } = await audits();
   const json = auditToJson(light);
   const back = sanitizeImported(JSON.parse(json));
   assert.ok(back);

@@ -1,5 +1,5 @@
 /*
- * LIGHT — Alerte discrète en trois appuis (reprise du prototype SafeElle).
+ * SafeHer — Alerte discrète en trois appuis (reprise du prototype SafeElle).
  * 3 tapes rapides (moins de 1,5 s) sur la zone d'affichage de la calculatrice :
  *  - l'enregistrement démarre tout de suite, rien ne change à l'écran ;
  *  - 3 nouvelles tapes dans les 5 s : annulation, rien n'est gardé ni envoyé ;

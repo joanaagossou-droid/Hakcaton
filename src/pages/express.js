@@ -1,6 +1,6 @@
 /**
  * NUKUN — Parcours express du jury (5 minutes) :
- * choisir HAVEN ou LIGHT → analyse → T4 et T6 → score, défauts, correctifs → comparaison et export.
+ * choisir HAVEN ou SafeHer → analyse → T4 et T6 → score, défauts, correctifs → comparaison et export.
  * Les 30 critères restent accessibles à tout moment (mode complet).
  */
 import { h, toast } from '../utils/dom.js';
@@ -41,9 +41,9 @@ export function renderExpressStart(ctx) {
     h('p', null, 'Vous allez jouer le rôle de l\'auditeur : NUKUN analyse le site, vous exécutez deux scénarios du Test de l\'agresseur intime sur votre téléphone, puis vous voyez le score, les défauts et les correctifs.'),
     h('div', { class: 'grid two' },
       choice('haven', 'HAVEN', 'La plateforme fictive « avant » : elle se présente comme un refuge, mais expose-t-elle Afi ?', 'red'),
-      choice('light', 'LIGHT', 'La plateforme fictive « après » : HAVEN reconstruite avec le kit NUKUN. Est-elle vraiment plus sûre ?', 'green')),
+      choice('safeher', 'SafeHer', 'La plateforme fictive « après » : HAVEN reconstruite avec le kit NUKUN. Est-elle vraiment plus sûre ?', 'green')),
     status,
-    h('p', { class: 'small muted' }, 'HAVEN et LIGHT sont des sites FICTIFS. Les critères qui demandent un humain sont pré-remplis par l\'évaluation de référence de l\'équipe (auto-évaluation) ; vous pouvez tous les revoir dans le mode complet.'),
+    h('p', { class: 'small muted' }, 'HAVEN et SafeHer sont des sites FICTIFS. Les critères qui demandent un humain sont pré-remplis par l\'évaluation de référence de l\'équipe (auto-évaluation) ; vous pouvez tous les revoir dans le mode complet.'),
     h('p', null, h('a', { href: '#/nouvel-audit' }, `Préférer le parcours complet (30 critères, ${ctx.data.scenarios.length} scénarios)`)));
 }
 
@@ -114,12 +114,12 @@ export function renderExpressStep(ctx, id, step) {
       h('div', { class: 'row' }, h('a', { class: 'btn secondary', href: `#/audit/${id}/rapport` }, 'Rapport complet'), h('a', { class: 'btn secondary', href: '#/kit' }, 'Kit de correctifs')));
   } else {
     body = h('div', { class: 'stack' },
-      h('h1', null, 'De HAVEN à LIGHT'),
-      h('p', null, 'Le plan de correction de NUKUN a été appliqué à HAVEN : elle est devenue LIGHT. Comparez les deux, calculés par le même moteur.'),
+      h('h1', null, 'De HAVEN à SafeHer'),
+      h('p', null, 'Le plan de correction de NUKUN a été appliqué à HAVEN : elle est devenue SafeHer. Comparez les deux, calculés par le même moteur.'),
       h('div', { class: 'row' },
-        h('a', { class: 'btn', href: '#/comparer' }, 'Comparer HAVEN et LIGHT'),
+        h('a', { class: 'btn', href: '#/comparer' }, 'Comparer HAVEN et SafeHer'),
         h('button', { type: 'button', class: 'btn secondary', onclick: () => exportPdf('risks', r, data) }, 'Exporter la fiche de risques (PDF)'),
-        h('a', { class: 'btn secondary', href: '#/express' }, `Auditer ${audit.meta.caseId === 'haven' ? 'LIGHT' : 'HAVEN'}`)),
+        h('a', { class: 'btn secondary', href: '#/express' }, `Auditer ${audit.meta.caseId === 'haven' ? 'SafeHer' : 'HAVEN'}`)),
       h('p', { class: 'message' }, ctx.t.centralMessage));
   }
   return h('div', { class: 'stack' }, head, body, nav);

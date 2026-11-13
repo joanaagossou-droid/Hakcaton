@@ -2,7 +2,7 @@
  * NUKUN — Orchestration de l'analyse côté navigateur.
  *
  * Trois modes, du plus direct au plus prudent :
- *  1. « navigateur » : l'adresse est sur le même site que NUKUN (HAVEN, LIGHT) ;
+ *  1. « navigateur » : l'adresse est sur le même site que NUKUN (HAVEN, SafeHer) ;
  *     le navigateur lit lui-même les pages (règle de même origine respectée).
  *  2. « serveur »    : autre site de la liste autorisée ; la fonction serveur
  *     légère /api/analyze fait la lecture passive (protégée contre la SSRF).
@@ -11,7 +11,7 @@
  */
 import { runAnalysis } from './analyzer-core.js';
 
-const DEMO_PATHS = ['/haven/', '/light/'];
+const DEMO_PATHS = ['/haven/', '/safeher/'];
 
 export function isSameOrigin(url) {
   try { return new URL(url, location.href).origin === location.origin; } catch { return false; }
@@ -53,7 +53,7 @@ export async function analyze(url) {
   if (!/^https?:$/.test(u.protocol)) return { ok: false, code: 'protocol', message: 'Seuls http et https sont acceptés.' };
 
   if (isSameOrigin(u.href)) {
-    if (!isLocalDemo(u.href)) return { ok: false, code: 'not-allowed', message: 'Sur ce site, seules les démonstrations /haven/ et /light/ sont analysables.' };
+    if (!isLocalDemo(u.href)) return { ok: false, code: 'not-allowed', message: 'Sur ce site, seules les démonstrations /haven/ et /safeher/ sont analysables.' };
     try {
       const result = await runAnalysis(u.href, browserFetcher, { mode: 'navigateur' });
       return { ok: true, result };
@@ -81,7 +81,7 @@ export async function analyze(url) {
 
 /** Plan de secours : analyse enregistrée à l'avance (générée par tools/snapshot-analyses.mjs). */
 export async function loadSnapshot(caseId) {
-  if (!['haven', 'light'].includes(caseId)) return null;
+  if (!['haven', 'safeher'].includes(caseId)) return null;
   try {
     const r = await fetch(`src/data/snapshots/${caseId}.json`, { credentials: 'omit' });
     if (!r.ok) return null;

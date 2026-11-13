@@ -3,7 +3,7 @@
  *
  * Sources possibles d'une évaluation de critère, de la plus forte à la plus faible :
  *   manual    → réponse saisie par l'auditeur (toujours prioritaire)
- *   reference → évaluation de référence de l'équipe pour HAVEN / LIGHT (remplaçable)
+ *   reference → évaluation de référence de l'équipe pour HAVEN / SafeHer (remplaçable)
  *   scenario  → verdict d'un scénario du Test de l'agresseur intime (🧪)
  *   analyzer  → constat de l'analyse automatique (🤖)
  *
@@ -46,7 +46,7 @@ export function createAudit(meta = {}, now = new Date().toISOString()) {
       audience: clean(meta.audience, 200),
       auditType: AUDIT_TYPES[meta.auditType] ? meta.auditType : 'self',
       mode: meta.mode === 'design' ? 'design' : 'audit',
-      caseId: ['haven', 'light'].includes(meta.caseId) ? meta.caseId : null,
+      caseId: ['haven', 'safeher'].includes(meta.caseId) ? meta.caseId : null,
       usesAI: !!meta.usesAI,
       express: !!meta.express
     },
@@ -111,7 +111,7 @@ export function setManual(audit, criterionId, value) {
   return resolveAssessments(audit);
 }
 
-/** Charge l'évaluation de référence de l'équipe (HAVEN / LIGHT). */
+/** Charge l'évaluation de référence de l'équipe (HAVEN / SafeHer). */
 export function applyReference(audit, ref, { scenarios = true } = {}) {
   audit.reference = { case: ref.case, testedBy: ref.testedBy, testedOn: ref.testedOn, note: ref.note };
   for (const [id, a] of Object.entries(ref.assessments)) {

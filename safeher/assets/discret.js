@@ -1,4 +1,4 @@
-/* LIGHT — Réglages du mode discret : calcul secret et calcul leurre choisis par la personne,
+/* SafeHer — Réglages du mode discret : calcul secret et calcul leurre choisis par la personne,
    notification camouflée, effacement. Aucun envoi réseau. */
 (function () {
   'use strict';
@@ -74,14 +74,14 @@
     }).then(function () {
       ['current', 'secret', 'secret2', 'decoy'].forEach(function (id) { $(id).value = ''; });
       refresh();
-      say('Calcul secret enregistré. Ouvrez la calculatrice, tapez-le puis « = » pour ouvrir Light. Retenez-le bien.');
+      say('Calcul secret enregistré. Ouvrez la calculatrice, tapez-le puis « = » pour ouvrir SafeHer. Retenez-le bien.');
     }).catch(function (e) {
       say(e && e.message === 'code' ? 'Calcul secret actuel incorrect : rien n’a été changé.' : 'Enregistrement impossible sur ce navigateur.', true);
     });
   });
 
   $('camo-wipe').addEventListener('click', function () {
-    if (!window.confirm('Effacer votre calcul secret, les réglages, les messages et les preuves de Light sur ce téléphone ?')) return;
+    if (!window.confirm('Effacer votre calcul secret, les réglages, les messages et les preuves de SafeHer sur ce téléphone ?')) return;
     var CORE = window.LIGHT_CORE;
     (CORE ? CORE.wipeAll() : Promise.resolve()).then(function () {
       CAMO.wipe();

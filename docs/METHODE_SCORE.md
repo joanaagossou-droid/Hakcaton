@@ -31,7 +31,7 @@ Le référentiel du mémoire est complet : les 30 critères sont repris à l'ide
 
 ## Fusion des sources d'un critère
 
-- La saisie de l'auditeur prime, puis l'évaluation de référence de l'équipe (pour HAVEN et LIGHT).
+- La saisie de l'auditeur prime, puis l'évaluation de référence de l'équipe (pour HAVEN et SafeHer).
 - Entre l'analyse automatique et les scénarios, la note la plus basse est retenue (prudence).
 - Si un scénario donne une note plus basse qu'une saisie, l'écart est affiché « à revoir ».
 
@@ -50,8 +50,8 @@ C = 9/10 × 25 = 22,5 · S = 20 · A = 8/10 × 15 = 12 · R = 20 · N = 10 · E 
 | | Score | Feu | Bloquants en échec |
 |---|---:|---|---|
 | HAVEN | 7 (brut 6,8) | Rouge | C1, C2, S1, R1 |
-| LIGHT, serveur local HTTP | 83 | Vert | aucun |
-| LIGHT, en ligne HTTPS (mesuré le 13/11/2026) | 85 | Vert | aucun |
+| SafeHer, serveur local HTTP | 83 | Vert | aucun |
+| SafeHer, en ligne HTTPS (mesuré le 13/11/2026) | 85 | Vert | aucun |
 | HAVEN, en ligne HTTPS (mesuré) | 9 | Rouge | C1, C2, S1, R1 |
 
-Points non validés de LIGHT, affichés dans le rapport : A3 (langues nationales), A5 (test utilisateur), R2 et E1 (contacts fictifs non vérifiés), A2 (langage non testé avec un public peu scolarisé), E2 (déclaré), E5 (pas de relecture par une structure spécialisée), S5 en local.
+Points non validés de SafeHer, affichés dans le rapport : A3 (langues nationales), A5 (test utilisateur), R2 et E1 (contacts fictifs non vérifiés), A2 (langage non testé avec un public peu scolarisé), E2 (déclaré), E5 (pas de relecture par une structure spécialisée), S5 en local.

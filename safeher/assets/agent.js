@@ -1,5 +1,5 @@
 /*
- * LIGHT — Console agent de démonstration (reprise simplifiée du prototype SafeElle).
+ * SafeHer — Console agent de démonstration (reprise simplifiée du prototype SafeElle).
  * Lit les messages vocaux et les alertes enregistrés dans CE navigateur (IndexedDB).
  * Contrôle humain (critère R3) : le repérage de mots SUGGÈRE une priorité, l'agent DÉCIDE.
  * Construite sans insertion HTML.

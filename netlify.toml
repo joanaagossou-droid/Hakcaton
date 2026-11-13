@@ -35,3 +35,10 @@
   to = "/404"
   status = 404
   force = true
+
+# Ancien nom du cas d'étude (LIGHT) : les anciens liens mènent à SafeHer.
+[[redirects]]
+  from = "/light/*"
+  to = "/safeher/:splat"
+  status = 301
+  force = true

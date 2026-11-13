@@ -70,7 +70,7 @@ export function allowlistFromEnv(env = process.env) {
   if (env.URL) {
     try {
       const self = new URL(env.URL).host;
-      list.push(`${self}/haven/`, `${self}/light/`);
+      list.push(`${self}/haven/`, `${self}/safeher/`);
     } catch { /* ignoré */ }
   }
   return list;

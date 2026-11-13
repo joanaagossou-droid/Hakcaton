@@ -1,11 +1,11 @@
 /*
- * LIGHT — Correctifs du kit NUKUN appliqués (aucune dépendance, aucun appel réseau).
+ * SafeHer — Correctifs du kit NUKUN appliqués (aucune dépendance, aucun appel réseau).
  *  1. Sortie rapide (K-EXIT) : bouton [data-quick-exit] + touche Échap.
  *  2. Bandeau « appareil surveillé ? » (K-BANNER) : masquable pour la session seulement.
  *  3. Formulaire minimal (K-FORM) : anonyme par défaut, rien n'est envoyé ni enregistré.
- *  4. Mode discret (camouflage « Calculatrice ») : si Light a été ouverte depuis la calculatrice,
+ *  4. Mode discret (camouflage « Calculatrice ») : si SafeHer a été ouverte depuis la calculatrice,
  *     « Quitter », Échap et le passage en arrière-plan ramènent à la calculatrice, et la
- *     navigation REMPLACE l'entrée d'historique (« Retour » ne peut jamais ramener à Light).
+ *     navigation REMPLACE l'entrée d'historique (« Retour » ne peut jamais ramener à SafeHer).
  */
 (function () {
   'use strict';
@@ -41,7 +41,7 @@
     var call = e.target && e.target.closest ? e.target.closest('[data-confirm-call]') : null;
     if (call && !window.confirm('Appel RÉEL vers le ' + call.getAttribute('data-confirm-call') + '. À utiliser seulement en cas de besoin réel. Continuer ?')) { e.preventDefault(); return; }
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
-    // Ouvrir la calculatrice REMPLACE la page de Light : « Retour » depuis la calculatrice ne ramène jamais à Light.
+    // Ouvrir la calculatrice REMPLACE la page de SafeHer : « Retour » depuis la calculatrice ne ramène jamais à SafeHer.
     if (a && !a.target && /(^|\/)calculatrice\.html$/.test(a.getAttribute('href') || '')) {
       e.preventDefault();
       window.location.replace(new URL(a.getAttribute('href'), location.href).href);
@@ -51,7 +51,7 @@
     if (a && camouflaged() && !a.target && !e.defaultPrevented) {
       var u;
       try { u = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
-      if (u.origin === location.origin && u.pathname.indexOf('/light/') >= 0) {
+      if (u.origin === location.origin && u.pathname.indexOf('/safeher/') >= 0) {
         e.preventDefault();
         window.location.replace(u.href);
       }

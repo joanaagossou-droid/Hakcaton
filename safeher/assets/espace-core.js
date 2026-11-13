@@ -1,5 +1,5 @@
 /*
- * LIGHT — Noyau de l'espace protégé (repris du prototype SafeElle, adapté).
+ * SafeHer — Noyau de l'espace protégé (repris du prototype SafeElle, adapté).
  * PROTOTYPE DE DÉMONSTRATION : situations et données fictives uniquement.
  *
  *  - Stockage local : IndexedDB « calc-cache » (nom neutre), rien n'est envoyé à un serveur.
@@ -257,7 +257,7 @@
   }
 
   /* ---------- Assistante (règles locales, aucune IA externe) ----------
-     Contacts : numéros FICTIFS de LIGHT (aucun numéro réel n'est publié tant qu'il n'est pas vérifié). */
+     Contacts : numéros FICTIFS de SafeHer (aucun numéro réel n'est publié tant qu'il n'est pas vérifié). */
   var HELP_LINES = 'Où trouver de l’aide (numéros FICTIFS de démonstration, voir la page Contacts) :\n• Services de sécurité, danger immédiat : 00 00 01 04\n• Assistance sociale et écoute : 00 00 01 01\n• Assistance juridique : 00 00 01 03\n• Assistance numérique : 00 00 01 05';
   var CONSTATS = {
     menace: 'Ce que tu décris ressemble à des menaces. Menacer quelqu’un, en ligne ou en face, est une violence.',

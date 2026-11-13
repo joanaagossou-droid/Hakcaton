@@ -8,9 +8,9 @@
 | Captures jointes | `localStorage`, réduites à 640 px, ré-encodées en JPEG (métadonnées EXIF/GPS supprimées) | Idem | Non (exclues de l'export JSON par défaut) |
 | Adresse soumise à l'analyse serveur | Mémoire vive de la fonction | Durée de la requête + cache de 5 min du résultat | Uniquement à la fonction NUKUN |
 | Adresse IP du client de l'analyse | Mémoire vive | 1 minute au plus (limitation de débit) | Non |
-| LIGHT : choix « bandeau vu » | `sessionStorage` | Fin de session | Non |
+| SafeHer : choix « bandeau vu » | `sessionStorage` | Fin de session | Non |
 
-NUKUN ne demande jamais d'information sur une survivante. HAVEN et LIGHT n'envoient ni n'enregistrent rien (formulaires sans action ni bouton `submit` ; vérifié par test).
+NUKUN ne demande jamais d'information sur une survivante. HAVEN et SafeHer n'envoient ni n'enregistrent rien (formulaires sans action ni bouton `submit` ; vérifié par test).
 
 ## Journaux techniques
 

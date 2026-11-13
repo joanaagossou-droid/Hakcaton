@@ -74,7 +74,7 @@
   X-Frame-Options: DENY
   X-Robots-Tag: noindex, nofollow
 
-/light/*
+/safeher/*
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; media-src 'self' blob:
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
@@ -85,7 +85,7 @@
   X-Robots-Tag: noindex, nofollow, noarchive
   Cache-Control: no-store
 
-/light/manifest.webmanifest
+/safeher/manifest.webmanifest
   Content-Type: application/manifest+json; charset=utf-8
 
 /haven/*

@@ -1,4 +1,4 @@
-/** F1, F4 — Analyse réelle de HAVEN et LIGHT + calcul du score par le moteur (aucun score défini à la main). */
+/** F1, F4 — Analyse réelle de HAVEN et SafeHer + calcul du score par le moteur (aucun score défini à la main). */
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { runAnalysis } from '../../src/modules/url-analyzer/analyzer-core.js';
@@ -15,11 +15,11 @@ async function fullAudit(base, site) {
   return { audit, analysis, score: computeScore(audit.assessments, referential) };
 }
 
-test('HAVEN et LIGHT : analyse réelle, résultats réellement différents', async () => {
+test('HAVEN et SafeHer : analyse réelle, résultats réellement différents', async () => {
   const s = await startServer();
   try {
     const haven = await fullAudit(s.base, 'haven');
-    const light = await fullAudit(s.base, 'light');
+    const light = await fullAudit(s.base, 'safeher');
 
     // F4 : chaque défaut observable de HAVEN est détecté
     const hf = Object.fromEntries(haven.analysis.findings.map((f) => [f.id, f.status]));
@@ -30,23 +30,23 @@ test('HAVEN et LIGHT : analyse réelle, résultats réellement différents', asy
     assert.equal(hf.privacy, 'partial');
     assert.equal(hf.weight, 'not_detected');
     assert.equal(hf['cookies-consent'], 'detected');
-    // … et aucun faux problème sur LIGHT
+    // … et aucun faux problème sur SafeHer
     const lf = Object.fromEntries(light.analysis.findings.map((f) => [f.id, f.status]));
     for (const id of ['trackers', 'pixels', 'third-party', 'required-ident']) assert.equal(lf[id], 'not_detected', id);
     for (const id of ['quick-exit', 'phones', 'privacy', 'weight', 'local-traces', 'device-warning']) assert.equal(lf[id], 'detected', id);
     // Mode discret : la calculatrice est déclarée page de camouflage, signalée dans les constats
     assert.equal(lf.camouflage, 'detected');
-    assert.ok(light.analysis.pages.some((p) => p.url.endsWith('/light/calculatrice.html')), 'calculatrice analysée');
+    assert.ok(light.analysis.pages.some((p) => p.url.endsWith('/safeher/calculatrice.html')), 'calculatrice analysée');
     assert.match(light.analysis.findings.find((f) => f.id === 'quick-exit').evidence, /camouflage déclarée/);
 
-    // F1 : HAVEN rouge et plafonnée ; LIGHT verte sans critère bloquant en échec, mais pas 100
+    // F1 : HAVEN rouge et plafonnée ; SafeHer verte sans critère bloquant en échec, mais pas 100
     assert.equal(haven.score.light, 'red');
     assert.ok(haven.score.score <= 49);
     assert.deepEqual(haven.score.blockingFailures.sort(), ['C1', 'C2', 'R1', 'S1']);
     assert.equal(light.score.blockingFailures.length, 0);
     assert.equal(light.score.light, 'green');
-    assert.ok(light.score.score >= 80 && light.score.score < 100, `LIGHT = ${light.score.score}`);
-    console.log(`    HAVEN : ${haven.score.score}/100 (brut ${haven.score.rawScore}) · LIGHT : ${light.score.score}/100 (brut ${light.score.rawScore}, en HTTP local)`);
+    assert.ok(light.score.score >= 80 && light.score.score < 100, `SafeHer = ${light.score.score}`);
+    console.log(`    HAVEN : ${haven.score.score}/100 (brut ${haven.score.rawScore}) · SafeHer : ${light.score.score}/100 (brut ${light.score.rawScore}, en HTTP local)`);
   } finally { await s.close(); }
 });
 

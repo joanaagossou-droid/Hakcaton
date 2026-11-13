@@ -1,6 +1,6 @@
 /**
  * NUKUN — Essai de charge local, sans dépendance (Node ≥ 18).
- * Simule des visiteurs qui chargent NUKUN, HAVEN et LIGHT, sur le serveur LOCAL uniquement.
+ * Simule des visiteurs qui chargent NUKUN, HAVEN et SafeHer, sur le serveur LOCAL uniquement.
  * Ce n'est pas un essai de l'hébergement en ligne : pour celui-ci, utiliser tests/load/k6-nukun.js
  * sur VOS adresses, dans le respect des conditions de l'hébergeur.
  *
@@ -13,7 +13,7 @@ import { startServer, ROOT } from '../helpers.mjs';
 
 const USERS = Number(process.argv[2] || 200);
 const SECONDS = Number(process.argv[3] || 30);
-const PAGES = ['/', '/src/app.js', '/src/styles/main.css', '/src/data/criteria.json', '/haven/', '/haven/assets/gtag-sim.js', '/light/', '/light/ecrire.html', '/light/assets/light.js', '/light/assets/light.css'];
+const PAGES = ['/', '/src/app.js', '/src/styles/main.css', '/src/data/criteria.json', '/haven/', '/haven/assets/gtag-sim.js', '/safeher/', '/safeher/ecrire.html', '/safeher/assets/safeher.js', '/safeher/assets/safeher.css'];
 
 const own = process.env.BASE ? null : await startServer();
 const BASE = process.env.BASE || own.base;

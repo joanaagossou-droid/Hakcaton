@@ -13,14 +13,14 @@ import { go, refresh } from '../app.js';
 // ---------------------------------------------------------------------------
 export function renderNew(ctx, params) {
   const mode = params.get('mode') === 'design' ? 'design' : 'audit';
-  const presetCase = ['haven', 'light'].includes(params.get('cas')) ? params.get('cas') : '';
+  const presetCase = ['haven', 'safeher'].includes(params.get('cas')) ? params.get('cas') : '';
   const f = {};
   const field = (id, label, el, help) => h('div', null, h('label', { class: 'field', for: id }, label), el, help ? h('p', { class: 'help', id: id + '-help' }, help) : null);
 
   f.case = h('select', { id: 'case' },
     h('option', { value: '' }, 'Autre outil (adresse à saisir)'),
     h('option', { value: 'haven', selected: presetCase === 'haven' }, 'Cas fictif HAVEN (avant correction)'),
-    h('option', { value: 'light', selected: presetCase === 'light' }, 'Cas fictif LIGHT (après correction)'));
+    h('option', { value: 'safeher', selected: presetCase === 'safeher' }, 'Cas fictif SafeHer (après correction)'));
   f.url = h('input', { id: 'url', type: 'url', inputmode: 'url', autocomplete: 'off', placeholder: 'https://exemple.org/', maxlength: 2048, 'aria-describedby': 'url-help' });
   f.name = h('input', { id: 'name', type: 'text', maxlength: 120, autocomplete: 'off', required: true });
   f.type = h('select', { id: 'type' }, ['Site web', 'Application mobile', 'Chatbot', 'Outil utilisant l\'IA', 'Plateforme de signalement', 'Autre'].map((x) => h('option', null, x)));
@@ -37,7 +37,7 @@ export function renderNew(ctx, params) {
     if (c) {
       f.url.value = demoUrl(c);
       f.url.readOnly = true;
-      f.name.value = c === 'haven' ? 'HAVEN (fictif, avant correction)' : 'LIGHT (fictif, après correction)';
+      f.name.value = c === 'haven' ? 'HAVEN (fictif, avant correction)' : 'SafeHer (fictif, après correction)';
       f.func.value = 'Informer, orienter et recevoir des demandes d\'aide (démonstration)';
       f.aud.value = 'Survivantes et survivants de VBG-FT, proches, témoins';
     } else { f.url.readOnly = false; }

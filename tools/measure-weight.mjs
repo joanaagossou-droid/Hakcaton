@@ -1,6 +1,6 @@
 /**
  * Mesure le poids du premier chargement (brut et compressé gzip, comme le ferait l'hébergeur)
- * de NUKUN et de chaque page de LIGHT et HAVEN. Objectifs : NUKUN < 300 Ko, page LIGHT < 150 Ko.
+ * de NUKUN et de chaque page de SafeHer et HAVEN. Objectifs : NUKUN < 300 Ko, page SafeHer < 150 Ko.
  *   node tools/measure-weight.mjs
  */
 import fs from 'node:fs';
@@ -20,11 +20,11 @@ const sw = fs.readFileSync(path.join(root, 'service-worker.js'), 'utf8');
 const pre = JSON.parse(sw.match(/\/\*PRECACHE\*\/([\s\S]*?)\/\*END\*\//)[1]).filter((f) => f !== './' && !/icon-512|snapshots/.test(f));
 const nukun = size(pre);
 const rows = [['NUKUN (premier chargement complet)', nukun, 300 * 1024]];
-for (const dir of ['light', 'haven']) {
+for (const dir of ['safeher', 'haven']) {
   for (const page of fs.readdirSync(path.join(root, dir)).filter((x) => x.endsWith('.html'))) {
     const html = fs.readFileSync(path.join(root, dir, page), 'utf8');
     const assets = [...html.matchAll(/(?:src|href)="(assets\/[^"]+)"/g)].map((m) => `${dir}/${m[1]}`);
-    rows.push([`${dir.toUpperCase()} ${page}`, size([`${dir}/${page}`, ...new Set(assets)]), dir === 'light' ? 150 * 1024 : null]);
+    rows.push([`${dir.toUpperCase()} ${page}`, size([`${dir}/${page}`, ...new Set(assets)]), dir === 'safeher' ? 150 * 1024 : null]);
   }
 }
 const out = rows.map(([name, s, max]) => ({ page: name, brut: kb(s.raw), compresse_gzip: kb(s.gz), objectif: max ? `< ${kb(max)}` : '—', respecte: max ? s.gz < max && s.raw < max * 2 : null }));

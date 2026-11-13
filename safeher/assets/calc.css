@@ -1,4 +1,4 @@
-/* LIGHT — apparence « Calculatrice » (camouflage). Aucune police externe. */
+/* SafeHer — apparence « Calculatrice » (camouflage). Aucune police externe. */
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; background: #1c1c1e; color: #fff; -webkit-tap-highlight-color: transparent; display: flex; flex-direction: column; }

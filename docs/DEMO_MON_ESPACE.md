@@ -1,13 +1,13 @@
-# Démonstration au jury : « Mon espace » de LIGHT (environ 3 minutes)
+# Démonstration au jury : « Mon espace » de SafeHer (environ 3 minutes)
 
 Prototype : **situations inventées uniquement**. Tout se passe dans le même navigateur ; aucun service réel n'est contacté.
 
 ## Avant la démonstration (une fois, au calme)
-1. Ouvrir https://nukun-demo.netlify.app/light/espace.html sur le téléphone de démonstration.
+1. Ouvrir https://nukun-demo.netlify.app/safeher/espace.html sur le téléphone de démonstration.
 2. **Mode discret** : choisir un calcul secret personnel (par exemple **47+15**, à retaper) et un calcul leurre (par exemple **100-25**). Il n'existe aucun code commun.
 3. **Mon espace → Alerte discrète** : choisir « Fon », un prénom inventé (« Étoile »), saisir le calcul secret, puis **Autoriser le micro et préparer**.
 4. **Mon espace → Confiance** : enregistrer une personne de confiance fictive (« Tonton Koffi », grand frère) et cocher « transmettre en cas d'alerte ».
-5. Ouvrir dans un **deuxième onglet** la console : https://nukun-demo.netlify.app/light/agent.html
+5. Ouvrir dans un **deuxième onglet** la console : https://nukun-demo.netlify.app/safeher/agent.html
 
 ## Déroulé
 | Temps | Écran | Action | À dire |
@@ -33,5 +33,5 @@ Prototype sans serveur : la console lit le même navigateur ; l'assistante fonct
 Dans le parcours jury, vous jouez T4 et T6 en direct. Les autres scénarios **comptent quand même dans le score** : ils ont été testés par l'équipe et leurs verdicts sont affichés à l'étape « Score et correctifs », dans « Et les autres scénarios ? », avec ce qui a été constaté. Le bouton « Rejouer ces scénarios » permet au jury de les refaire lui-même : son verdict remplace celui de l'équipe. Réponse type : « Nous en faisons jouer deux en direct pour tenir en cinq minutes ; les neuf sont dans l'audit, documentés, et vous pouvez rejouer n'importe lequel. »
 
 ## Les deux scénarios du contexte béninois
-- **T8, le voisin témoin** : un voisin entend que le père frappe sa fille ; peut-il signaler pour une autre personne, sans donner son nom ? (HAVEN : exposé ; LIGHT : protégé, option « Pour une autre personne ».)
-- **T9, elle ne lit pas le français** : peut-elle demander de l'aide dans sa langue et être écoutée par une personne ? (HAVEN : exposé ; LIGHT : partiel, message vocal en langue nationale vers un agent, mais interface encore écrite en français.)
+- **T8, le voisin témoin** : un voisin entend que le père frappe sa fille ; peut-il signaler pour une autre personne, sans donner son nom ? (HAVEN : exposé ; SafeHer : protégé, option « Pour une autre personne ».)
+- **T9, elle ne lit pas le français** : peut-elle demander de l'aide dans sa langue et être écoutée par une personne ? (HAVEN : exposé ; SafeHer : partiel, message vocal en langue nationale vers un agent, mais interface encore écrite en français.)

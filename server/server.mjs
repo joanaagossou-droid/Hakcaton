@@ -18,7 +18,7 @@ import { headersFor } from './headers.mjs';
 import { createAnalyzeService, allowlistFromEnv } from './analyze-handler.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const PUBLIC_DIRS = ['src', 'public', 'haven', 'light'];
+const PUBLIC_DIRS = ['src', 'public', 'haven', 'safeher'];
 const PUBLIC_FILES = ['index.html', 'manifest.webmanifest', 'service-worker.js', 'robots.txt'];
 
 const MIME = {
@@ -71,7 +71,7 @@ export function createServer({ allowlist = allowlistFromEnv(), quiet = false } =
 
     // --- Fichiers statiques ---
     if (req.method !== 'GET' && req.method !== 'HEAD') { res.writeHead(405, headers); return res.end(); }
-    if (url.pathname === '/haven' || url.pathname === '/light') { res.writeHead(301, { ...headers, Location: url.pathname + '/' }); return res.end(); }
+    if (url.pathname === '/haven' || url.pathname === '/safeher') { res.writeHead(301, { ...headers, Location: url.pathname + '/' }); return res.end(); }
     const file = resolveStatic(url.pathname);
     if (!file) { res.writeHead(404, { ...headers, 'Content-Type': 'text/plain; charset=utf-8' }); return res.end('Introuvable'); }
     try {
@@ -89,7 +89,7 @@ export function createServer({ allowlist = allowlistFromEnv(), quiet = false } =
   }).on('listening', function () {
     if (!quiet) {
       const a = this.address();
-      console.log(`NUKUN en local : http://localhost:${a.port}/  (HAVEN : /haven/  ·  LIGHT : /light/)`);
+      console.log(`NUKUN en local : http://localhost:${a.port}/  (HAVEN : /haven/  ·  SafeHer : /safeher/)`);
     }
   });
 }

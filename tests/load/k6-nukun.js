@@ -28,7 +28,7 @@ export const options = {
   thresholds: { http_req_failed: ['rate<0.01'], http_req_duration: ['p(95)<2000'] }
 };
 
-const PAGES = ['/', '/src/app.js', '/src/styles/main.css', '/src/data/criteria.json', '/haven/', '/light/', '/light/ecrire.html'];
+const PAGES = ['/', '/src/app.js', '/src/styles/main.css', '/src/data/criteria.json', '/haven/', '/safeher/', '/safeher/ecrire.html'];
 
 export default function () {
   for (const p of PAGES) {

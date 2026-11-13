@@ -85,7 +85,7 @@ export function renderReport(ctx, id) {
     disclaimer(),
     kpis,
     h('section', { class: 'grid two' },
-      h('div', { class: 'panel' }, h('h2', null, 'Scores par pilier'), pillarBars(s.pillars), h('p', { class: 'small muted' }, 'Pilier = points obtenus ÷ points possibles hors N/A. Voir « Méthode ».')),
+      h('div', { class: 'panel' }, h('h2', null, 'Scores par pilier'), pillarBars(s.pillars), h('p', { class: 'small muted' }, 'Chaque famille : points obtenus sur points possibles. Voir « Le score expliqué ».')),
       h('div', { class: 'panel' }, h('h2', null, 'Répartition des 30 critères'), donut(s.counts), h('h3', null, 'Niveaux de preuve'), proofBar(s.proofCounts))),
     h('section', { class: 'panel' },
       h('h2', null, 'Test de l\'agresseur intime'),
@@ -141,7 +141,7 @@ export async function renderCompare(ctx, params) {
   if (!before || !after) {
     demo = true;
     if (!demoCache || params.get('recalculer') === '1') {
-      const [hv, lt] = await Promise.all([buildCaseAudit(data, 'haven'), buildCaseAudit(data, 'light')]);
+      const [hv, lt] = await Promise.all([buildCaseAudit(data, 'haven'), buildCaseAudit(data, 'safeher')]);
       demoCache = { hv, lt };
     }
     before = demoCache.hv.audit;
@@ -153,7 +153,7 @@ export async function renderCompare(ctx, params) {
   const cmp = compareReports(rb, ra);
 
   const pick = (label, key, current) => {
-    const sel = h('select', { 'aria-label': label }, h('option', { value: '' }, '— Démonstration HAVEN → LIGHT —'), audits.map((a) => h('option', { value: a.id, selected: current && current.id === a.id && !demo }, `${a.meta.projectName} (${fmtDate(a.updatedAt)})`)));
+    const sel = h('select', { 'aria-label': label }, h('option', { value: '' }, '— Démonstration HAVEN → SafeHer —'), audits.map((a) => h('option', { value: a.id, selected: current && current.id === a.id && !demo }, `${a.meta.projectName} (${fmtDate(a.updatedAt)})`)));
     sel.addEventListener('change', () => {
       const p = new URLSearchParams(location.hash.split('?')[1] || '');
       if (sel.value) p.set(key, sel.value); else p.delete(key);
@@ -168,7 +168,7 @@ export async function renderCompare(ctx, params) {
   };
 
   return h('div', { class: 'stack' },
-    h('h1', null, demo ? 'De HAVEN à LIGHT : avant / après' : 'Comparaison avant / après'),
+    h('h1', null, demo ? 'De HAVEN à SafeHer : avant / après' : 'Comparaison avant / après'),
     demo ? h('p', { class: 'notice small' }, 'Ces deux scores sont calculés à l\'instant par le moteur NUKUN : analyse automatique réelle des deux sites fictifs, puis évaluation de référence de l\'équipe pour les critères humains (auto-évaluation, non certifiée). Aucun score n\'est fixé à la main.') : null,
     notes.map((n) => h('p', { class: 'notice warn small' }, n)),
     h('div', { class: 'panel row no-print' }, pick('Avant', 'avant', before), pick('Après', 'apres', after),

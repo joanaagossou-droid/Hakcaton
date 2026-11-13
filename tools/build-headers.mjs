@@ -24,8 +24,8 @@ const out = [
   block('/robots.txt', nukun),
   block('/src/*', nukun),
   block('/public/*', nukun),
-  block('/light/*', byId.light),
-  block('/light/manifest.webmanifest', { 'Content-Type': 'application/manifest+json; charset=utf-8' }),
+  block('/safeher/*', byId.safeher),
+  block('/safeher/manifest.webmanifest', { 'Content-Type': 'application/manifest+json; charset=utf-8' }),
   // HAVEN : le cookie de session fictif n'est déposé que sur les pages HTML.
   block('/haven/*', Object.fromEntries(Object.entries(byId.haven).filter(([k]) => k !== 'Set-Cookie'))),
   block('/haven/', { 'Set-Cookie': byId.haven['Set-Cookie'] }),

@@ -4,7 +4,7 @@
 
 ## Appareils (F5, F6, F10)
 
-| Appareil | Parcours jury complet sans blocage | Lisible sans zoom | Sortie rapide LIGHT (< 2 s, Retour OK) | Résultat |
+| Appareil | Parcours jury complet sans blocage | Lisible sans zoom | Sortie rapide SafeHer (< 2 s, Retour OK) | Résultat |
 |---|---|---|---|---|
 | Android d'entrée de gamme (1–2 Go) | ☐ | ☐ | ☐ | |
 | Android récent | ☐ | ☐ | ☐ | |
@@ -17,7 +17,7 @@
 
 ## Non-confusion (F13, E)
 
-- ☐ Trois personnes extérieures regardent HAVEN et LIGHT sur téléphone : comprennent-elles immédiatement qu'il s'agit de sites fictifs ? Reconnaissent-elles un site réel ? Noter leurs réponses mot pour mot.
+- ☐ Trois personnes extérieures regardent HAVEN et SafeHer sur téléphone : comprennent-elles immédiatement qu'il s'agit de sites fictifs ? Reconnaissent-elles un site réel ? Noter leurs réponses mot pour mot.
 
 ## Sécurité sur l'adresse publique (S-3, S-4, S-5, S-7)
 
@@ -25,7 +25,7 @@
 - ☐ OWASP ZAP : scan passif puis actif, **uniquement sur nos adresses** → aucune alerte haute ou moyenne non traitée.
 - ☐ `POST /api/analyze` avec `http://localhost/`, `http://169.254.169.254/`, une adresse hors liste → refus clair.
 - ☐ 30 analyses en 1 minute depuis un même téléphone → « Réessayez dans une minute ».
-- ☐ Onglet Réseau sur chaque page de NUKUN, HAVEN, LIGHT → aucune requête tierce.
+- ☐ Onglet Réseau sur chaque page de NUKUN, HAVEN, SafeHer → aucune requête tierce.
 
 ## Charge (C1–C5)
 

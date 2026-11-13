@@ -1,7 +1,7 @@
 {
   "name": "nukun",
   "version": "1.0.0",
-  "description": "NUKUN — plateforme d'audit Safety by Design des outils anti-VBG-FT (HACK4HER 2026, Défi 6). Inclut HAVEN (plateforme fictive vulnérable) et LIGHT (version corrigée).",
+  "description": "NUKUN — plateforme d'audit Safety by Design des outils anti-VBG-FT (HACK4HER 2026, Défi 6). Inclut HAVEN (plateforme fictive vulnérable) et SafeHer (version corrigée).",
   "private": true,
   "type": "module",
   "license": "MIT",

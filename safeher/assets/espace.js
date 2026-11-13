@@ -1,5 +1,5 @@
 /*
- * LIGHT — « Mon espace » : message vocal, réponse, assistante, coffre de preuves, alerte discrète.
+ * SafeHer — « Mon espace » : message vocal, réponse, assistante, coffre de preuves, alerte discrète.
  * Repris du prototype SafeElle et réécrit sans insertion HTML (textContent uniquement).
  * Prototype de démonstration : rien n'est envoyé hors de ce navigateur.
  */
@@ -229,7 +229,7 @@
   $('chat-send').addEventListener('click', function () { sendChat($('chat-in').value); });
   $('chat-in').addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat($('chat-in').value); } });
   $('chat-quick').addEventListener('click', function (e) { var b = e.target.closest('[data-q]'); if (b) sendChat(b.dataset.q); });
-  bubble('bot', 'Bonjour. Je suis l’assistante de Light. Racontez-moi ce qui se passe, ou collez un message reçu : je vous dirai ce que je repère. Démonstration : situation inventée uniquement.');
+  bubble('bot', 'Bonjour. Je suis l’assistante de SafeHer. Racontez-moi ce qui se passe, ou collez un message reçu : je vous dirai ce que je repère. Démonstration : situation inventée uniquement.');
 
   /* =========================================================
      4. Coffre de preuves (chiffré avec le code secret)

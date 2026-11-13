@@ -1,3 +1,3 @@
-# NUKUN, HAVEN et LIGHT sont des démonstrations : aucune page ne doit être indexée.
+# NUKUN, HAVEN et SafeHer sont des démonstrations : aucune page ne doit être indexée.
 User-agent: *
 Disallow: /

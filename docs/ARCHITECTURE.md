@@ -34,7 +34,7 @@ src/
   i18n/fr.js    textes d'interface (prêt pour d'autres langues)
   styles/main.css
 haven/          4 pages fictives avec défauts volontaires
-light/          4 pages fictives corrigées
+safeher/          4 pages fictives corrigées
 server/         server.mjs (serveur local), safe-fetch.mjs (anti-SSRF), analyze-handler.mjs, headers.mjs
 netlify/functions/   analyze.mjs, status.mjs (même logique que le serveur local)
 tests/          unit/, security/, e2e/, load/, manual/
@@ -48,9 +48,9 @@ docs/
 
 1. **Description** (`pages/audit.js → renderNew`) → `createAudit()`.
 2. **Analyse** (`client.analyze`) :
-   - adresse `/haven/` ou `/light/` du même site → lecture directe par le navigateur (mode « navigateur ») ;
+   - adresse `/haven/` ou `/safeher/` du même site → lecture directe par le navigateur (mode « navigateur ») ;
    - autre adresse → `POST /api/analyze` (mode « serveur », liste autorisée) ;
-   - échec → instantané daté pour HAVEN/LIGHT, sinon mode manuel.
+   - échec → instantané daté pour HAVEN/SafeHer, sinon mode manuel.
    Le résultat (`findings`, `suggestions`) est appliqué par `applyAnalysis()`.
 3. **Critères** : `setManual()` ; **scénarios** : `applyScenario()` propage le verdict aux critères liés.
 4. `resolveAssessments()` fusionne : saisie de l'auditeur > référence de l'équipe > sources automatiques (la plus basse retenue).
@@ -65,7 +65,7 @@ docs/
 
 ## Hors ligne
 
-Le service worker pré-cache l'application NUKUN (36 fichiers). Il ne met **jamais** en cache HAVEN, LIGHT ni `/api/` : pas de cache sensible, et l'analyse lit toujours la version en ligne. Hors ligne, la grille, les scénarios, les rapports, les exports et la comparaison (via les instantanés) fonctionnent ; l'analyse d'une adresse affiche « connexion nécessaire ».
+Le service worker pré-cache l'application NUKUN (36 fichiers). Il ne met **jamais** en cache HAVEN, SafeHer ni `/api/` : pas de cache sensible, et l'analyse lit toujours la version en ligne. Hors ligne, la grille, les scénarios, les rapports, les exports et la comparaison (via les instantanés) fonctionnent ; l'analyse d'une adresse affiche « connexion nécessaire ».
 
 ## Traduction
 

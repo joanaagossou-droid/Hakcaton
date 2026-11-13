@@ -1,5 +1,5 @@
 /*
- * LIGHT — Camouflage « Calculatrice » : calcul secret et calcul leurre CHOISIS PAR LA PERSONNE.
+ * SafeHer — Camouflage « Calculatrice » : calcul secret et calcul leurre CHOISIS PAR LA PERSONNE.
  *
  * Safety by Design :
  *  - aucun code universel : tant que la personne n'a pas choisi son calcul secret, la calculatrice

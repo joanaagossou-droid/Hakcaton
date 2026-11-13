@@ -16,7 +16,7 @@ const DATA_FILES = {
   scenariosFile: 'src/data/scenarios.json',
   correctionsFile: 'src/data/corrections.json',
   refHaven: 'src/data/reference/haven.json',
-  refLight: 'src/data/reference/light.json'
+  refSafeher: 'src/data/reference/safeher.json'
 };
 
 export const ctx = { data: null, t, store };
@@ -35,7 +35,7 @@ async function loadData() {
     scenarios: d.scenariosFile.scenarios,
     verdicts: d.scenariosFile.verdicts,
     corrections: d.correctionsFile.corrections,
-    reference: { haven: d.refHaven, light: d.refLight }
+    reference: { haven: d.refHaven, safeher: d.refSafeher }
   };
 }
 

@@ -1,6 +1,6 @@
 /**
  * Met à jour la liste de pré-cache et la version du service worker à partir des
- * fichiers réels de l'application NUKUN (HAVEN et LIGHT exclus volontairement),
+ * fichiers réels de l'application NUKUN (HAVEN et SafeHer exclus volontairement),
  * et affiche le poids total du premier chargement.
  *   node tools/gen-precache.mjs
  */

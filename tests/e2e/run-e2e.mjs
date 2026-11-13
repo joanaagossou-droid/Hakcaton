@@ -4,7 +4,7 @@
  *
  *   node tests/e2e/run-e2e.mjs            (BROWSER=chemin/vers/chrome.exe pour forcer)
  *
- * Vérifie : pages sans erreur, parcours jury HAVEN, comparaison HAVEN/LIGHT, sortie rapide et
+ * Vérifie : pages sans erreur, parcours jury HAVEN, comparaison HAVEN/SafeHer, sortie rapide et
  * historique (T4), absence de requête tierce, formulaires sans envoi, anti-injection (S-6),
  * mise en page mobile sans défilement horizontal, hors ligne après premier chargement,
  * téléchargement d'un PDF. Produit des captures d'écran dans tests/output/e2e/.
@@ -141,11 +141,11 @@ try {
   for (let i = 0; i < 40 && !pdfOk; i++) { await sleep(200); pdfOk = fs.readdirSync(OUT).filter((f) => f.endsWith('.pdf')).length > before; }
   check('Export PDF téléchargé localement', pdfOk);
 
-  // 4. Comparaison HAVEN → LIGHT calculée par le moteur
+  // 4. Comparaison HAVEN → SafeHer calculée par le moteur
   await evalJs('location.hash = "#/comparer"');
   await waitFor('document.querySelectorAll(".compare-cols .light-pill").length === 2', 20000);
   const scores = await evalJs('[...document.querySelectorAll(".compare-cols .light-pill")].map(e => parseInt(e.textContent))');
-  check('Comparaison : HAVEN rouge, LIGHT verte mais < 100', scores[0] <= 49 && scores[1] >= 80 && scores[1] < 100, `HAVEN ${scores[0]} · LIGHT ${scores[1]}`);
+  check('Comparaison : HAVEN rouge, SafeHer verte mais < 100', scores[0] <= 49 && scores[1] >= 80 && scores[1] < 100, `HAVEN ${scores[0]} · SafeHer ${scores[1]}`);
   await shot('05-comparaison');
 
   // 5. Anti-injection dans le nom de l'outil (S-6)
@@ -161,14 +161,14 @@ try {
   const origin = new URL(BASE).origin;
   requests.length = 0;
   let havenCookie = '';
-  for (const p of ['/haven/', '/haven/signaler.html', '/haven/recours.html', '/light/', '/light/ecrire.html']) {
+  for (const p of ['/haven/', '/haven/signaler.html', '/haven/recours.html', '/safeher/', '/safeher/ecrire.html']) {
     await nav(BASE + p);
     if (p === '/haven/') havenCookie = await evalJs('document.cookie');
   }
   const third = requests.filter((r) => !r.url.startsWith(origin) && !r.url.startsWith('data:') && !r.url.startsWith('about:'));
-  check('S-2 : aucune requête vers un domaine tiers (HAVEN avec traceur simulé, LIGHT)', third.length === 0, third.map((r) => r.url).join(', '));
+  check('S-2 : aucune requête vers un domaine tiers (HAVEN avec traceur simulé, SafeHer)', third.length === 0, third.map((r) => r.url).join(', '));
   const lightCookie = await evalJs('document.cookie');
-  check('HAVEN : cookie fictif _ga déposé localement sans envoi ; aucun cookie sur LIGHT', /_ga=GA1\.1\.demo-fictif/.test(havenCookie) && lightCookie === '', `HAVEN : ${havenCookie.slice(0, 50)} · LIGHT : ${lightCookie || 'aucun'}`);
+  check('HAVEN : cookie fictif _ga déposé localement sans envoi ; aucun cookie sur SafeHer', /_ga=GA1\.1\.demo-fictif/.test(havenCookie) && lightCookie === '', `HAVEN : ${havenCookie.slice(0, 50)} · SafeHer : ${lightCookie || 'aucun'}`);
 
   // 7. Formulaires de démonstration : rien n'est envoyé
   await nav(BASE + '/haven/signaler.html');
@@ -177,17 +177,17 @@ try {
   await sleep(300);
   const havenMsg = await evalJs('document.querySelector("#haven-result").textContent');
   check('S-9 : HAVEN — formulaire sans envoi, message de démonstration', havenMsg.includes('aucune information n\'a été envoyée') && requests.filter((r) => r.method !== 'GET').length === 0, havenMsg.slice(0, 80));
-  await nav(BASE + '/light/ecrire.html');
+  await nav(BASE + '/safeher/ecrire.html');
   requests.length = 0;
   await evalJs('document.querySelector("#consent").click(); document.querySelector("#light-send").click()');
   await sleep(300);
   const lightMsg = await evalJs('document.querySelector("#light-result").textContent');
-  check('S-9 : LIGHT — code de suivi, aucune requête envoyée', /LGT-[A-Z0-9]{4}-[A-Z0-9]{4}/.test(lightMsg) && lightMsg.includes('aucune information n\'a été envoyée') && requests.length === 0, lightMsg.slice(0, 60));
+  check('S-9 : SafeHer — code de suivi, aucune requête envoyée', /LGT-[A-Z0-9]{4}-[A-Z0-9]{4}/.test(lightMsg) && lightMsg.includes('aucune information n\'a été envoyée') && requests.length === 0, lightMsg.slice(0, 60));
   await shot('06-light-formulaire');
 
   // 8. Sortie rapide (T4 / S-11) : page neutre, « Retour » ne ramène pas à la page sensible
-  await nav(BASE + '/light/');
-  await nav(BASE + '/light/ecrire.html');
+  await nav(BASE + '/safeher/');
+  await nav(BASE + '/safeher/ecrire.html');
   const t0 = Date.now();
   const errorsBeforeExit = errors.length;
   await send('Network.setBlockedURLs', { urls: ['*google.com*'] });
@@ -202,7 +202,7 @@ try {
   const urls = navHist.entries.map((e) => e.url);
   check('S-11 : Échap mène à la page neutre en moins de 2 s', /google\.com/.test(urls[navHist.currentIndex]) && elapsed < 2000, `${elapsed} ms`);
   const prev = urls[navHist.currentIndex - 1] || '';
-  check('S-11 : la page sensible a été remplacée dans l\'historique (« Retour » mène à /light/, pas au formulaire)', prev.endsWith('/light/') && !prev.includes('ecrire.html'), `${prev.replace(BASE, '')} → ${urls[navHist.currentIndex].split('?')[0]}`);
+  check('S-11 : la page sensible a été remplacée dans l\'historique (« Retour » mène à /safeher/, pas au formulaire)', prev.endsWith('/safeher/') && !prev.includes('ecrire.html'), `${prev.replace(BASE, '')} → ${urls[navHist.currentIndex].split('?')[0]}`);
   // Les erreurs éventuelles de la page neutre externe ne concernent pas NUKUN.
   errors.length = errorsBeforeExit;
   await send('Network.setBlockedURLs', { urls: [] });
@@ -210,16 +210,16 @@ try {
   // 8 bis. Mode discret : calculatrice de camouflage (reprise du prototype SafeElle)
   const press = (keys) => evalJs(`(() => { for (const k of ${JSON.stringify(keys)}) document.querySelector('#keys button[data-k="' + k + '"]').click(); return document.querySelector('#result').textContent; })()`);
   await nav(BASE + '/#/');
-  await nav(BASE + '/light/calculatrice.html');
+  await nav(BASE + '/safeher/calculatrice.html');
   check('Calculatrice : 12 + 3 × 4 = 24 (priorité des opérateurs)', (await press(['C', '1', '2', '+', '3', '*', '4', '='])) === '24');
   check('Calculatrice : 10 ÷ 4 = 2,5 et 50 % = 0,5', (await press(['C', '1', '0', '/', '4', '='])) === '2,5' && (await press(['C', '5', '0', '%', '='])) === '0,5');
   check('Calculatrice : titre neutre « Calculatrice », manifeste « Calculatrice »', await evalJs(`(async () => document.title === 'Calculatrice' && (await (await fetch('manifest.webmanifest')).json()).name === 'Calculatrice')()`));
   // Aucun code universel : sans calcul choisi, 1234 = n'ouvre rien.
   await press(['C', '1', '2', '3', '4', '=']);
   await sleep(1500);
-  check('Aucun code universel : sans calcul secret choisi, « 1234 = » n\'ouvre rien', (await evalJs('location.pathname')).endsWith('/light/calculatrice.html'));
+  check('Aucun code universel : sans calcul secret choisi, « 1234 = » n\'ouvre rien', (await evalJs('location.pathname')).endsWith('/safeher/calculatrice.html'));
   // La personne choisit SON calcul secret et son calcul leurre (Mode discret).
-  await nav(BASE + '/light/discret.html');
+  await nav(BASE + '/safeher/discret.html');
   await waitFor('document.querySelector("#camo-save")');
   await evalJs(`document.querySelector('#secret').value = '1+1'; document.querySelector('#secret2').value = '1+1'; document.querySelector('#camo-save').click()`);
   check('Calcul trop simple refusé', await waitFor('document.querySelector("#camo-msg").textContent.includes("trop simple") || document.querySelector("#camo-msg").textContent.includes("au moins 5")', 5000));
@@ -227,36 +227,36 @@ try {
   check('Calcul secret personnel enregistré (47+15)', await waitFor('document.querySelector("#camo-msg").textContent.includes("Calcul secret enregistré")', 10000));
   const prefsRaw = await evalJs('localStorage.getItem("calc.prefs") || ""');
   check('Calcul secret jamais stocké en clair (empreinte seulement)', prefsRaw.includes('sHash') && !/47\+15|47\*15|100-25/.test(prefsRaw), prefsRaw.slice(0, 50));
-  // Ouvrir la calculatrice depuis Light (comme une utilisatrice) : la page de Light est remplacée.
+  // Ouvrir la calculatrice depuis SafeHer (comme une utilisatrice) : la page de SafeHer est remplacée.
   await evalJs('[...document.querySelectorAll("a")].find(x => x.getAttribute("href") === "calculatrice.html").click()');
-  await waitFor('location.pathname.endsWith("/light/calculatrice.html") && document.querySelector("#keys")', 8000);
+  await waitFor('location.pathname.endsWith("/safeher/calculatrice.html") && document.querySelector("#keys")', 8000);
   await press(['C', '1', '0', '0', '-', '2', '5', '=']);
   check('Calcul leurre « 100−25 = » : historique banal affiché', await waitFor('!document.querySelector("#decoy").hidden && document.querySelectorAll("#decoy li").length === 4', 8000));
   await evalJs('document.querySelector("#decoy-back").click()');
   await press(['C', '4', '7', '+', '1', '5', '=']);
-  check('Calcul secret personnel « 47+15 = » : LIGHT s\'ouvre', await waitFor('location.pathname.endsWith("/light/index.html") && document.querySelector("h1")', 8000));
+  check('Calcul secret personnel « 47+15 = » : SafeHer s\'ouvre', await waitFor('location.pathname.endsWith("/safeher/index.html") && document.querySelector("h1")', 8000));
   await evalJs('[...document.querySelectorAll("nav a")].find(a => a.textContent === "Écrire").click()');
-  await waitFor('location.pathname.endsWith("/light/ecrire.html") && document.querySelector("#light-send")', 8000);
+  await waitFor('location.pathname.endsWith("/safeher/ecrire.html") && document.querySelector("#light-send")', 8000);
   await evalJs('document.querySelector("#consent").click(); document.querySelector("#light-send").click()');
   await sleep(200);
   await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
   await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
-  check('Mode discret : Échap ramène à la calculatrice', await waitFor('location.pathname.endsWith("/light/calculatrice.html") && document.querySelector("#keys")', 8000));
+  check('Mode discret : Échap ramène à la calculatrice', await waitFor('location.pathname.endsWith("/safeher/calculatrice.html") && document.querySelector("#keys")', 8000));
   check('Mode discret : notification camouflée « Calcul enregistré » après l\'envoi', await waitFor('document.querySelector("#notif").classList.contains("show") && document.querySelector("#notif-txt").textContent === "Calcul enregistré"', 5000));
   const camoHist = await send('Page.getNavigationHistory');
   const prevCamo = camoHist.entries[camoHist.currentIndex - 1] ? camoHist.entries[camoHist.currentIndex - 1].url : '';
-  check('Mode discret : « Retour » ne ramène à aucune page sensible de LIGHT (seulement la calculatrice ou avant)', !prevCamo.includes('/light/') || prevCamo.endsWith('/light/calculatrice.html'), `entrée précédente : ${prevCamo.replace(BASE, '')}`);
+  check('Mode discret : « Retour » ne ramène à aucune page sensible de SafeHer (seulement la calculatrice ou avant)', !prevCamo.includes('/safeher/') || prevCamo.endsWith('/safeher/calculatrice.html'), `entrée précédente : ${prevCamo.replace(BASE, '')}`);
   check('Mode discret : session refermée à l\'arrivée sur la calculatrice', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
   await press(['C', '4', '7', '+', '1', '5', '=']);
-  await waitFor('location.pathname.endsWith("/light/index.html")', 8000);
+  await waitFor('location.pathname.endsWith("/safeher/index.html")', 8000);
   await evalJs(`Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }); document.dispatchEvent(new Event('visibilitychange'))`);
-  check('Mode discret : passage en arrière-plan → retour automatique à la calculatrice', await waitFor('location.pathname.endsWith("/light/calculatrice.html")', 8000));
-  await nav(BASE + '/light/');
-  check('Sans code secret, la sortie rapide de LIGHT reste la page neutre externe', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
+  check('Mode discret : passage en arrière-plan → retour automatique à la calculatrice', await waitFor('location.pathname.endsWith("/safeher/calculatrice.html")', 8000));
+  await nav(BASE + '/safeher/');
+  check('Sans code secret, la sortie rapide de SafeHer reste la page neutre externe', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
 
   // 8 ter. Mon espace : message vocal, réponse, assistante, coffre, alerte discrète (micro simulé)
   const tab = (id) => evalJs(`document.querySelector('[data-tab="${id}"]').click()`);
-  await nav(BASE + '/light/espace.html');
+  await nav(BASE + '/safeher/espace.html');
   await waitFor('document.querySelector("#lang-chips .chip")');
   await evalJs('[...document.querySelectorAll("#lang-chips .chip")].find(b => b.textContent === "Fon").click()');
   check('Message vocal en fon : orienté directement vers une personne de l\'équipe d\'écoute', await waitFor('!document.querySelector("#route-info").hidden && document.querySelector("#route-info").textContent.includes("écouté directement")', 5000));
@@ -273,7 +273,7 @@ try {
   await evalJs('document.querySelector("#code-done").click()');
   check('Code de suivi effacé de l\'écran après « J\'ai retenu mon code »', (await evalJs('document.querySelector("#code-show").textContent')) === '');
 
-  await nav(BASE + '/light/agent.html');
+  await nav(BASE + '/safeher/agent.html');
   await waitFor('[...document.querySelectorAll(".agent-item")].some(b => b.textContent.includes("Message vocal"))', 10000);
   check('Console : le message en fon est marqué « Écoute humaine directe »', await evalJs('[...document.querySelectorAll(".agent-item")].some(b => b.textContent.includes("Écoute humaine directe · Fon"))'));
   await evalJs('[...document.querySelectorAll(".agent-item")].find(b => b.textContent.includes("Message vocal")).click()');
@@ -284,7 +284,7 @@ try {
   await evalJs(`(() => { const sel = document.querySelectorAll('#detail select'); sel[0].value = 'urgente'; sel[1].value = 'Assistance juridique'; const ta = document.querySelectorAll('#detail textarea'); ta[1].value = 'Bonjour Étoile (réponse fictive). Ne payez pas et gardez les messages. Une juriste peut vous aider.'; [...document.querySelectorAll('#detail button')].find(b => b.textContent === 'Envoyer la réponse').click(); })()`);
   await waitFor('document.querySelector("#detail [role=status]").textContent.includes("Réponse enregistrée")', 8000);
 
-  await nav(BASE + '/light/espace.html');
+  await nav(BASE + '/safeher/espace.html');
   await waitFor('document.querySelector("[data-tab=v-reply]")');
   await tab('v-reply');
   await evalJs(`document.querySelector('#code-in').value = ${JSON.stringify(trackCode)}; document.querySelector('#code-go').click()`);
@@ -334,7 +334,7 @@ try {
     }
   };
   const countAlerts = () => evalJs(`new Promise((res) => { const rq = indexedDB.open('calc-cache'); rq.onsuccess = () => { const t = rq.result.transaction('items').objectStore('items').getAll(); t.onsuccess = () => { const a = t.result.filter((m) => m.kind === 'alerte'); rq.result.close(); res(a.map((m) => ({ p: m.priority, rec: m.recording, size: m.audio ? m.audio.size : 0, sha: !!m.sha256 }))); }; }; })`);
-  await nav(BASE + '/light/calculatrice.html');
+  await nav(BASE + '/safeher/calculatrice.html');
   await waitFor('document.querySelector("#screen")');
   await tapScreen();
   await sleep(1200);
@@ -351,17 +351,17 @@ try {
   await sleep(1500);
   const stopA = await countAlerts();
   check('Alerte discrète : 3 tapes arrêtent l\'enregistrement, audio et empreinte SHA-256 gardés', stopA.length === 1 && stopA[0].rec === false && stopA[0].size > 0 && stopA[0].sha, JSON.stringify(stopA));
-  await nav(BASE + '/light/agent.html');
+  await nav(BASE + '/safeher/agent.html');
   check('Console agent : alerte en tête, en rouge, consigne « ne jamais rappeler »', await waitFor('document.querySelector(".agent-item") && document.querySelector(".agent-item").classList.contains("alert")', 8000) &&
     (await evalJs('document.querySelector(".agent-item").click(), new Promise((r) => setTimeout(() => r(document.querySelector("#detail").textContent.includes("Ne jamais rappeler") && ![...document.querySelectorAll("#detail button")].some((b) => b.textContent === "Envoyer la réponse")), 800))')));
   check('Console : l\'alerte transmet la personne de confiance (avec l\'accord de la victime)', await evalJs('document.querySelector("#detail").textContent.includes("Tonton Koffi (Grand frère)")'));
-  await nav(BASE + '/light/espace.html');
+  await nav(BASE + '/safeher/espace.html');
   await waitFor('document.querySelector("[data-tab=v-vault]")');
   await tab('v-vault');
   await evalJs(`document.querySelector('#vault-code').value = '47+15'; document.querySelector('#vault-open').click()`);
   check('Coffre : l\'enregistrement de l\'alerte y est, lisible avec le code', await waitFor('[...document.querySelectorAll("#vault-list .vitem")].some((b) => b.textContent.includes("Alerte discrète"))', 15000));
 
-  await nav(BASE + '/light/discret.html');
+  await nav(BASE + '/safeher/discret.html');
   await waitFor('document.querySelector("#camo-wipe")');
   await evalJs('document.querySelector("#camo-wipe").click()');
   await sleep(1500);
@@ -369,11 +369,11 @@ try {
   check('Tout effacer : messages, preuves et clés supprimés du téléphone', left === 0, `éléments restants : ${left}`);
 
   // 8 quater. Témoin anonyme (T8) et numéros d'urgence vérifiés
-  await nav(BASE + '/light/ecrire.html');
+  await nav(BASE + '/safeher/ecrire.html');
   await waitFor('document.querySelector("input[name=pour][value=autre]")');
   await evalJs('document.querySelector("input[name=pour][value=autre]").click()');
   check('T8 : un témoin peut signaler pour une autre personne, anonymement', await waitFor('!document.querySelector("#temoin-info").hidden', 3000) && (await evalJs('[...document.querySelectorAll("#light-form input[required]")].length')) === 0);
-  await nav(BASE + '/light/contacts.html');
+  await nav(BASE + '/safeher/contacts.html');
   await waitFor('document.querySelector("#urgences")');
   const nums = await evalJs('[...document.querySelectorAll("#urgences a[href^=tel]")].map(a => a.getAttribute("href") + "|" + (a.hasAttribute("data-confirm-call") ? "c" : "")).join(" ")');
   check('Numéros d\'urgence vérifiés (117, 118, 112, 114, 160, 138, WhatsApp INF), appel après confirmation', ['tel:117|c', 'tel:118|c', 'tel:112|c', 'tel:114|c', 'tel:160|c', 'tel:138|c', 'tel:+2290151078888|c'].every((n) => nums.includes(n)), nums);
@@ -381,13 +381,13 @@ try {
 
   // 9. Mobile : 360 px sans défilement horizontal
   await send('Emulation.setDeviceMetricsOverride', { width: 360, height: 740, deviceScaleFactor: 2, mobile: true });
-  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/light/', '/light/contacts.html', '/light/calculatrice.html', '/light/discret.html', '/light/espace.html', '/light/agent.html', '/haven/']) {
+  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/safeher/', '/safeher/contacts.html', '/safeher/calculatrice.html', '/safeher/discret.html', '/safeher/espace.html', '/safeher/agent.html', '/haven/']) {
     await nav(BASE + p);
     await waitFor('document.querySelector("h1")', 20000);
     await sleep(500);
     const sw = await evalJs('document.documentElement.scrollWidth');
     check(`Mobile 360 px sans défilement horizontal : ${p}`, sw <= 361, `largeur ${sw}`);
-    if (['/#/', '/#/comparer', '/light/', '/light/calculatrice.html', '/light/discret.html'].includes(p)) await shot('07-mobile-' + (p.replace(/[^a-z]/g, '') || 'accueil'));
+    if (['/#/', '/#/comparer', '/safeher/', '/safeher/calculatrice.html', '/safeher/discret.html'].includes(p)) await shot('07-mobile-' + (p.replace(/[^a-z]/g, '') || 'accueil'));
   }
   await send('Emulation.clearDeviceMetricsOverride');
 
@@ -396,7 +396,7 @@ try {
   await waitFor('navigator.serviceWorker && navigator.serviceWorker.controller', 10000) || (await nav(BASE + '/'), await waitFor('navigator.serviceWorker.controller', 10000));
   await send('Network.emulateNetworkConditions', { offline: true, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
   await nav(BASE + '/#/methode');
-  const offOk = await waitFor('document.querySelector("main h1") && document.querySelector("main h1").textContent.includes("Méthode")', 10000);
+  const offOk = await waitFor('document.querySelector("main h1") && document.querySelector("main h1").textContent.includes("Le score expliqué")', 10000);
   check('F7 : NUKUN fonctionne hors ligne après le premier chargement', offOk, await h1().catch(() => ''));
   await send('Network.emulateNetworkConditions', { offline: false, latency: 0, downloadThroughput: -1, uploadThroughput: -1 });
 

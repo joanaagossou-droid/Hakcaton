@@ -1,7 +1,7 @@
 /*
- * LIGHT — Calculatrice de camouflage (logique reprise du prototype SafeElle, réécrite sans innerHTML).
+ * SafeHer — Calculatrice de camouflage (logique reprise du prototype SafeElle, réécrite sans innerHTML).
  *  - calcule réellement (priorité des opérateurs, pourcentage, virgule), sans eval ;
- *  - code secret puis « = » : ouvre LIGHT (session de camouflage) ;
+ *  - code secret puis « = » : ouvre SafeHer (session de camouflage) ;
  *  - code leurre puis « = » : affiche un historique banal ;
  *  - Échap efface (c'est la page neutre : il n'y a rien à quitter).
  */
@@ -86,7 +86,7 @@
     expr += k; render();
   }
 
-  /** Code secret : ouvre LIGHT sans ajouter d'entrée d'historique. */
+  /** Code secret : ouvre SafeHer sans ajouter d'entrée d'historique. */
   function unlock() {
     expr = ''; render('0');
     CAMO.openSession();

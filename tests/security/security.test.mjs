@@ -18,7 +18,7 @@ test('S-5 : adresses dangereuses refusées par la politique', () => {
     'http://172.16.0.1/', 'http://[::1]/', 'http://[::ffff:127.0.0.1]/', 'http://[fd00:ec2::254]/', 'http://0.0.0.0/',
     'file:///etc/passwd', 'ftp://demo.exemple.org/', 'gopher://demo.exemple.org/', 'javascript:alert(1)', 'data:text/html,x',
     'http://user:pass@demo.exemple.org/', 'http://demo.exemple.org:8080/', 'http://router.local/', 'http://intranet.corp/',
-    'https://autre-site.org/', 'https://exemple.org/', 'https://site.exemple.org/light/', 'https://equipes.exemple.org/',
+    'https://autre-site.org/', 'https://exemple.org/', 'https://site.exemple.org/safeher/', 'https://equipes.exemple.org/',
     'http://demo.exemple.org/\nHost: x', ' ', 'x'.repeat(3000)
   ];
   for (const u of refused) assert.equal(validateTargetUrl(u, ALLOW).ok, false, u);
@@ -113,14 +113,14 @@ test('serveur : traversée de répertoire, fichiers internes, méthodes et taill
   } finally { await s.close(); }
 });
 
-test('S-3 : en-têtes de sécurité (NUKUN et LIGHT complets, HAVEN volontairement incomplet)', async () => {
+test('S-3 : en-têtes de sécurité (NUKUN et SafeHer complets, HAVEN volontairement incomplet)', async () => {
   const s = await startServer();
   try {
     const n = await fetch(s.base + '/');
     for (const hd of ['content-security-policy', 'x-content-type-options', 'referrer-policy', 'permissions-policy', 'x-frame-options', 'strict-transport-security']) assert.ok(n.headers.get(hd), 'NUKUN ' + hd);
     assert.match(n.headers.get('content-security-policy'), /script-src 'self'/);
     assert.doesNotMatch(n.headers.get('content-security-policy'), /unsafe-inline|unsafe-eval|\*/);
-    const l = await fetch(s.base + '/light/ecrire.html');
+    const l = await fetch(s.base + '/safeher/ecrire.html');
     assert.equal(l.headers.get('cache-control'), 'no-store');
     assert.match(l.headers.get('x-robots-tag'), /noindex/);
     const hv = await fetch(s.base + '/haven/');
@@ -157,9 +157,9 @@ test('S-6 : aucune insertion HTML brute dans le code de NUKUN', () => {
   assert.deepEqual(hits, []);
 });
 
-test('S-10 et non-confusion : bandeau « site fictif » et noindex sur chaque page HAVEN et LIGHT', () => {
+test('S-10 et non-confusion : bandeau « site fictif » et noindex sur chaque page HAVEN et SafeHer', () => {
   const banner = 'Créé exclusivement pour une démonstration pédagogique. Ce site n\'est pas un service officiel et ne reçoit aucun signalement réel.';
-  for (const dir of ['haven', 'light']) {
+  for (const dir of ['haven', 'safeher']) {
     for (const f of fs.readdirSync(path.join(ROOT, dir)).filter((x) => x.endsWith('.html'))) {
       const s = fs.readFileSync(path.join(ROOT, dir, f), 'utf8');
       assert.ok(s.includes('SITE FICTIF') && s.includes(banner), `${dir}/${f} : bandeau`);
@@ -170,7 +170,7 @@ test('S-10 et non-confusion : bandeau « site fictif » et noindex sur chaque pa
 });
 
 test('C1 appliqué à NUKUN lui-même : aucune ressource tierce chargée par les pages', () => {
-  const files = ['index.html', ...['haven', 'light'].flatMap((d) => fs.readdirSync(path.join(ROOT, d)).filter((x) => x.endsWith('.html')).map((x) => `${d}/${x}`))];
+  const files = ['index.html', ...['haven', 'safeher'].flatMap((d) => fs.readdirSync(path.join(ROOT, d)).filter((x) => x.endsWith('.html')).map((x) => `${d}/${x}`))];
   for (const f of files) {
     const s = fs.readFileSync(path.join(ROOT, f), 'utf8').replace(/<!--[\s\S]*?-->/g, '');
     const ext = [...s.matchAll(/<(?:script|link|img|iframe)[^>]+(?:src|href)=["'](https?:)?\/\//gi)];
@@ -179,7 +179,7 @@ test('C1 appliqué à NUKUN lui-même : aucune ressource tierce chargée par les
 });
 
 test('S-9 : les formulaires de démonstration n\'ont ni action ni bouton d\'envoi natif', () => {
-  for (const f of ['haven/signaler.html', 'light/ecrire.html']) {
+  for (const f of ['haven/signaler.html', 'safeher/ecrire.html']) {
     const s = fs.readFileSync(path.join(ROOT, f), 'utf8');
     const form = s.match(/<form[^>]*>/)[0];
     assert.ok(!/action=/.test(form), f + ' action');

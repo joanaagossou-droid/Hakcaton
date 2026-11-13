@@ -1,4 +1,4 @@
-/* LIGHT — « Mon espace » (message vocal, assistante, coffre, alerte). Aucune ressource externe. */
+/* SafeHer — « Mon espace » (message vocal, assistante, coffre, alerte). Aucune ressource externe. */
 .tabs { display: flex; gap: 6px; overflow-x: auto; padding: 4px 0 8px; margin: 12px 0 4px; }
 .tabs button { flex: 0 0 auto; border: 1px solid #b9d8cf; background: #fff; color: #10302a; border-radius: 999px; padding: 10px 14px; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; min-height: 44px; }
 .tabs button[aria-selected="true"] { background: #0b6b5a; border-color: #0b6b5a; color: #fff; }

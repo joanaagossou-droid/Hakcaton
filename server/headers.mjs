@@ -3,7 +3,7 @@
  * et pour le fichier _headers de l'hébergeur, généré par tools/build-headers.mjs).
  *
  *  - NUKUN : en-têtes de sécurité complets.
- *  - LIGHT : en-têtes complets + noindex + no-store (pas de cache sensible).
+ *  - SafeHer : en-têtes complets + noindex + no-store (pas de cache sensible).
  *  - HAVEN : défauts VOLONTAIRES pour la démonstration (pas de Referrer-Policy,
  *    pas de Permissions-Policy, pas de nosniff, pas de protection contre
  *    l'intégration, cache public, cookie de session déposé d'office).
@@ -57,7 +57,7 @@ export const ZONES = [
     }
   },
   {
-    id: 'light', prefix: '/light/',
+    id: 'safeher', prefix: '/safeher/',
     headers: {
       ...COMMON_STRONG,
       // Mon espace : micro (message vocal, alerte discrète) et lecture audio en mémoire (blob:).

@@ -1,5 +1,5 @@
 /**
- * Génère les « instantanés » d'analyse de HAVEN et LIGHT (plan de secours n° 1 du mémoire § 7.2).
+ * Génère les « instantanés » d'analyse de HAVEN et SafeHer (plan de secours n° 1 du mémoire § 7.2).
  * Ce sont de VRAIS résultats de l'analyseur, exécuté sur les fichiers servis par le serveur local,
  * datés. Ils ne sont utilisés que si l'analyse en direct est impossible, et sont affichés comme tels.
  *
@@ -13,7 +13,7 @@ import { startServer, localFetcher, ROOT } from '../tests/helpers.mjs';
 const s = await startServer();
 fs.mkdirSync(path.join(ROOT, 'src/data/snapshots'), { recursive: true });
 try {
-  for (const site of ['haven', 'light']) {
+  for (const site of ['haven', 'safeher']) {
     const res = await runAnalysis(`${s.base}/${site}/`, localFetcher, { mode: 'instantané' });
     // Adresses rendues relatives : l'instantané ne dépend pas du port local.
     const json = JSON.stringify(res, null, 1).split(s.base).join('');

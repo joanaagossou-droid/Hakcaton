@@ -1,56 +1,56 @@
 {
  "version": "1.0.0",
- "entryUrl": "/light/",
+ "entryUrl": "/safeher/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T10:23:59.063Z",
+ "analyzedAt": "2026-11-13T11:12:56.454Z",
  "pages": [
   {
-   "url": "/light/",
+   "url": "/safeher/",
    "status": 200,
-   "title": "Light · Accueil",
-   "bytes": 18825
+   "title": "Accueil",
+   "bytes": 18850
   },
   {
-   "url": "/light/contacts.html",
+   "url": "/safeher/contacts.html",
    "status": 200,
-   "title": "Light · Contacts",
-   "bytes": 23592
+   "title": "Contacts",
+   "bytes": 23609
   },
   {
-   "url": "/light/espace.html",
+   "url": "/safeher/espace.html",
    "status": 200,
-   "title": "Light · Espace",
-   "bytes": 89010
+   "title": "Espace",
+   "bytes": 89045
   },
   {
-   "url": "/light/ecrire.html",
+   "url": "/safeher/ecrire.html",
    "status": 200,
-   "title": "Light · Formulaire",
-   "bytes": 19711
+   "title": "Formulaire",
+   "bytes": 19728
   },
   {
-   "url": "/light/discret.html",
+   "url": "/safeher/discret.html",
    "status": 200,
-   "title": "Light · Réglages",
-   "bytes": 52912
+   "title": "Réglages",
+   "bytes": 52953
   },
   {
-   "url": "/light/confidentialite.html",
+   "url": "/safeher/confidentialite.html",
    "status": 200,
-   "title": "Light · Confidentialité",
-   "bytes": 19363
+   "title": "Confidentialité",
+   "bytes": 19380
   },
   {
-   "url": "/light/calculatrice.html",
+   "url": "/safeher/calculatrice.html",
    "status": 200,
    "title": "Calculatrice",
-   "bytes": 48050
+   "bytes": 48070
   },
   {
-   "url": "/light/agent.html",
+   "url": "/safeher/agent.html",
    "status": 200,
-   "title": "Light · Console",
-   "bytes": 55591
+   "title": "Console",
+   "bytes": 55616
   }
  ],
  "findings": [
@@ -169,7 +169,7 @@
    "id": "weight",
    "label": "Poids approximatif des pages",
    "status": "detected",
-   "evidence": "Page la plus lourde : 86.9 Ko (espace.html). light : 18.4 Ko · contacts.html : 23 Ko · espace.html : 86.9 Ko · ecrire.html : 19.2 Ko · discret.html : 51.7 Ko · confidentialite.html : 18.9 Ko · calculatrice.html : 46.9 Ko · agent.html : 54.3 Ko. Taille décodée des ressources de même origine.",
+   "evidence": "Page la plus lourde : 87 Ko (espace.html). safeher : 18.4 Ko · contacts.html : 23.1 Ko · espace.html : 87 Ko · ecrire.html : 19.3 Ko · discret.html : 51.7 Ko · confidentialite.html : 18.9 Ko · calculatrice.html : 46.9 Ko · agent.html : 54.3 Ko. Taille décodée des ressources de même origine.",
    "risk": "Aucun (sous le seuil de 500 Ko)",
    "criteria": [
     "A1"
@@ -177,52 +177,52 @@
    "severity": "ok",
    "detail": [
     {
-     "url": "/light/",
-     "html": 4170,
-     "resources": 14655,
-     "total": 18825
+     "url": "/safeher/",
+     "html": 4181,
+     "resources": 14669,
+     "total": 18850
     },
     {
-     "url": "/light/contacts.html",
-     "html": 8937,
-     "resources": 14655,
-     "total": 23592
+     "url": "/safeher/contacts.html",
+     "html": 8940,
+     "resources": 14669,
+     "total": 23609
     },
     {
-     "url": "/light/espace.html",
-     "html": 14655,
-     "resources": 74355,
-     "total": 89010
+     "url": "/safeher/espace.html",
+     "html": 14664,
+     "resources": 74381,
+     "total": 89045
     },
     {
-     "url": "/light/ecrire.html",
-     "html": 5056,
-     "resources": 14655,
-     "total": 19711
+     "url": "/safeher/ecrire.html",
+     "html": 5059,
+     "resources": 14669,
+     "total": 19728
     },
     {
-     "url": "/light/discret.html",
-     "html": 6284,
-     "resources": 46628,
-     "total": 52912
+     "url": "/safeher/discret.html",
+     "html": 6299,
+     "resources": 46654,
+     "total": 52953
     },
     {
-     "url": "/light/confidentialite.html",
-     "html": 4708,
-     "resources": 14655,
-     "total": 19363
+     "url": "/safeher/confidentialite.html",
+     "html": 4711,
+     "resources": 14669,
+     "total": 19380
     },
     {
-     "url": "/light/calculatrice.html",
-     "html": 3148,
-     "resources": 44902,
-     "total": 48050
+     "url": "/safeher/calculatrice.html",
+     "html": 3152,
+     "resources": 44918,
+     "total": 48070
     },
     {
-     "url": "/light/agent.html",
-     "html": 2491,
-     "resources": 53100,
-     "total": 55591
+     "url": "/safeher/agent.html",
+     "html": 2494,
+     "resources": 53122,
+     "total": 55616
     }
    ]
   },
@@ -230,7 +230,7 @@
    "id": "quick-exit",
    "label": "Bouton de sortie rapide",
    "status": "detected",
-   "evidence": "✓ light · ✓ contacts.html · ✓ espace.html · ✓ ecrire.html · ✓ discret.html · ✓ confidentialite.html · ✓ agent.html · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : calculatrice.html (déclaration à vérifier par les scénarios T3 et T4)",
+   "evidence": "✓ safeher · ✓ contacts.html · ✓ espace.html · ✓ ecrire.html · ✓ discret.html · ✓ confidentialite.html · ✓ agent.html · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : calculatrice.html (déclaration à vérifier par les scénarios T3 et T4)",
    "risk": "Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.",
    "criteria": [
     "S1"
@@ -289,7 +289,7 @@
    "id": "privacy",
    "label": "Politique de confidentialité",
    "status": "detected",
-   "evidence": "Page confidentialite.html : 491 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
+   "evidence": "Page confidentialite.html : 489 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
    "risk": "Lisibilité à confirmer par un humain.",
    "criteria": [
     "C4",
@@ -345,7 +345,7 @@
   "A1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Page la plus lourde : 86.9 Ko (seuil du critère : moins de 500 Ko)."
+   "comment": "Page la plus lourde : 87 Ko (seuil du critère : moins de 500 Ko)."
   },
   "S1": {
    "note": 2,
@@ -370,7 +370,7 @@
   "C4": {
    "note": 2,
    "proof": "machine",
-   "comment": "Politique présente : 491 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
+   "comment": "Politique présente : 489 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
   },
   "S3": {
    "note": 2,

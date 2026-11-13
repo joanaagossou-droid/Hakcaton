@@ -42,7 +42,7 @@ function eyeShade(u, v) {
   return col;
 }
 
-/** Icône « Calculatrice » du mode discret de LIGHT (mêmes formes que light/assets/calc-icon.svg). */
+/** Icône « Calculatrice » du mode discret de SafeHer (mêmes formes que safeher/assets/calc-icon.svg). */
 function calcShade(u, v) {
   const x = (u + 1) * 32, y = (v + 1) * 32;
   const BG = [28, 28, 30], OUT = [11, 31, 58];
@@ -81,7 +81,7 @@ function draw(size, shade = eyeShade) {
 }
 
 for (const s of [192, 512]) {
-  const c = path.join(root, 'light', 'assets', 'calc-' + s + '.png');
+  const c = path.join(root, 'safeher', 'assets', 'calc-' + s + '.png');
   fs.writeFileSync(c, draw(s, calcShade));
   console.log(c + ' : ' + Math.round(fs.statSync(c).size / 1024) + ' Ko');
   const f = path.join(root, 'public', 'icons', `icon-${s}.png`);

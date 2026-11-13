@@ -87,7 +87,7 @@ export function demoUrl(caseId) {
 export async function buildCaseAudit(data, caseId, { skipScenarios = [], meta = {} } = {}) {
   const ref = data.reference[caseId];
   const a = createAudit({
-    projectName: caseId === 'haven' ? 'HAVEN (fictif, avant correction)' : 'LIGHT (fictif, après correction)',
+    projectName: caseId === 'haven' ? 'HAVEN (fictif, avant correction)' : 'SafeHer (fictif, après correction)',
     url: demoUrl(caseId), toolType: 'Site web d\'information et de signalement', mainFunction: 'Informer, orienter et recevoir des demandes d\'aide (démonstration)',
     audience: 'Survivantes et survivants de VBG-FT, proches, témoins', caseId, auditType: 'cross', ...meta
   });
