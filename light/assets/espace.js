@@ -25,6 +25,8 @@
     if (id !== 'v-voice') stopRecording(true);
     if (id === 'v-alert') loadAlertSettings();
   }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+  var recog = null, transcript = '';
   tabs.forEach(function (t) { t.addEventListener('click', function () { show(t.dataset.tab); }); });
 
   /* =========================================================
@@ -40,10 +42,41 @@
       lang = l;
       document.querySelectorAll('#lang-chips .chip').forEach(function (c) { c.setAttribute('aria-pressed', String(c === b)); });
       $('voice-step2').hidden = false;
+      routeInfo();
     });
     $('lang-chips').appendChild(b);
   });
 
+  /** Français : analyse automatique possible (facultative). Autres langues : écoute humaine directe. */
+  function routeInfo() {
+    var fr = lang === 'Français';
+    $('stt-wrap').hidden = !(fr && SR);
+    if (!(fr && SR)) $('stt-on').checked = false;
+    var ri = $('route-info');
+    if (!fr) { ri.textContent = 'Votre message en ' + lang + ' sera écouté directement par une personne de l’équipe d’écoute qui parle cette langue. Aucune analyse automatique.'; ri.hidden = false; }
+    else if (!SR) { ri.textContent = 'Ce navigateur ne sait pas transcrire la voix : une personne de l’équipe d’écoute écoutera votre message.'; ri.hidden = false; }
+    else ri.hidden = true;
+  }
+  function startRecognition() {
+    transcript = '';
+    if (!SR || !$('stt-on').checked) return;
+    try {
+      recog = new SR();
+      recog.lang = 'fr-FR'; recog.continuous = true; recog.interimResults = false;
+      recog.onresult = function (e) { for (var i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) transcript += ' ' + e.results[i][0].transcript; };
+      recog.onerror = function () { /* la personne sera écoutée par un humain */ };
+      recog.onend = function () { recog = null; showVoiceAnalysis(); };
+      recog.start();
+    } catch (e) { recog = null; }
+  }
+  function stopRecognition() { if (recog) { try { recog.stop(); } catch (e) { recog = null; } } }
+  function showVoiceAnalysis() {
+    var box = clear($('voice-analysis'));
+    if (!$('stt-on').checked || !audioBlob) return;
+    if (!transcript.trim()) { box.appendChild(el('p', 'ok', 'Rien n’a pu être transcrit : une personne de l’équipe d’écoute écoutera votre message.')); return; }
+    box.appendChild(el('p', 'small', 'Ce que l’analyse automatique a compris (elle peut se tromper) :'));
+    box.appendChild(analysisBlock(C.analyze(transcript), 'Analyse de votre message'));
+  }
   function updateSend() { $('send-voice').disabled = !($('voice-consent').checked && audioBlob && lang); }
   function setAudio(blob, sec) {
     audioBlob = blob; durationSec = sec;
@@ -51,6 +84,7 @@
     $('play-wrap').hidden = false; $('voice-step3').hidden = false;
     $('rec-timer').textContent = mmss(sec);
     updateSend();
+    if (!recog) showVoiceAnalysis(); // sinon, l'analyse s'affiche quand la transcription se termine
   }
   function startRecording() {
     if (!navigator.mediaDevices || !window.MediaRecorder) { $('mic-msg').textContent = 'L’enregistrement n’est pas disponible ici. Utilisez un fichier audio.'; return; }
@@ -65,6 +99,7 @@
         setAudio(new Blob(chunks, { type: recorder.mimeType || 'audio/webm' }), Math.round((Date.now() - tStart) / 1000));
       };
       recorder.start();
+      startRecognition();
       tStart = Date.now();
       $('rec-btn').classList.add('on'); $('rec-btn').textContent = '⏹'; $('rec-btn').setAttribute('aria-label', 'Arrêter l’enregistrement');
       $('mic-msg').textContent = 'Enregistrement en cours… Appuyez à nouveau pour arrêter.';
@@ -79,6 +114,7 @@
     clearInterval(tick);
     if (recorder && recorder.state !== 'inactive') { recorder._discard = !!discard; recorder.stop(); }
     if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+    stopRecognition();
     $('rec-btn').classList.remove('on'); $('rec-btn').textContent = '🎙️'; $('rec-btn').setAttribute('aria-label', 'Commencer l’enregistrement');
     if (!discard) $('mic-msg').textContent = '';
   }
@@ -90,6 +126,7 @@
     $('playback').removeAttribute('src');
     $('rec-timer').textContent = '0:00'; $('mic-msg').textContent = '';
     $('voice-consent').checked = false; $('pseudo').value = ''; $('audio-file').value = '';
+    transcript = ''; clear($('voice-analysis')); $('route-info').hidden = true; $('stt-wrap').hidden = true; $('stt-on').checked = false;
     updateSend();
   }
   $('rec-btn').addEventListener('click', function () { if (recorder && recorder.state === 'recording') stopRecording(false); else startRecording(); });
@@ -97,7 +134,9 @@
   $('audio-file').addEventListener('change', function (e) {
     var f = e.target.files && e.target.files[0]; if (!f) return;
     if (f.size > 3 * 1024 * 1024) { $('mic-msg').textContent = 'Fichier trop lourd (3 Mo au plus).'; return; }
+    transcript = '';
     setAudio(f, 0);
+    clear($('voice-analysis')).appendChild(el('p', 'ok', 'Un fichier audio ne peut pas être analysé automatiquement : une personne de l’équipe d’écoute l’écoutera directement.'));
   });
   $('voice-consent').addEventListener('change', updateSend);
   $('send-voice').addEventListener('click', function () {
@@ -106,7 +145,10 @@
     var msg = {
       id: C.newId(), kind: 'vocal', code: C.normCode(code), createdAt: Date.now(), lang: lang,
       pseudo: $('pseudo').value.trim().slice(0, 30), audio: audioBlob, audioType: audioBlob.type || 'audio/webm', durationSec: durationSec,
-      consent: true, status: 'nouveau', translation: '', priority: null, needs: [], orientation: '', reply: null, listens: [], treatedAt: null
+      consent: true, status: 'nouveau', translation: '', priority: null, needs: [], orientation: '', reply: null, listens: [], treatedAt: null,
+      // Analyse automatique (français, si activée) ou écoute humaine directe (autres langues, fichiers).
+      transcript: transcript.trim().slice(0, 4000), route: transcript.trim() ? 'analyse' : 'humain',
+      priorityAuto: transcript.trim() ? C.analyze(transcript).level : null
     };
     C.dbPut(msg).then(function () {
       resetVoice();
@@ -194,13 +236,12 @@
      ========================================================= */
   var vault = null;
   function openVaultWith(code) {
-    if (!/^\d{4,8}$/.test(code)) return Promise.reject(new Error('format'));
-    // Le code doit être le code secret de la calculatrice (empreinte vérifiée).
     var camo = window.LIGHT_CAMO;
-    var check = camo ? camo.checkCode(code) : Promise.resolve('secret');
-    return check.then(function (r) {
+    if (!camo || !camo.isConfigured()) return Promise.reject(new Error('aucun'));
+    // Le calcul doit être le calcul secret de la calculatrice (empreinte vérifiée).
+    return camo.checkCode(code).then(function (r) {
       if (r !== 'secret') throw new Error('code');
-      return C.openVault(code);
+      return C.openVault(camo.normalizeCalc(code));
     }).then(function (v) {
       vault = v;
       return C.ensureDropKeys(v).catch(function () { /* le coffre reste utilisable */ }).then(function () { return v; });
@@ -213,7 +254,11 @@
       $('vault-code').value = '';
       $('vault-lock').hidden = true; $('vault-body').hidden = false; $('vault-lock-msg').textContent = '';
       renderVault();
-    }).catch(function () { $('vault-lock-msg').textContent = 'Code incorrect. Utilisez le code secret de la calculatrice (démonstration : 1234).'; });
+    }).catch(function (e) {
+      $('vault-lock-msg').textContent = e && e.message === 'aucun'
+        ? 'Choisissez d’abord votre calcul secret dans « Mode discret ».'
+        : 'Calcul incorrect. Utilisez le calcul secret de la calculatrice.';
+    });
   });
   function closeVault() {
     vault = null;
@@ -320,9 +365,54 @@
         loadAlertSettings();
         if (navigator.vibrate && C.alertPrefs().vibrate) { try { navigator.vibrate(80); } catch (e) { /* ignoré */ } }
         msg.textContent = (micOk ? 'Micro autorisé. ' : 'Micro refusé : l’alerte partira quand même, sans enregistrement. ') +
-          (vaultOk === 'code' ? 'Code secret incorrect : les enregistrements ne seront pas rangés dans « Mes preuves ». ' : vaultOk ? 'Les enregistrements iront, chiffrés, dans « Mes preuves ». ' : 'Saisissez votre code secret pour que les enregistrements aillent dans « Mes preuves ». ') +
+          (vaultOk === 'code' ? 'Calcul secret incorrect (ou pas encore choisi dans « Mode discret ») : les enregistrements ne seront pas rangés dans « Mes preuves ». ' : vaultOk ? 'Les enregistrements iront, chiffrés, dans « Mes preuves ». ' : 'Saisissez votre calcul secret pour que les enregistrements aillent dans « Mes preuves ». ') +
           'Pour essayer : ouvrez la calculatrice, tapez 3 fois sur la zone des chiffres, puis regardez la console agent.';
       });
+    });
+  });
+
+  /* =========================================================
+     6. Personne de confiance (chiffrée avec le calcul secret)
+     ========================================================= */
+  var trustVault = null;
+  function renderTrustCall(t) {
+    var box = clear($('trust-call'));
+    if (!t || !t.phone) return;
+    var a = el('a', 'btn', 'Appeler ' + (t.name || 'ma personne de confiance') + (t.rel ? ' (' + t.rel + ')' : ''));
+    a.href = 'tel:' + t.phone.replace(/[^0-9+]/g, '');
+    box.appendChild(a);
+  }
+  $('trust-open').addEventListener('click', function () {
+    $('trust-lock-msg').textContent = 'Ouverture…';
+    openVaultWith($('trust-code').value.trim()).then(function (v) {
+      trustVault = v; $('trust-code').value = '';
+      return C.trustLoad(v);
+    }).then(function (t) {
+      $('trust-lock').hidden = true; $('trust-body').hidden = false; $('trust-lock-msg').textContent = '';
+      t = t || {};
+      $('trust-name').value = t.name || ''; $('trust-rel').value = t.rel || ''; $('trust-phone').value = t.phone || '';
+      $('trust-share').checked = !!(C.alertPrefs().trusted);
+      renderTrustCall(t);
+    }).catch(function (e) {
+      $('trust-lock-msg').textContent = e && e.message === 'aucun' ? 'Choisissez d’abord votre calcul secret dans « Mode discret ».' : 'Calcul incorrect.';
+    });
+  });
+  $('trust-save').addEventListener('click', function () {
+    if (!trustVault) return;
+    var t = { name: $('trust-name').value.trim().slice(0, 40), rel: $('trust-rel').value, phone: $('trust-phone').value.trim().slice(0, 20) };
+    if (!/^[0-9+ .()-]{8,20}$/.test(t.phone)) { $('trust-msg').textContent = 'Saisissez un numéro de téléphone valable.'; return; }
+    C.trustSave(trustVault, t).then(function () {
+      C.saveAlertPrefs({ trusted: $('trust-share').checked ? t : null });
+      renderTrustCall(t);
+      $('trust-msg').textContent = 'Personne de confiance enregistrée' + ($('trust-share').checked ? ', et transmise à l’équipe d’écoute en cas d’alerte discrète.' : '.');
+    });
+  });
+  $('trust-del').addEventListener('click', function () {
+    if (!trustVault || !window.confirm('Supprimer votre personne de confiance de ce téléphone ?')) return;
+    C.trustSave(trustVault, null).then(function () {
+      C.saveAlertPrefs({ trusted: null });
+      ['trust-name', 'trust-phone'].forEach(function (id) { $(id).value = ''; }); $('trust-rel').value = ''; $('trust-share').checked = false;
+      clear($('trust-call')); $('trust-msg').textContent = 'Supprimée.';
     });
   });
 

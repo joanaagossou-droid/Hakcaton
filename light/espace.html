@@ -41,6 +41,7 @@
     <button type="button" role="tab" data-tab="v-chat" aria-selected="false">💬 Assistante</button>
     <button type="button" role="tab" data-tab="v-vault" aria-selected="false">🔒 Mes preuves</button>
     <button type="button" role="tab" data-tab="v-alert" aria-selected="false">🛎️ Alerte discrète</button>
+    <button type="button" role="tab" data-tab="v-trust" aria-selected="false">🤝 Confiance</button>
   </div>
 
   <!-- ===== Message vocal ===== -->
@@ -50,6 +51,8 @@
     <p class="label">1. Dans quelle langue allez-vous parler ?</p>
     <div class="chips" id="lang-chips"></div>
     <div id="voice-step2" hidden>
+      <p class="ok" id="route-info" hidden></p>
+      <label class="inline" id="stt-wrap" hidden><input type="checkbox" id="stt-on"> Analyser automatiquement ce que je dis (en français). <span class="small">Facultatif : le son passe alors par le service de reconnaissance vocale du navigateur, un service extérieur. Sans cette option, une personne écoutera votre message.</span></label>
       <p class="label">2. Appuyez sur le bouton et parlez (2 minutes au plus)</p>
       <button type="button" class="rec" id="rec-btn" aria-label="Commencer l'enregistrement">🎙️</button>
       <p class="timer" id="rec-timer" aria-live="polite">0:00</p>
@@ -58,6 +61,7 @@
         <audio id="playback" controls></audio>
         <button type="button" class="btn secondary" id="redo">Recommencer</button>
       </div>
+      <div id="voice-analysis" aria-live="polite"></div>
       <details><summary>Le micro ne marche pas ? Utiliser un fichier audio</summary>
         <input type="file" id="audio-file" accept="audio/*">
       </details>
@@ -105,10 +109,10 @@
   <!-- ===== Coffre de preuves ===== -->
   <section class="view" id="v-vault" role="tabpanel" hidden>
     <h2>Mes preuves</h2>
-    <p>Vos preuves sont <strong>chiffrées avec votre code secret</strong> et rangées ici, à l'abri de la galerie. Sans le code, personne ne peut les voir, même en fouillant les fichiers du téléphone.</p>
+    <p>Vos preuves sont <strong>chiffrées avec votre calcul secret</strong> et rangées ici, à l'abri de la galerie. Sans le code, personne ne peut les voir, même en fouillant les fichiers du téléphone.</p>
     <div id="vault-lock">
-      <label for="vault-code">Code secret (celui de la calculatrice)</label>
-      <input type="password" id="vault-code" inputmode="numeric" maxlength="8" autocomplete="off">
+      <label for="vault-code">Votre calcul secret (celui de la calculatrice)</label>
+      <input type="password" id="vault-code" maxlength="24" autocomplete="off" spellcheck="false">
       <button type="button" class="btn" id="vault-open">Ouvrir mes preuves</button>
       <p class="small" id="vault-lock-msg" role="status"></p>
     </div>
@@ -130,7 +134,7 @@
       <div id="vault-list" class="vgrid"></div>
       <div id="vault-view" class="card" hidden></div>
       <button type="button" class="btn secondary" id="vault-close">Refermer le coffre</button>
-      <p class="small">Si vous oubliez votre code secret, les preuves ne peuvent pas être récupérées.</p>
+      <p class="small">Si vous oubliez votre calcul secret, les preuves ne peuvent pas être récupérées.</p>
     </div>
   </section>
 
@@ -152,10 +156,44 @@
       <label for="alert-pseudo">Prénom inventé (facultatif)</label>
       <input type="text" id="alert-pseudo" maxlength="30" autocomplete="off" placeholder="Par exemple : Étoile">
       <label class="inline"><input type="checkbox" id="alert-vibrate"> Une courte vibration confirme le déclenchement</label>
-      <label for="alert-code">Code secret (pour préparer le dépôt chiffré dans « Mes preuves »)</label>
-      <input type="password" id="alert-code" inputmode="numeric" maxlength="8" autocomplete="off">
+      <label for="alert-code">Votre calcul secret (pour que les enregistrements aillent, chiffrés, dans « Mes preuves »)</label>
+      <input type="password" id="alert-code" maxlength="24" autocomplete="off" spellcheck="false">
       <button type="button" class="btn" id="alert-prep">Autoriser le micro et préparer (à faire seule)</button>
       <p class="small" id="alert-msg" role="status"></p>
+    </div>
+  </section>
+
+  <!-- ===== Personne de confiance ===== -->
+  <section class="view" id="v-trust" role="tabpanel" hidden>
+    <h2>Ma personne de confiance</h2>
+    <p>Une personne que vous voulez pouvoir appeler vite, ou faire prévenir en cas de grand danger : papa, maman, mari, grand frère, une amie…</p>
+    <div id="trust-lock">
+      <label for="trust-code">Votre calcul secret (la personne de confiance est gardée chiffrée)</label>
+      <input type="password" id="trust-code" maxlength="24" autocomplete="off" spellcheck="false">
+      <button type="button" class="btn" id="trust-open">Ouvrir</button>
+      <p class="small" id="trust-lock-msg" role="status"></p>
+    </div>
+    <div id="trust-body" hidden>
+      <div id="trust-call"></div>
+      <label for="trust-name">Prénom ou surnom</label>
+      <input type="text" id="trust-name" maxlength="40" autocomplete="off" placeholder="Par exemple : Tonton Koffi">
+      <label for="trust-rel">Lien avec vous</label>
+      <select id="trust-rel"><option value="">Choisir…</option><option>Papa</option><option>Maman</option><option>Mari ou conjoint</option><option>Grand frère</option><option>Grande sœur</option><option>Amie ou ami</option><option>Voisine ou voisin</option><option>Autre personne de confiance</option></select>
+      <label for="trust-phone">Numéro de téléphone</label>
+      <input type="text" id="trust-phone" inputmode="tel" maxlength="20" autocomplete="off" placeholder="Par exemple : 01 00 00 00 00">
+      <label class="inline"><input type="checkbox" id="trust-share"> En cas d'alerte discrète, transmettre ce contact à l'équipe d'écoute, pour qu'elle puisse le prévenir. <span class="small">Ce contact sera alors lisible sur ce téléphone sans votre calcul secret : ne cochez que si c'est sans danger.</span></label>
+      <button type="button" class="btn" id="trust-save">Enregistrer</button>
+      <button type="button" class="btn secondary" id="trust-del">Supprimer</button>
+      <p class="small" id="trust-msg" role="status"></p>
+    </div>
+    <div class="card">
+      <h3>Pour que les secours puissent la joindre</h3>
+      <p>Enregistrez aussi cette personne dans les <strong>informations d'urgence de votre téléphone</strong> : les secours peuvent les voir même si le téléphone est verrouillé.</p>
+      <ul>
+        <li><strong>Android</strong> : Réglages → Sécurité et urgence → Contacts d'urgence (le nom exact varie selon le téléphone).</li>
+        <li><strong>iPhone</strong> : application Santé → Fiche médicale → Contacts d'urgence.</li>
+      </ul>
+      <p class="small">Light ne prévoit pas d'accès caché à votre espace, même pour la police : une porte dérobée pourrait aussi être utilisée par la personne qui vous fait du mal.</p>
     </div>
   </section>
 

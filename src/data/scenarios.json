@@ -1,15 +1,39 @@
 {
   "version": "1.0.0",
-  "source": "Mémoire NUKUN final, § 5 « Test de l'agresseur intime ». Personas entièrement fictifs : Afi (survivante) et Kossi (agresseur).",
+  "source": "Mémoire NUKUN final, § 5 « Test de l'agresseur intime » (T1 à T7). T8 et T9 : scénarios complémentaires ajoutés par l'équipe pour le contexte béninois, liés à des critères existants. Personas entièrement fictifs.",
   "verdicts": [
-    { "id": "exposed", "label": "Afi est exposée", "note": 0, "tone": "red" },
-    { "id": "partial", "label": "Risque partiellement maîtrisé", "note": 1, "tone": "orange" },
-    { "id": "protected", "label": "Afi est protégée dans le périmètre testé", "note": 2, "tone": "green" },
-    { "id": "unverified", "label": "Non vérifié", "note": null, "tone": "grey" }
+    {
+      "id": "exposed",
+      "label": "Afi est exposée",
+      "note": 0,
+      "tone": "red"
+    },
+    {
+      "id": "partial",
+      "label": "Risque partiellement maîtrisé",
+      "note": 1,
+      "tone": "orange"
+    },
+    {
+      "id": "protected",
+      "label": "Afi est protégée dans le périmètre testé",
+      "note": 2,
+      "tone": "green"
+    },
+    {
+      "id": "unverified",
+      "label": "Non vérifié",
+      "note": null,
+      "tone": "grey"
+    }
   ],
   "scenarios": [
     {
-      "id": "T1", "title": "L'historique du navigateur", "criteria": ["S3"],
+      "id": "T1",
+      "title": "L'historique du navigateur",
+      "criteria": [
+        "S3"
+      ],
       "situation": "Kossi prend le téléphone d'Afi et ouvre l'historique du navigateur.",
       "explanation": "L'historique garde la liste des pages visitées, leur titre et parfois une icône. Un titre explicite (« Signaler une violence ») suffit à révéler la démarche.",
       "action": "Ouvrez l'outil audité dans un navigateur normal (pas en navigation privée), visitez 2 ou 3 pages, utilisez la sortie rapide si elle existe, puis ouvrez l'historique du navigateur.",
@@ -20,10 +44,15 @@
         "protected": "Aucune entrée révélatrice n'apparaît après l'usage normal et la sortie rapide (dans la limite de ce que permet le navigateur)."
       },
       "recommendation": "Utiliser des titres d'onglet neutres, remplacer la page dans l'historique lors de la sortie rapide (location.replace) et conseiller la navigation privée.",
-      "correction": "K-DISCREET"
+      "correction": "K-DISCREET",
+      "origin": "memoire"
     },
     {
-      "id": "T2", "title": "Les notifications et SMS", "criteria": ["S4"],
+      "id": "T2",
+      "title": "Les notifications et SMS",
+      "criteria": [
+        "S4"
+      ],
       "situation": "Kossi consulte les notifications et les messages d'Afi.",
       "explanation": "Une confirmation automatique par SMS, courriel ou notification peut être lue par toute personne qui a accès au téléphone.",
       "action": "Réalisez la démarche principale de l'outil avec des données fictives, puis vérifiez les notifications, SMS et courriels reçus sur l'appareil de test. Vérifiez aussi si l'outil demande l'autorisation d'envoyer des notifications.",
@@ -34,10 +63,16 @@
         "protected": "Aucun message n'est envoyé sans demande explicite ; l'outil ne demande pas d'autorisation de notification."
       },
       "recommendation": "Ne jamais envoyer de confirmation par défaut ; afficher le code de suivi à l'écran uniquement.",
-      "correction": "K-DISCREET"
+      "correction": "K-DISCREET",
+      "origin": "memoire"
     },
     {
-      "id": "T3", "title": "Les applications installées", "criteria": ["S1", "S3"],
+      "id": "T3",
+      "title": "Les applications installées",
+      "criteria": [
+        "S1",
+        "S3"
+      ],
       "situation": "Kossi regarde les applications installées sur le téléphone.",
       "explanation": "Une icône ou un nom d'application explicite (ou un raccourci ajouté à l'écran d'accueil) éveille les soupçons.",
       "action": "Installez l'application ou ajoutez le site à l'écran d'accueil si c'est proposé. Regardez le nom et l'icône affichés, puis le titre de l'onglet et l'icône du site.",
@@ -48,10 +83,15 @@
         "protected": "Le nom et l'icône sont neutres, ou l'outil n'incite pas à l'installation."
       },
       "recommendation": "Prévoir un titre et une icône neutres ; ne pas pousser l'installation ; documenter le mode discret.",
-      "correction": "K-DISCREET"
+      "correction": "K-DISCREET",
+      "origin": "memoire"
     },
     {
-      "id": "T4", "title": "La sortie rapide", "criteria": ["S1"],
+      "id": "T4",
+      "title": "La sortie rapide",
+      "criteria": [
+        "S1"
+      ],
       "situation": "Kossi entre dans la pièce pendant qu'Afi utilise l'outil.",
       "explanation": "Afi doit pouvoir masquer l'outil en un geste, en moins de 2 secondes, et le bouton « Retour » ne doit pas ramener sur la page sensible.",
       "action": "Ouvrez une page sensible de l'outil (par exemple « Signaler »). Chronométrez : appuyez sur la sortie rapide (ou la touche Échap). Appuyez ensuite sur « Retour ».",
@@ -62,10 +102,16 @@
         "protected": "Une page neutre s'affiche en moins de 2 secondes depuis chaque page ; « Retour » ne ramène pas à la page sensible."
       },
       "recommendation": "Ajouter le composant de sortie rapide du kit sur toutes les pages, avec la touche Échap et location.replace.",
-      "correction": "K-EXIT"
+      "correction": "K-EXIT",
+      "origin": "memoire"
     },
     {
-      "id": "T5", "title": "Le compte partagé", "criteria": ["C1", "N5"],
+      "id": "T5",
+      "title": "Le compte partagé",
+      "criteria": [
+        "C1",
+        "N5"
+      ],
       "situation": "Kossi connaît le mot de passe du compte Google d'Afi.",
       "explanation": "Historique synchronisé, galerie sauvegardée dans le cloud, comptes de connexion : tout ce qui est synchronisé est visible depuis un autre appareil.",
       "action": "Vérifiez si l'outil demande une connexion par un compte tiers, s'il enregistre des éléments dans un espace synchronisé, et si ses conseils sur les preuves mettent en garde contre le cloud partagé.",
@@ -76,10 +122,15 @@
         "protected": "Aucune connexion tierce, rien n'est synchronisé, et les conseils de conservation mettent en garde contre le cloud partagé."
       },
       "recommendation": "Ne pas proposer de connexion par compte tiers ; publier le guide de conservation sûre des preuves.",
-      "correction": "K-EVIDENCE"
+      "correction": "K-EVIDENCE",
+      "origin": "memoire"
     },
     {
-      "id": "T6", "title": "Le réseau partagé", "criteria": ["C1"],
+      "id": "T6",
+      "title": "Le réseau partagé",
+      "criteria": [
+        "C1"
+      ],
       "situation": "Kossi partage le forfait ou le Wi-Fi d'Afi.",
       "explanation": "Chaque service tiers contacté (mesure d'audience, publicité, polices, cartes) peut laisser une trace hors du contrôle de l'outil.",
       "action": "Consultez le résultat de l'analyse automatique (traceurs et domaines tiers). Sur ordinateur, vous pouvez aussi ouvrir l'onglet « Réseau » des outils de développement et recharger chaque page.",
@@ -90,10 +141,17 @@
         "protected": "Aucun service tiers n'est contacté dans le périmètre observé."
       },
       "recommendation": "Retirer tout traceur des pages ; héberger soi-même polices et bibliothèques ; appliquer une Content-Security-Policy stricte.",
-      "correction": "K-TRACKERS"
+      "correction": "K-TRACKERS",
+      "origin": "memoire"
     },
     {
-      "id": "T7", "title": "La survivante mineure", "criteria": ["R2", "R5", "N4"],
+      "id": "T7",
+      "title": "La survivante mineure",
+      "criteria": [
+        "R2",
+        "R5",
+        "N4"
+      ],
       "situation": "Afi est mineure et l'auteur présumé est un membre de sa famille.",
       "explanation": "Les conseils standards (« parlez-en à vos parents ») peuvent l'exposer. Elle doit aussi savoir que la confidentialité a des limites lorsqu'une personne mineure est en danger.",
       "action": "Lisez les pages d'orientation et de confidentialité comme si vous étiez une adolescente dont l'oncle est l'auteur. Cherchez une orientation adaptée et l'explication des limites de la confidentialité.",
@@ -104,6 +162,48 @@
         "protected": "Orientation adaptée au cas familial, limites de la confidentialité expliquées simplement, contacts vérifiés."
       },
       "recommendation": "Ajouter une rubrique « Si l'auteur est un proche », une page « Limites de la confidentialité » et vérifier chaque contact.",
+      "correction": "K-ORIENTATION",
+      "origin": "memoire"
+    },
+    {
+      "id": "T8",
+      "title": "Le voisin témoin",
+      "origin": "contexte",
+      "criteria": [
+        "E4",
+        "C2",
+        "R1"
+      ],
+      "situation": "Un voisin entend régulièrement des cris et des coups dans la maison d'à côté : le père frappe sa fille, qui n'ose rien dire et ne se rend pas compte qu'elle peut être aidée.",
+      "explanation": "Au Bénin, beaucoup de violences intrafamiliales sont connues de l'entourage. Si le témoin doit donner son nom ou son numéro, il risque des représailles et préfère se taire. Un outil sûr permet de signaler pour une autre personne, anonymement.",
+      "action": "Cherchez dans l'outil un moyen de demander de l'aide POUR UNE AUTRE PERSONNE. Faites le parcours avec des informations fictives, sans donner d'identité. Vérifiez si l'outil explique ce qui se passera ensuite.",
+      "question": "Un témoin peut-il signaler anonymement une situation qui ne le concerne pas, sans s'exposer, et sait-il ce qui va se passer ?",
+      "guidance": {
+        "exposed": "Le signalement exige le nom ou le numéro du témoin, ou l'outil ne prévoit que la victime elle-même.",
+        "partial": "Un signalement par un tiers est possible, mais l'anonymat ou la suite donnée ne sont pas clairs.",
+        "protected": "Le témoin peut signaler pour une autre personne, sans identité, et sait ce qui va se passer."
+      },
+      "recommendation": "Prévoir explicitement « Je signale pour une autre personne », anonyme par défaut, avec la prochaine étape et les limites (danger immédiat : services de sécurité).",
+      "correction": "K-FORM"
+    },
+    {
+      "id": "T9",
+      "title": "Elle ne lit pas le français",
+      "origin": "contexte",
+      "criteria": [
+        "A3",
+        "A2"
+      ],
+      "situation": "Afi parle fon et ne lit pas le français. Elle veut demander de l'aide sur le téléphone de sa grande sœur.",
+      "explanation": "Une grande partie des survivantes ne lit pas le français. Un outil uniquement écrit en français les exclut. Une solution réaliste : un message vocal dans sa langue, écouté par une personne qui la parle.",
+      "action": "Essayez de demander de l'aide sans lire ni écrire : y a-t-il un message vocal, un choix de langue nationale, des pictogrammes ? Vérifiez que le message arrive à un humain qui parle cette langue.",
+      "question": "Afi peut-elle demander de l'aide dans sa langue, sans lire, et être prise en charge par une personne ?",
+      "guidance": {
+        "exposed": "L'outil n'est utilisable qu'en français écrit.",
+        "partial": "Un message vocal est possible, mais l'outil reste à lire en français (pas d'audio ni de pictogrammes dans les langues nationales).",
+        "protected": "Parcours entièrement possible dans sa langue (audio, pictogrammes) et prise en charge par une personne qui parle cette langue."
+      },
+      "recommendation": "Ajouter un message vocal dans les langues nationales, orienté vers un agent qui les parle ; enregistrer les consignes audio avec des locuteurs natifs.",
       "correction": "K-ORIENTATION"
     }
   ]

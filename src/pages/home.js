@@ -101,21 +101,21 @@ export async function renderHome(ctx) {
       h('ol', { class: 'steps' },
         step('01', 'Analyse de l\'adresse', 'Lecture passive : traceurs, HTTPS, cookies, sortie rapide, formulaires. Preuve 🤖 machine.'),
         step('02', '30 critères, 6 piliers', 'Chaque critère noté 0, 1, 2 ou N/A, avec son niveau de preuve.'),
-        step('03', 'Agresseur intime', '7 scénarios joués du point de vue de Kossi, qui contrôle le téléphone d\'Afi. Preuve 🧪 humaine.'),
+        step('03', 'Agresseur intime', `${ctx.data.scenarios.length} scénarios fictifs : Kossi contrôle le téléphone d’Afi, un voisin témoin, une victime qui ne lit pas le français. Preuve 🧪 humaine.`),
         step('04', 'Score et feu', `Un critère bloquant non conforme plafonne le score à ${BLOCKING_CAP}.`),
         step('05', 'Correction et ré-audit', 'Plan priorisé, kit de correctifs, puis nouvel audit pour prouver l\'amélioration.'))),
 
     h('section', { class: 'section reveal' },
       h('div', { class: 'band' },
-        h('span', { class: 'eyebrow' }, h('span', { class: 'dot' }), 'Démonstration · sites fictifs'),
-        h('h2', { class: 'display-2', style: { 'margin-top': '14px' } }, 'De HAVEN à LIGHT, ', h('span', { class: 'dim' }, 'le même moteur.')),
-        h('p', { class: 'lead' }, 'HAVEN se présente comme un refuge mais expose Afi. En appliquant le plan de correction de NUKUN, elle devient LIGHT, puis est ré-auditée. Les scores sont recalculés à chaque ouverture : aucun n\'est fixé à la main.'),
+        h('span', { class: 'eyebrow' }, h('span', { class: 'dot' }), 'Cas d’étude · plateformes fictives'),
+        h('h2', { class: 'display-2', style: { 'margin-top': '14px' } }, 'Un audit complet, ', h('span', { class: 'dim' }, 'du constat à la vérification.')),
+        h('p', { class: 'lead' }, 'HAVEN, une plateforme d’aide fictive, a été soumise à NUKUN. L’audit a relevé ses défauts et produit un plan de correction ; le kit a été appliqué, ce qui a donné la version corrigée LIGHT, auditée à son tour. Les deux scores sont recalculés par le même moteur à chaque ouverture : aucun n’est fixé à la main.'),
         h('div', { class: 'vs' },
-          h('div', { class: 'side' }, h('span', { class: 'tag red' }, 'Avant'), h('h3', null, 'HAVEN'), h('ul', null, h('li', null, 'Traceur d\'audience simulé'), h('li', null, 'Aucune sortie rapide'), h('li', null, 'Nom et téléphone obligatoires'), h('li', null, 'Politique de confidentialité vide')), h('p', null, h('a', { class: 'link-arrow', style: { color: '#dce7f5' }, href: 'haven/', target: '_blank', rel: 'noopener' }, 'Ouvrir HAVEN ↗'))),
+          h('div', { class: 'side' }, h('span', { class: 'tag red' }, 'Soumise à l’audit'), h('h3', null, 'HAVEN'), h('ul', null, h('li', null, 'Traceur d\'audience simulé'), h('li', null, 'Aucune sortie rapide'), h('li', null, 'Nom et téléphone obligatoires'), h('li', null, 'Politique de confidentialité vide')), null),
           h('div', { class: 'arrow-mid', 'aria-hidden': 'true' }, '→'),
-          h('div', { class: 'side' }, h('span', { class: 'tag green' }, 'Après'), h('h3', null, 'LIGHT'), h('ul', null, h('li', null, 'Bouton Quitter et touche Échap'), h('li', null, 'Formulaire anonyme par défaut'), h('li', null, 'Aucun service tiers'), h('li', null, 'Points restants affichés honnêtement')), h('p', null, h('a', { class: 'link-arrow', style: { color: '#dce7f5' }, href: 'light/', target: '_blank', rel: 'noopener' }, 'Ouvrir LIGHT ↗')))),
+          h('div', { class: 'side' }, h('span', { class: 'tag green' }, 'Après correction'), h('h3', null, 'LIGHT'), h('ul', null, h('li', null, 'Bouton Quitter et touche Échap'), h('li', null, 'Formulaire anonyme par défaut'), h('li', null, 'Aucun service tiers'), h('li', null, 'Points restants affichés honnêtement')), null)),
         h('div', { class: 'row', style: { 'margin-top': '26px' } },
-          h('a', { class: 'btn', href: '#/comparer' }, 'Comparer avec le moteur ', h('span', { class: 'arrow', 'aria-hidden': 'true' }, '→')),
+          h('a', { class: 'btn', href: '#/comparer' }, 'Voir l’audit avant / après ', h('span', { class: 'arrow', 'aria-hidden': 'true' }, '→')),
           h('a', { class: 'btn secondary', href: '#/kit' }, 'Voir le kit de correctifs')))),
 
     h('section', { class: 'section reveal' },
@@ -158,7 +158,7 @@ export function renderDashboard(ctx) {
       store.saveAudit(a);
       toast('Audit importé. Les résultats d\'analyse importés sont traités comme des déclarations.', 'ok');
       refresh();
-    } catch { toast('Ce fichier n\'est pas un export NUKUN valide.', 'err'); }
+    } catch { toast('Ce fichier n\'est pas une sauvegarde NUKUN valide.', 'err'); }
   });
 
   return h('div', { class: 'stack' },
@@ -173,7 +173,7 @@ export function renderDashboard(ctx) {
     h('div', { class: 'row' },
       h('a', { class: 'btn', href: '#/nouvel-audit' }, 'Nouvel audit'),
       last ? h('a', { class: 'btn secondary', href: `#/audit/${last.a.id}/criteres` }, 'Reprendre mon audit') : null,
-      h('label', { class: 'btn secondary', for: 'import-file' }, 'Importer un audit (JSON)'), fileInput),
+      h('label', { class: 'btn secondary', for: 'import-file' }, 'Importer un audit sauvegardé'), fileInput),
     last ? h('section', { class: 'panel' },
       h('h2', null, 'Dernier audit'),
       h('div', { class: 'row between' },

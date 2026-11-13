@@ -1,4 +1,5 @@
-/* LIGHT — Réglages du mode discret (codes, notification camouflée, effacement). Aucun envoi réseau. */
+/* LIGHT — Réglages du mode discret : calcul secret et calcul leurre choisis par la personne,
+   notification camouflée, effacement. Aucun envoi réseau. */
 (function () {
   'use strict';
   var CAMO = window.LIGHT_CAMO;
@@ -28,55 +29,64 @@
   }
 
   function refresh() {
-    $('default-warning').hidden = !CAMO.isDefaultCodes();
+    var ok = CAMO.isConfigured();
+    $('current-wrap').hidden = !ok;
+    $('setup-title').textContent = ok ? '1. Votre calcul secret est choisi' : '1. Choisissez votre calcul secret';
+    $('setup-status').textContent = ok
+      ? 'La calculatrice s’ouvre avec votre calcul secret. Vous pouvez le changer ci-dessous (il faut alors saisir l’actuel).'
+      : 'Aucun calcul secret n’est encore choisi : pour l’instant, la calculatrice n’ouvre rien. Choisissez-le ci-dessous.';
     renderChoices();
   }
 
   $('camo-save').addEventListener('click', function () {
     var s = $('secret').value.trim();
+    var s2 = $('secret2').value.trim();
     var d = $('decoy').value.trim();
     var notif = (document.querySelector('input[name="notif"]:checked') || {}).value || 'calc';
-    var ok = /^\d{4,8}$/;
-    if ((s || d) && !(ok.test(s) && ok.test(d))) { say('Les deux codes doivent contenir de 4 à 8 chiffres.', true); return; }
-    if (s && s === d) { say('Le code secret et le code leurre doivent être différents.', true); return; }
-    var p = CAMO.getPrefs();
-    p.notif = notif;
-    CAMO.setPrefs(p);
-    var done = function () {
-      $('secret').value = ''; $('decoy').value = '';
-      refresh();
-      say(s ? 'Codes et réglages enregistrés. Retenez bien votre code secret.' : 'Réglages enregistrés.');
-    };
-    if (!s) { done(); return; }
-    var CORE = window.LIGHT_CORE;
-    var current = $('current') ? $('current').value.trim() : '';
-    // Si des preuves existent, le coffre doit être re-chiffré avec le nouveau code (sinon elles deviendraient illisibles).
-    var vaultStep = Promise.resolve(null);
-    if (CORE && CORE.vaultExists()) {
-      if (!current) { say('Vous avez des preuves : saisissez d’abord votre code secret actuel.', true); return; }
-      vaultStep = CAMO.checkCode(current).then(function (r) {
-        if (r !== 'secret') throw new Error('code');
-        return CORE.openVault(current);
-      });
+    var p = CAMO.getPrefs(); p.notif = notif; CAMO.setPrefs(p);
+    if (!s && !d) { say('Réglages enregistrés.'); return; }
+    if (!s) { say('Saisissez votre calcul secret (vous pouvez garder le même).', true); return; }
+    var err = CAMO.validCalc(s);
+    if (err) { say(err, true); return; }
+    if (CAMO.normalizeCalc(s) !== CAMO.normalizeCalc(s2)) { say('Les deux saisies du calcul secret ne sont pas identiques.', true); return; }
+    if (d) {
+      var errD = CAMO.validCalc(d);
+      if (errD) { say('Calcul leurre : ' + errD, true); return; }
+      if (CAMO.normalizeCalc(d) === CAMO.normalizeCalc(s)) { say('Le calcul leurre doit être différent du calcul secret.', true); return; }
     }
-    vaultStep.then(function (vault) {
-      return CAMO.setCodes(s, d).then(function () { return vault ? CORE.rewrapVault(vault, s) : null; });
+    var CORE = window.LIGHT_CORE;
+    var current = $('current').value.trim();
+    // Si un calcul existe déjà, il faut le connaître pour le changer ; si des preuves existent,
+    // le coffre est re-chiffré avec le nouveau calcul (sinon elles deviendraient illisibles).
+    var step = Promise.resolve(null);
+    if (CAMO.isConfigured()) {
+      if (!current) { say('Saisissez d’abord votre calcul secret actuel.', true); return; }
+      step = CAMO.checkCode(current).then(function (r) {
+        if (r !== 'secret') throw new Error('code');
+        return CORE && CORE.vaultExists() ? CORE.openVault(CAMO.normalizeCalc(current)) : null;
+      });
+    } else if (CORE && CORE.vaultExists()) {
+      say('Des preuves existent déjà sur ce téléphone avec un ancien code : effacez tout ci-dessous avant de choisir un nouveau calcul.', true);
+      return;
+    }
+    step.then(function (vault) {
+      return CAMO.setCodes(s, d || '').then(function () { return vault ? CORE.rewrapVault(vault, CAMO.normalizeCalc(s)) : null; });
     }).then(function () {
-      var q = CAMO.getPrefs(); q.custom = true; q.notif = notif; CAMO.setPrefs(q);
-      if ($('current')) $('current').value = '';
-      done();
+      ['current', 'secret', 'secret2', 'decoy'].forEach(function (id) { $(id).value = ''; });
+      refresh();
+      say('Calcul secret enregistré. Ouvrez la calculatrice, tapez-le puis « = » pour ouvrir Light. Retenez-le bien.');
     }).catch(function (e) {
-      say(e && e.message === 'code' ? 'Code secret actuel incorrect : rien n’a été changé.' : 'Enregistrement impossible sur ce navigateur.', true);
+      say(e && e.message === 'code' ? 'Calcul secret actuel incorrect : rien n’a été changé.' : 'Enregistrement impossible sur ce navigateur.', true);
     });
   });
 
   $('camo-wipe').addEventListener('click', function () {
-    if (!window.confirm('Effacer les codes, les réglages, les messages et les preuves de Light sur ce téléphone ?')) return;
+    if (!window.confirm('Effacer votre calcul secret, les réglages, les messages et les preuves de Light sur ce téléphone ?')) return;
     var CORE = window.LIGHT_CORE;
     (CORE ? CORE.wipeAll() : Promise.resolve()).then(function () {
       CAMO.wipe();
       refresh();
-      say('Tout est effacé : codes, réglages, messages et preuves. Les codes de démonstration sont de nouveau actifs.');
+      say('Tout est effacé : calcul secret, réglages, messages et preuves.');
     });
   });
 

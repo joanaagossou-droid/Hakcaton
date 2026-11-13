@@ -2,55 +2,55 @@
  "version": "1.0.0",
  "entryUrl": "/light/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T09:43:51.861Z",
+ "analyzedAt": "2026-11-13T10:23:59.063Z",
  "pages": [
   {
    "url": "/light/",
    "status": 200,
    "title": "Light · Accueil",
-   "bytes": 17496
+   "bytes": 18825
   },
   {
    "url": "/light/contacts.html",
    "status": 200,
    "title": "Light · Contacts",
-   "bytes": 19702
+   "bytes": 23592
   },
   {
    "url": "/light/espace.html",
    "status": 200,
    "title": "Light · Espace",
-   "bytes": 77156
+   "bytes": 89010
   },
   {
    "url": "/light/ecrire.html",
    "status": 200,
    "title": "Light · Formulaire",
-   "bytes": 17688
+   "bytes": 19711
   },
   {
    "url": "/light/discret.html",
    "status": 200,
    "title": "Light · Réglages",
-   "bytes": 48211
+   "bytes": 52912
   },
   {
    "url": "/light/confidentialite.html",
    "status": 200,
    "title": "Light · Confidentialité",
-   "bytes": 17834
+   "bytes": 19363
   },
   {
    "url": "/light/calculatrice.html",
    "status": 200,
    "title": "Calculatrice",
-   "bytes": 46288
+   "bytes": 48050
   },
   {
    "url": "/light/agent.html",
    "status": 200,
    "title": "Light · Console",
-   "bytes": 52163
+   "bytes": 55591
   }
  ],
  "findings": [
@@ -67,7 +67,7 @@
   },
   {
    "id": "headers",
-   "label": "En-têtes de sécurité",
+   "label": "Protections du site (en-têtes de sécurité)",
    "status": "partial",
    "evidence": "✗ HSTS (Strict-Transport-Security) · ✓ Content-Security-Policy · ✓ X-Content-Type-Options · ✓ Referrer-Policy · ✓ Protection contre l'intégration (frame-ancestors ou X-Frame-Options) · ✓ Permissions-Policy",
    "risk": "Protection incomplète contre l'injection de contenu, l'intégration et les fuites d'adresse.",
@@ -169,7 +169,7 @@
    "id": "weight",
    "label": "Poids approximatif des pages",
    "status": "detected",
-   "evidence": "Page la plus lourde : 75.3 Ko (espace.html). light : 17.1 Ko · contacts.html : 19.2 Ko · espace.html : 75.3 Ko · ecrire.html : 17.3 Ko · discret.html : 47.1 Ko · confidentialite.html : 17.4 Ko · calculatrice.html : 45.2 Ko · agent.html : 50.9 Ko. Taille décodée des ressources de même origine.",
+   "evidence": "Page la plus lourde : 86.9 Ko (espace.html). light : 18.4 Ko · contacts.html : 23 Ko · espace.html : 86.9 Ko · ecrire.html : 19.2 Ko · discret.html : 51.7 Ko · confidentialite.html : 18.9 Ko · calculatrice.html : 46.9 Ko · agent.html : 54.3 Ko. Taille décodée des ressources de même origine.",
    "risk": "Aucun (sous le seuil de 500 Ko)",
    "criteria": [
     "A1"
@@ -178,51 +178,51 @@
    "detail": [
     {
      "url": "/light/",
-     "html": 4151,
-     "resources": 13345,
-     "total": 17496
+     "html": 4170,
+     "resources": 14655,
+     "total": 18825
     },
     {
      "url": "/light/contacts.html",
-     "html": 6357,
-     "resources": 13345,
-     "total": 19702
+     "html": 8937,
+     "resources": 14655,
+     "total": 23592
     },
     {
      "url": "/light/espace.html",
-     "html": 11281,
-     "resources": 65875,
-     "total": 77156
+     "html": 14655,
+     "resources": 74355,
+     "total": 89010
     },
     {
      "url": "/light/ecrire.html",
-     "html": 4343,
-     "resources": 13345,
-     "total": 17688
+     "html": 5056,
+     "resources": 14655,
+     "total": 19711
     },
     {
      "url": "/light/discret.html",
-     "html": 5564,
-     "resources": 42647,
-     "total": 48211
+     "html": 6284,
+     "resources": 46628,
+     "total": 52912
     },
     {
      "url": "/light/confidentialite.html",
-     "html": 4489,
-     "resources": 13345,
-     "total": 17834
+     "html": 4708,
+     "resources": 14655,
+     "total": 19363
     },
     {
      "url": "/light/calculatrice.html",
-     "html": 3128,
-     "resources": 43160,
-     "total": 46288
+     "html": 3148,
+     "resources": 44902,
+     "total": 48050
     },
     {
      "url": "/light/agent.html",
      "html": 2491,
-     "resources": 49672,
-     "total": 52163
+     "resources": 53100,
+     "total": 55591
     }
    ]
   },
@@ -254,7 +254,7 @@
    "id": "phones",
    "label": "Numéros de téléphone cliquables",
    "status": "detected",
-   "evidence": "6 numéro(s) affiché(s), 6 cliquable(s) ; 6 lien(s) tel:",
+   "evidence": "7 numéro(s) affiché(s), 7 cliquable(s) ; 13 lien(s) tel:",
    "risk": "Aucun",
    "criteria": [
     "A4"
@@ -265,7 +265,7 @@
    "id": "forms",
    "label": "Formulaire",
    "status": "detected",
-   "evidence": "ecrire.html : 6 champ(s) · discret.html : 3 champ(s)",
+   "evidence": "ecrire.html : 8 champ(s) · discret.html : 4 champ(s)",
    "risk": "Voir les champs obligatoires.",
    "criteria": [
     "C2",
@@ -289,7 +289,7 @@
    "id": "privacy",
    "label": "Politique de confidentialité",
    "status": "detected",
-   "evidence": "Page confidentialite.html : 461 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
+   "evidence": "Page confidentialite.html : 491 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
    "risk": "Lisibilité à confirmer par un humain.",
    "criteria": [
     "C4",
@@ -345,7 +345,7 @@
   "A1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Page la plus lourde : 75.3 Ko (seuil du critère : moins de 500 Ko)."
+   "comment": "Page la plus lourde : 86.9 Ko (seuil du critère : moins de 500 Ko)."
   },
   "S1": {
    "note": 2,
@@ -355,7 +355,7 @@
   "A4": {
    "note": 2,
    "proof": "machine",
-   "comment": "6 numéro(s), tous cliquables. L'exactitude des numéros relève de R2."
+   "comment": "7 numéro(s), tous cliquables. L'exactitude des numéros relève de R2."
   },
   "C2": {
    "note": 2,
@@ -370,7 +370,7 @@
   "C4": {
    "note": 2,
    "proof": "machine",
-   "comment": "Politique présente : 461 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
+   "comment": "Politique présente : 491 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
   },
   "S3": {
    "note": 2,

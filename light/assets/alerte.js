@@ -98,7 +98,8 @@
         var msg = Object.assign(prev || {
           id: r.msgId, kind: 'alerte', code: '', createdAt: r.t0, alertAt: Date.now(), lang: a.lang || 'Non précisée',
           pseudo: String(a.pseudo || '').slice(0, 30), consent: true, status: 'nouveau', translation: '',
-          priority: 'urgente', needs: [], orientation: '', reply: null, listens: [], treatedAt: null
+          priority: 'urgente', needs: [], orientation: '', reply: null, listens: [], treatedAt: null,
+          trusted: a.trusted || null
         }, { recording: !done && !r.noAudio, noAudio: r.noAudio, sha256: sha256 });
         if (msg.status !== 'traite') { msg.audio = blob; msg.audioType = r.mime; msg.durationSec = sec; }
         return C.dbPut(msg).then(function () {

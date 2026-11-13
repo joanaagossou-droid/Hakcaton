@@ -156,6 +156,19 @@
       .then(function (h) { return Array.from(new Uint8Array(h), function (x) { return x.toString(16).padStart(2, '0'); }).join(''); });
   }
 
+  /* ---------- Personne de confiance (chiffrée avec la clé du coffre) ---------- */
+  var TRUST_KEY = 'calc.t';
+  function trustSave(vault, obj) {
+    if (!obj) { try { localStorage.removeItem(TRUST_KEY); } catch (e) { /* ignoré */ } return Promise.resolve(); }
+    return seal(vault.key, enc.encode(JSON.stringify(obj))).then(function (r) { localStorage.setItem(TRUST_KEY, JSON.stringify({ iv: r.iv, ct: toB64(r.ct) })); });
+  }
+  function trustLoad(vault) {
+    var m = null;
+    try { m = JSON.parse(localStorage.getItem(TRUST_KEY) || 'null'); } catch (e) { m = null; }
+    if (!m) return Promise.resolve(null);
+    return unseal(vault.key, m.iv, fromB64(m.ct)).then(function (b) { return JSON.parse(dec.decode(b)); }).catch(function () { return null; });
+  }
+
   /* ---------- Réglages de l'alerte discrète ---------- */
   function alertPrefs() {
     try { return Object.assign({ on: false, vibrate: true, lang: '', pseudo: '' }, JSON.parse(localStorage.getItem(ALERT_KEY) || 'null') || {}); }
@@ -170,7 +183,7 @@
     return Promise.all([tx('items', 'readwrite', function (s) { return s.clear(); }), tx('vault', 'readwrite', function (s) { return s.clear(); })])
       .catch(function () { /* base absente */ })
       .then(function () {
-        [VAULT_KEY, DROP_KEY, ALERT_KEY, 'calc.prefs'].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* ignoré */ } });
+        [VAULT_KEY, DROP_KEY, ALERT_KEY, TRUST_KEY, 'calc.prefs'].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* ignoré */ } });
         try { sessionStorage.clear(); } catch (e) { /* ignoré */ }
       });
   }
@@ -287,7 +300,7 @@
     dbPut: dbPut, dbGet: dbGet, dbDelete: dbDelete, dbAll: dbAll,
     vaultExists: vaultExists, openVault: openVault, rewrapVault: rewrapVault, vaultAdd: vaultAdd, vaultList: vaultList, vaultBlob: vaultBlob, vaultDelete: vaultDelete,
     ensureDropKeys: ensureDropKeys, dropReady: dropReady, dropAdd: dropAdd, fingerprint: fingerprint,
-    alertPrefs: alertPrefs, saveAlertPrefs: saveAlertPrefs, wipeAll: wipeAll,
+    alertPrefs: alertPrefs, saveAlertPrefs: saveAlertPrefs, wipeAll: wipeAll, trustSave: trustSave, trustLoad: trustLoad,
     newTrackingCode: newTrackingCode, normCode: normCode, newId: newId,
     CATEGORIES: CATEGORIES, LEVEL_LABELS: LEVEL_LABELS, LANGUES: LANGUES, ADVICE: ADVICE,
     analyze: analyze, hitWords: hitWords, highlightNode: highlightNode, assistant: assistant

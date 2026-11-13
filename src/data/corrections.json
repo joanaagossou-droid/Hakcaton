@@ -1,167 +1,166 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0",
+  "note": "Kit rédigé en français simple, pour toute personne qui audite un outil. Aucun exemple de code : les détails techniques sont à demander à l'équipe qui a conçu l'outil.",
   "corrections": [
     {
       "id": "K-EXIT",
       "title": "Bouton de sortie rapide",
       "effort": "faible",
-      "criteria": [
-        "S1",
-        "S3"
+      "criteria": ["S1", "S3"],
+      "risk": "La personne qui fait du mal entre dans la pièce pendant qu'Afi consulte l'outil.",
+      "problem": "Sans sortie rapide, Afi doit fermer la page en catastrophe. La page reste à l'écran, ou réapparaît quand on appuie sur « Retour ».",
+      "solution": "Un bouton « Quitter » toujours visible, sur chaque page. Un seul appui affiche aussitôt une page sans rapport (par exemple la météo), et le bouton « Retour » du téléphone ne ramène pas à la page d'aide.",
+      "check": [
+        "Ouvrir chaque page de l'outil : le bouton « Quitter » est-il visible sans chercher ?",
+        "Appuyer dessus : une page neutre apparaît-elle en moins de 2 secondes ?",
+        "Appuyer ensuite sur « Retour » : la page d'aide ne doit pas revenir."
       ],
-      "risk": "L'agresseur entre dans la pièce pendant qu'Afi consulte l'outil.",
-      "problem": "Sans sortie rapide, Afi doit fermer l'onglet en urgence ; la page sensible reste à l'écran ou dans le bouton « Retour ».",
-      "solution": "Un bouton toujours visible et la touche Échap remplacent immédiatement la page par une page neutre, sans ajouter d'entrée dans l'historique (location.replace). Le contenu est masqué avant même la redirection.",
       "demo": "exit",
-      "code": "<button type=\"button\" class=\"quick-exit\" data-quick-exit>Quitter</button>\n<script src=\"quick-exit.js\" defer></script>\n\n// quick-exit.js — aucune dépendance\n(function () {\n  var NEUTRAL = 'https://www.google.com/search?q=m%C3%A9t%C3%A9o';\n  function leave() {\n    document.documentElement.style.visibility = 'hidden';\n    document.title = 'Météo';\n    try { history.replaceState(null, '', '/'); } catch (e) {}\n    window.location.replace(NEUTRAL);\n  }\n  document.addEventListener('click', function (e) {\n    if (e.target.closest('[data-quick-exit]')) { e.preventDefault(); leave(); }\n  });\n  document.addEventListener('keydown', function (e) {\n    if (e.key === 'Escape') leave();\n  });\n})();",
-      "limits": "La sortie rapide ne supprime pas l'historique déjà enregistré, le cache, les captures d'écran ni les traces sur d'autres appareils synchronisés. Elle doit être complétée par des titres neutres et le conseil d'utiliser la navigation privée."
+      "limits": "La sortie rapide ne fait pas disparaître ce qui est déjà enregistré dans le téléphone (historique, captures d'écran). Il faut aussi des titres de page discrets et le conseil d'utiliser la navigation privée."
     },
     {
       "id": "K-DISCREET",
       "title": "Mode discret",
       "effort": "faible",
-      "criteria": [
-        "S3",
-        "S4"
+      "criteria": ["S3", "S4"],
+      "risk": "L'historique, le nom de l'onglet, l'icône ou un message de confirmation révèlent qu'Afi a cherché de l'aide.",
+      "problem": "Titres de page explicites (« Signaler une violence »), icône qui évoque l'aide, SMS ou courriel de confirmation, clavier qui retient les phrases tapées.",
+      "solution": "Des titres et une icône qui ne révèlent rien ; aucun SMS, aucun courriel, aucune notification envoyés sans demande ; un clavier qui ne garde pas en mémoire ce qui est écrit ; le conseil d'utiliser la navigation privée. Un outil peut aussi se présenter sous l'apparence d'une autre application, par exemple une calculatrice qui ne s'ouvre qu'avec un calcul secret choisi par la personne.",
+      "check": [
+        "Utiliser l'outil, puis ouvrir l'historique du navigateur : les titres révèlent-ils l'objet de l'outil ?",
+        "Faire la démarche principale : un SMS, un courriel ou une notification arrive-t-il sans l'avoir demandé ?",
+        "Taper une phrase dans un champ, puis recommencer : le clavier la propose-t-il de nouveau ?",
+        "Si l'outil s'installe sur le téléphone : son nom et son icône sont-ils discrets ?"
       ],
-      "risk": "L'historique, les onglets, les icônes ou les notifications trahissent l'usage de l'outil.",
-      "problem": "Titres explicites (« Signaler une violence »), icône évocatrice, confirmations par SMS ou courriel, saisie automatique qui mémorise les phrases tapées.",
-      "solution": "Titres d'onglet neutres ; icône neutre ; aucune notification ni message automatique ; autocomplete=\"off\" sur les champs sensibles ; en-tête Cache-Control: no-store sur les pages sensibles ; conseil de navigation privée affiché. Option avancée : camouflage en calculatrice qui fonctionne vraiment, installable sous le nom « Calculatrice », ouvert par un code secret (empreinte PBKDF2, jamais en clair), avec un code leurre et un retour automatique à la calculatrice (voir LIGHT, page « Mode discret »).",
       "demo": "discreet",
-      "code": "<title>Infos pratiques</title>\n<link rel=\"icon\" href=\"icone-neutre.svg\">\n<textarea name=\"recit\" autocomplete=\"off\" spellcheck=\"false\"></textarea>\n\n# En-tête HTTP des pages sensibles\nCache-Control: no-store\n\n// Ne jamais appeler Notification.requestPermission()\n// Ne jamais envoyer de SMS ou de courriel de confirmation par défaut.",
-      "limits": "Un titre neutre n'empêche pas l'agresseur de reconnaître l'adresse du site. Le camouflage ne protège pas d'un logiciel espion, un code court se devine, et une application web ne peut pas cacher le témoin du micro ni son entrée dans l'historique si elle est ouverte dans le navigateur. Le mode discret réduit les traces, il ne les supprime pas."
+      "limits": "Un titre discret n'empêche pas de reconnaître l'adresse du site. Le camouflage ne protège pas d'un logiciel espion, et un code trop simple se devine. Le mode discret réduit les traces ; il ne les supprime pas."
     },
     {
       "id": "K-BANNER",
-      "title": "Bandeau « appareil surveillé ? »",
+      "title": "Avertissement « votre appareil est-il sûr ? »",
       "effort": "faible",
-      "criteria": [
-        "S2"
+      "criteria": ["S2"],
+      "risk": "Afi ignore que son téléphone peut être surveillé (code connu, compte partagé, logiciel espion).",
+      "problem": "Aucun avertissement : Afi utilise l'outil sur un téléphone qui n'est peut-être pas sûr.",
+      "solution": "Un message court, dès l'arrivée, explique le risque sans faire peur, et laisse choisir : continuer, lire des conseils de sécurité, ou quitter.",
+      "check": [
+        "En arrivant sur l'outil, voit-on un avertissement sur la surveillance du téléphone ?",
+        "Propose-t-il des conseils simples et une façon de quitter ?",
+        "Le ton est-il rassurant, sans culpabiliser ?"
       ],
-      "risk": "Afi ignore que son téléphone peut être surveillé (code connu, logiciel espion, compte partagé).",
-      "problem": "Aucun avertissement : Afi utilise l'outil sur un appareil qui n'est peut-être pas sûr.",
-      "solution": "Un bandeau sobre explique le risque et laisse choisir : continuer, ouvrir les conseils, ou quitter. Le choix « ne plus afficher » est mémorisé seulement pour la session.",
       "demo": "banner",
-      "code": "<div class=\"device-warning\" role=\"region\" aria-label=\"Avertissement de sécurité\">\n  <p><strong>Votre appareil est-il sûr ?</strong> Si quelqu'un connaît votre code ou a accès à votre téléphone, il peut voir ce que vous faites ici. Si possible, utilisez un appareil de confiance et la navigation privée.</p>\n  <button type=\"button\" data-dismiss>Continuer</button>\n  <a href=\"conseils.html\">Conseils de sécurité</a>\n  <button type=\"button\" data-quick-exit>Quitter</button>\n</div>",
-      "limits": "Le bandeau informe ; il ne détecte pas un logiciel espion. Il ne doit pas alarmer ni culpabiliser."
+      "limits": "L'avertissement informe ; il ne détecte pas un logiciel espion."
     },
     {
       "id": "K-FORM",
-      "title": "Formulaire minimal",
+      "title": "Formulaire minimal et anonyme",
       "effort": "moyen",
-      "criteria": [
-        "C2",
-        "C3",
-        "C5",
-        "R1",
-        "R4"
+      "criteria": ["C2", "C3", "C5", "R1", "R4"],
+      "risk": "Un formulaire exige le nom, le téléphone ou une preuve, ce qui décourage la personne et crée une trace.",
+      "problem": "Champs d'identité obligatoires, pièce jointe obligatoire, pas de demande d'accord, et aucune information sur ce qui se passe après l'envoi.",
+      "solution": "Anonyme par défaut : le nom, le téléphone et la pièce jointe sont facultatifs. Une case d'accord claire, non cochée d'avance. Un témoin peut signaler pour une autre personne. Après l'envoi : un code de suivi affiché à l'écran (jamais par SMS), la prochaine étape et le délai.",
+      "check": [
+        "Essayer d'envoyer le formulaire sans nom, sans téléphone et sans pièce jointe : est-ce possible ?",
+        "Une case d'accord est-elle demandée, et non cochée d'avance ?",
+        "Un voisin ou un proche peut-il signaler pour une autre personne ?",
+        "Après l'envoi, sait-on ce qui va se passer, et dans quel délai ?"
       ],
-      "risk": "Un formulaire exige nom, téléphone ou pièce jointe et crée une trace identifiante.",
-      "problem": "Champs identifiants obligatoires, pièce jointe obligatoire, consentement absent, aucune information après l'envoi.",
-      "solution": "Anonyme par défaut ; nom, téléphone et pièce jointe facultatifs et masqués derrière un choix explicite ; une case de consentement non précochée par usage ; après l'envoi, un code de suivi anonyme, la prochaine étape et un délai affichés à l'écran (jamais envoyés par SMS).",
       "demo": "form",
-      "code": "<form id=\"demande\" novalidate>\n  <label for=\"quoi\">Que se passe-t-il ? (facultatif)</label>\n  <textarea id=\"quoi\" name=\"quoi\" autocomplete=\"off\"></textarea>\n\n  <fieldset>\n    <legend>Souhaitez-vous être recontactée ?</legend>\n    <label><input type=\"radio\" name=\"contact\" value=\"non\" checked> Non, je reste anonyme</label>\n    <label><input type=\"radio\" name=\"contact\" value=\"oui\"> Oui, je choisis un moyen sûr</label>\n  </fieldset>\n\n  <label><input type=\"checkbox\" name=\"consent\" required> J'accepte que ma demande soit lue par l'équipe d'écoute (révocable).</label>\n  <button type=\"submit\">Envoyer</button>\n</form>",
-      "limits": "Un formulaire anonyme ne protège pas contre les traces locales (historique, captures). Le serveur qui reçoit les données doit lui-même être sécurisé et audité. Dans la démonstration, rien n'est transmis."
+      "limits": "Un formulaire anonyme ne protège pas des traces laissées dans le téléphone. Le service qui reçoit les demandes doit lui-même être sécurisé et audité."
     },
     {
       "id": "K-PRIVACY",
-      "title": "Politique de confidentialité et limites",
+      "title": "Confidentialité expliquée simplement",
       "effort": "faible",
-      "criteria": [
-        "C4",
-        "R5"
+      "criteria": ["C4", "R5"],
+      "risk": "Afi confie des informations sans savoir qui les lit, ni dans quels cas elles peuvent être transmises.",
+      "problem": "Page de confidentialité vide ou écrite en langage juridique ; « 100 % confidentiel » affiché sans nuance.",
+      "solution": "Une page courte, en mots simples, qui répond à six questions : ce qui est collecté, qui le lit, combien de temps c'est gardé, où, comment le supprimer, et dans quels cas la confidentialité a des limites (personne mineure en danger, vie menacée, obligation légale).",
+      "check": [
+        "Trouve-t-on facilement la page de confidentialité depuis chaque page ?",
+        "Répond-elle simplement aux six questions ?",
+        "Explique-t-elle les limites de la confidentialité, notamment pour une personne mineure ?"
       ],
-      "risk": "Afi confie des informations sans savoir qui les lit ni dans quels cas elles peuvent être transmises.",
-      "problem": "Politique vide ou juridique, « 100 % confidentiel » affiché sans nuance, limites de la confidentialité absentes.",
-      "solution": "Une page courte en langage simple : quelles données, qui y accède, combien de temps, comment les supprimer, et les limites de la confidentialité (personne mineure, danger imminent, signalement obligatoire).",
       "demo": "privacy",
-      "code": "Modèle (à adapter et à faire valider par un juriste) :\n\n1. Ce que nous collectons : …\n2. Qui peut lire : uniquement … (fonction, pas de nom)\n3. Combien de temps : … jours, puis suppression automatique\n4. Où : serveur situé à … , chiffré\n5. Supprimer vos données : …\n6. Limites de la confidentialité : si vous êtes mineure et en danger, si une vie est menacée, ou si la loi l'impose, certaines informations peuvent être transmises à … Nous vous le dirons avant, sauf danger immédiat.\n7. Ce que nous ne faisons jamais : publicité, traceurs, revente.",
-      "limits": "Le modèle doit être adapté au service réel et validé juridiquement (Code du numérique du Bénin, protection des données personnelles). Les références légales sont à confirmer."
+      "limits": "Le texte doit être adapté au service réel et validé par un juriste (Code du numérique du Bénin, protection des données personnelles)."
     },
     {
       "id": "K-EVIDENCE",
-      "title": "Guide de conservation des preuves",
+      "title": "Conseils pour garder des preuves en sécurité",
       "effort": "moyen",
-      "criteria": [
-        "N5",
-        "N1"
-      ],
-      "risk": "Des preuves stockées dans une galerie ou un cloud partagé sont découvertes par l'agresseur.",
+      "criteria": ["N5", "N1"],
+      "risk": "Des captures d'écran gardées dans la galerie ou dans un compte partagé sont découvertes par la personne qui fait du mal.",
       "problem": "Le conseil se limite à « faites des captures d'écran », sans mise en garde.",
-      "solution": "Une fiche prudente : ce qui peut être conservé (messages, liens, profils, dates), comment (captures, export, journal), où (support que seule la survivante contrôle) et les risques (galerie synchronisée, appareil partagé). La conservation reste un choix, jamais une obligation.",
+      "solution": "Des conseils prudents : ce qui peut être gardé (messages, liens, profils, dates), comment (captures, journal daté), où (un endroit que seule la personne contrôle) et les risques (galerie synchronisée, téléphone partagé). Garder des preuves reste un choix, jamais une obligation.",
+      "check": [
+        "L'outil met-il en garde contre la galerie et les comptes partagés ?",
+        "Rappelle-t-il qu'on peut demander de l'aide sans preuve ?",
+        "S'il garde lui-même des preuves, sont-elles protégées par un code que seule la personne connaît ?"
+      ],
       "demo": "evidence",
-      "code": "Contenu inspiré du support UNFPA « Identifier, répondre et coordonner la réponse aux VBG-FT » :\n- Ce qui peut être conservé : comptes et appareils impliqués, messages, images, publications, liens, noms d'utilisateur, dates et heures.\n- Comment : garder les messages originaux, captures d'écran, enregistrer les pages, exporter les discussions, tenir un journal.\n- Attention au cloud : privilégier un support auquel seule la personne a accès.\n- Ne jamais transmettre de preuves à un outil de démonstration.",
-      "limits": "Ce guide n'est pas un avis juridique. La valeur d'une preuve devant la justice dépend de la procédure : orienter vers une assistance juridique ou un service spécialisé."
+      "limits": "Ces conseils ne sont pas un avis juridique : orienter vers une assistance juridique pour la valeur d'une preuve devant la justice."
     },
     {
       "id": "K-ORIENTATION",
-      "title": "Orientation et recours",
+      "title": "Orientation et numéros utiles",
       "effort": "moyen",
-      "criteria": [
-        "R2",
-        "A2",
-        "A3",
-        "A4",
-        "N2",
-        "N3",
-        "N4",
-        "E1",
-        "E2",
-        "E4",
-        "E5",
-        "R3",
-        "E3"
+      "criteria": ["R2", "A2", "A3", "A4", "N2", "N3", "N4", "E1", "E2", "E4", "E5", "R3", "E3"],
+      "risk": "Une information fausse, incohérente ou mal adaptée envoie Afi au mauvais endroit, ou vers la personne qui lui fait du mal.",
+      "problem": "Rubriques hors sujet, numéros impossibles à appeler d'un geste ou attribués à deux services, injonctions (« signalez immédiatement »), conseil unique « informez vos parents ».",
+      "solution": "Des contacts classés (écoute, santé, juridique, sécurité, numérique, associations), chacun appelable d'un simple appui, avec sa source et sa date de vérification. Une rubrique « si la personne qui vous fait du mal est un proche ». Des phrases qui proposent sans ordonner. Le message vocal dans les langues nationales pour celles et ceux qui ne lisent pas le français. Un humain décide toujours des suites.",
+      "check": [
+        "Chaque numéro s'appelle-t-il d'un simple appui ?",
+        "Le même numéro est-il attribué à un seul service ? Sa source et sa date sont-elles indiquées ?",
+        "Que conseille l'outil si l'auteur est un parent ou un conjoint ?",
+        "Une personne qui ne lit pas le français peut-elle demander de l'aide ?"
       ],
-      "risk": "Une orientation fausse, incohérente ou inadaptée envoie Afi au mauvais endroit, ou vers son agresseur.",
-      "problem": "Voies de recours remplies de contenus hors sujet, numéros non cliquables ou incohérents, injonctions (« signalez immédiatement »), conseil unique « informez vos parents ».",
-      "solution": "Six catégories (assistance sociale, médicale, juridique, services de sécurité, assistance numérique, organisations spécialisées), chaque contact cliquable, daté et vérifié, une rubrique « si l'auteur est un proche », un ton qui propose sans ordonner.",
       "demo": "orientation",
-      "code": "{\n  \"categorie\": \"Assistance juridique\",\n  \"nom\": \"…\",\n  \"telephone\": \"…\",\n  \"source\": \"site officiel ou annuaire institutionnel\",\n  \"verifie_le\": \"AAAA-MM-JJ\",\n  \"verifie_par\": \"structure ou personne\"\n}\n\nRègle : un contact sans source et sans date de vérification n'est pas publié.",
-      "limits": "NUKUN ne fournit aucun numéro réel : chaque contact doit être vérifié auprès d'une source institutionnelle béninoise (validité, attribution, actualité) avant publication."
+      "limits": "Chaque numéro doit être vérifié auprès d'une source officielle béninoise (validité, service concerné, date) avant d'être publié, puis revérifié régulièrement."
     },
     {
       "id": "K-TRACKERS",
-      "title": "Suppression des traceurs tiers",
+      "title": "Aucun mouchard sur les pages d'aide",
       "effort": "très faible",
-      "criteria": [
-        "C1",
-        "C5"
+      "criteria": ["C1", "C5"],
+      "risk": "Une entreprise extérieure (publicité, statistiques) apprend qu'un téléphone a visité un site d'aide.",
+      "problem": "Outils de statistiques ou de publicité installés sur les pages sensibles ; cookies déposés sans demander l'accord.",
+      "solution": "Retirer tout outil de statistiques ou de publicité des pages d'aide ; ne charger aucun élément depuis d'autres sites ; ne déposer aucun cookie de suivi.",
+      "check": [
+        "Lancer l'analyse automatique de NUKUN : le constat « Traceurs » doit indiquer « Non détecté ».",
+        "Aucune bannière de cookies ne devrait être nécessaire sur un site d'aide sans mouchard."
       ],
-      "risk": "Un service tiers apprend qu'un appareil a visité un site d'aide.",
-      "problem": "Script de mesure d'audience ou pixel publicitaire sur les pages sensibles ; cookies déposés avant consentement.",
-      "solution": "Retirer les scripts de mesure et de publicité ; héberger soi-même polices et bibliothèques ; interdire les domaines tiers par une Content-Security-Policy ; si une mesure est indispensable, utiliser un comptage côté serveur agrégé, sans cookie.",
       "demo": "trackers",
-      "code": "# En-tête HTTP\nContent-Security-Policy: default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
-      "limits": "La CSP n'empêche pas l'hébergeur ou le fournisseur d'accès de voir la connexion au site lui-même."
+      "limits": "Le fournisseur d'accès à Internet peut toujours voir qu'on s'est connecté au site lui-même."
     },
     {
       "id": "K-HEADERS",
-      "title": "HTTPS et en-têtes de sécurité",
+      "title": "Connexion sécurisée",
       "effort": "faible",
-      "criteria": [
-        "S5"
+      "criteria": ["S5"],
+      "risk": "Sur un Wi-Fi partagé, une personne peut lire ou modifier ce qui circule.",
+      "problem": "Le site n'utilise pas de connexion sécurisée (cadenas absent), ou ses protections de base sont incomplètes.",
+      "solution": "Un site entièrement en connexion sécurisée (adresse en « https », cadenas affiché) et les protections de base activées par l'équipe technique. Les données gardées sur le serveur doivent être chiffrées.",
+      "check": [
+        "L'adresse commence-t-elle par « https » avec un cadenas ?",
+        "Lancer l'analyse automatique de NUKUN : le constat « Protections du site » doit être complet."
       ],
-      "risk": "Des échanges lisibles ou modifiables sur un réseau partagé.",
-      "problem": "HTTPS absent ou incomplet, en-têtes de sécurité manquants.",
-      "solution": "HTTPS partout, HSTS, Content-Security-Policy, Referrer-Policy: no-referrer, X-Content-Type-Options: nosniff, Permissions-Policy restrictive, frame-ancestors 'none'. Chiffrement des données stockées côté serveur (à vérifier par audit).",
       "demo": "headers",
-      "code": "Strict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'\nReferrer-Policy: no-referrer\nX-Content-Type-Options: nosniff\nPermissions-Policy: camera=(), microphone=(), geolocation=()",
-      "limits": "Les en-têtes ne remplacent pas un test d'intrusion du serveur, hors périmètre de NUKUN."
+      "limits": "Ces protections ne remplacent pas un test de sécurité du serveur par des professionnels mandatés."
     },
     {
       "id": "K-LIGHTWEIGHT",
-      "title": "Version légère et test utilisateur",
+      "title": "Outil léger et testé avec de vraies personnes",
       "effort": "élevé",
-      "criteria": [
-        "A1",
-        "A5"
+      "criteria": ["A1", "A5"],
+      "risk": "La page met trop de temps à s'ouvrir sur un petit téléphone, ou la personne ne comprend pas comment faire.",
+      "problem": "Pages trop lourdes, et aucun essai avec des personnes extérieures à l'équipe.",
+      "solution": "Des pages légères qui s'ouvrent en quelques secondes avec une connexion faible, et des essais avec des personnes extérieures à l'équipe, notés (date, profil, résultat).",
+      "check": [
+        "Ouvrir l'outil en données mobiles : est-il utilisable en moins de 5 secondes ?",
+        "Une personne qui ne connaît pas l'outil arrive-t-elle à demander de l'aide sans explication ?"
       ],
-      "risk": "La page charge trop lentement sur un téléphone d'entrée de gamme ; la personne ne trouve pas comment faire.",
-      "problem": "Fichiers lourds, bibliothèques inutiles, aucun test avec de vraies personnes.",
-      "solution": "Moins de 150 Ko par page, aucune bibliothèque inutile, images compressées ; test de prise en main avec des personnes extérieures à l'équipe, documenté (date, profil, résultat).",
       "demo": "lightweight",
-      "code": "Budget de performance :\n- page HTML + CSS + JS < 150 Ko\n- utilisable en moins de 5 s en 3G lente\n- aucune police externe",
-      "limits": "Un test utilisateur avec de vraies survivantes ne peut se faire qu'avec une structure spécialisée, dans un cadre éthique."
+      "limits": "Un essai avec de vraies survivantes ne peut se faire qu'avec une structure spécialisée, dans un cadre éthique."
     }
   ]
 }

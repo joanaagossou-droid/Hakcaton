@@ -40,6 +40,13 @@
   <p class="note small">Démonstration : ce formulaire n'envoie rien. N'y écrivez pas de vraie situation.</p>
 
   <form id="light-form" class="form" novalidate>
+    <fieldset>
+      <legend>Pour qui demandez-vous de l'aide ?</legend>
+      <label class="inline"><input type="radio" name="pour" value="moi" checked> Pour moi</label>
+      <label class="inline"><input type="radio" name="pour" value="autre"> Pour une autre personne (je suis témoin, voisin·e, proche)</label>
+      <p class="small" id="temoin-info" hidden>Vous pouvez signaler une situation qui ne vous concerne pas, sans donner votre nom ni le sien. Décrivez ce que vous avez vu ou entendu (sans adresse précise si vous craignez d'être reconnu·e). Si une vie est en danger maintenant, appelez la police : <a href="tel:117" data-confirm-call="117 — Police républicaine">117</a>.</p>
+    </fieldset>
+
     <label for="besoin">De quoi avez-vous besoin ? (facultatif)</label>
     <select id="besoin" name="besoin" autocomplete="off">
       <option value="">— Choisir —</option>

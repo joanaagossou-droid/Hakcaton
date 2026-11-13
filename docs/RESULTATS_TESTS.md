@@ -7,7 +7,7 @@ Date d'exécution : 13/11/2026. Machine : Windows 11, Node.js 24.19, Microsoft E
 | Famille | Commande | Résultat |
 |---|---|---|
 | Unitaires + sécurité | `npm test` | **36/36 réussis** |
-| Navigateur réel (bout en bout) | `npm run test:e2e` | **68/68 réussis** (dont 20 sur « Mon espace » avec micro simulé : message vocal, code de suivi, réponse, assistante, coffre chiffré, alerte discrète, annulation, effacement ; et 14 sur le mode discret : calculs, code leurre, empreintes des codes, code secret, Échap, notification camouflée, historique, verrouillage en arrière-plan) |
+| Navigateur réel (bout en bout) | `npm run test:e2e` | **79/79 réussis** (dont le calcul secret personnel, le témoin anonyme, les numéros d’urgence vérifiés, la personne de confiance, et 20 sur « Mon espace » avec micro simulé : message vocal, code de suivi, réponse, assistante, coffre chiffré, alerte discrète, annulation, effacement ; et 14 sur le mode discret : calculs, code leurre, empreintes des codes, code secret, Échap, notification camouflée, historique, verrouillage en arrière-plan) |
 | Charge locale | `node tests/load/mini-load.mjs 200 60` | **Réussi** : 200 utilisateurs, 31 897 requêtes, 0 erreur, p95 = 24 ms, p99 = 27 ms |
 | Poids | `node tools/measure-weight.mjs` | NUKUN 282 Ko bruts / 100 Ko compressés (< 300 Ko) ; pages LIGHT 12 à 14 Ko (< 150 Ko) |
 | QR code | décodage par la bibliothèque indépendante jsQR 1.4.0 | **5/5** textes décodés à l'identique (versions 1, 3, 8 et 10, accents) |

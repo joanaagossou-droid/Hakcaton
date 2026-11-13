@@ -40,7 +40,7 @@
     "R2": {
       "note": 1,
       "proof": "human",
-      "comment": "Structure correcte (6 catégories, numéros cohérents et cliquables), mais numéros FICTIFS : vérification institutionnelle non faite."
+      "comment": "Numéros d'urgence réels vérifiés le 13/11/2026 auprès de l'ARCEP (112, 116/117, 118, 138, 160) et du site de l'INF (114, WhatsApp), avec source et date, appel après confirmation. Les contacts par catégorie (associations, structures locales) restent fictifs."
     },
     "R3": {
       "note": 2,
@@ -85,7 +85,7 @@
     "E1": {
       "note": 1,
       "proof": "human",
-      "comment": "Contenu cohérent d'une page à l'autre et sourcé (UNFPA), mais contacts non vérifiés."
+      "comment": "Contenu cohérent et sourcé (UNFPA ; numéros d'urgence : ARCEP et INF, datés) ; l'annuaire par catégorie reste fictif."
     },
     "E2": {
       "note": 1,
@@ -131,11 +131,19 @@
     },
     "T6": {
       "verdict": "protected",
-      "notes": "Aucune ressource ni requête tierce (analyse automatique et onglet Réseau)."
+      "notes": "Aucune ressource ni requête tierce par défaut (analyse automatique et onglet Réseau). Seule exception, désactivée par défaut et expliquée : la transcription vocale en français, si la personne l'active, passe par le service de reconnaissance du navigateur."
     },
     "T7": {
       "verdict": "partial",
-      "notes": "Orientation adaptée au cas familial et limites expliquées, mais contacts fictifs non vérifiés."
+      "notes": "Orientation adaptée au cas familial, limites de la confidentialité expliquées, Brigade des mineurs (160) vérifiée ; l'annuaire local par catégorie reste fictif."
+    },
+    "T8": {
+      "verdict": "protected",
+      "notes": "Formulaire « Écrire » : choix « Je signale pour une autre personne (témoin, voisin, proche) », anonyme par défaut, code de suivi, prochaine étape et rappel du danger immédiat. Vérifié par test automatisé sur ordinateur."
+    },
+    "T9": {
+      "verdict": "partial",
+      "notes": "Message vocal en fon, goun, yoruba, mina, adja, bariba ou dendi, orienté directement vers un agent humain. Mais l'interface reste écrite en français : pas encore de consignes audio ni de pictogrammes dans les langues nationales."
     }
   }
 }

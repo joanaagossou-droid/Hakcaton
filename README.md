@@ -21,7 +21,7 @@ Prérequis : **Node.js 18 ou plus** (aucune dépendance à installer).
 ```bash
 npm start            # http://localhost:8080
 npm test             # 36 tests unitaires et de sécurité
-npm run test:e2e     # 68 vérifications dans un vrai navigateur (Edge ou Chrome)
+npm run test:e2e     # 79 vérifications dans un vrai navigateur (Edge ou Chrome)
 ```
 
 Pour tester depuis un téléphone du même Wi-Fi : `npm run start:lan`, puis ouvrir `http://<adresse-IP-de-l'ordinateur>:8080`.
@@ -35,7 +35,7 @@ Pour tester depuis un téléphone du même Wi-Fi : `npm run start:lan`, puis ouv
 - **Module 4 — kit** : 10 correctifs avec démonstration interactive, code, critères et limites.
 - **Module 5 — HAVEN** (4 pages) **et LIGHT** (6 pages) et **comparaison avant/après** calculée par le moteur.
 - **Mon espace de LIGHT** (prototype, repris de SafeElle) : message vocal dans sa langue avec code de suivi affiché une seule fois, réponse de l'agent lue avec ce code, assistante à règles locales (repère menace, chantage, contrôle, insultes), coffre de preuves chiffré par le code secret (AES-GCM 256), alerte discrète en 3 appuis sur la calculatrice (micro, tranches de 10 s, copie chiffrée dans le coffre), console agent de démonstration (`light/agent.html`).
-- **Mode discret de LIGHT** (repris du prototype SafeElle) : calculatrice qui fonctionne vraiment, installable sous le nom « Calculatrice », ouverte par un code secret (`1234` puis `=` en démonstration), code leurre (`0000`), retour automatique à la calculatrice, notification camouflée, codes jamais stockés en clair.
+- **Mode discret de LIGHT** (repris du prototype SafeElle) : calculatrice qui fonctionne vraiment, installable sous le nom « Calculatrice », ouverte par un calcul secret que chaque personne choisit (aucun code commun), calcul leurre, retour automatique à la calculatrice, notification camouflée, codes jamais stockés en clair.
 - **Exports locaux** : 6 PDF (rapport, fiche technique, fiche de risques, résumé, plan, comparaison), JSON réimportable, impression.
 - **Parcours jury en 5 minutes**, tableau de bord local, PWA hors ligne, QR code généré localement.
 

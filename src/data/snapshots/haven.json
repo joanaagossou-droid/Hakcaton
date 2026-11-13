@@ -2,7 +2,7 @@
  "version": "1.0.0",
  "entryUrl": "/haven/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T09:43:51.579Z",
+ "analyzedAt": "2026-11-13T10:23:58.782Z",
  "pages": [
   {
    "url": "/haven/",
@@ -43,7 +43,7 @@
   },
   {
    "id": "headers",
-   "label": "En-têtes de sécurité",
+   "label": "Protections du site (en-têtes de sécurité)",
    "status": "partial",
    "evidence": "✗ HSTS (Strict-Transport-Security) · ✓ Content-Security-Policy · ✗ X-Content-Type-Options · ✗ Referrer-Policy · ✗ Protection contre l'intégration (frame-ancestors ou X-Frame-Options) · ✗ Permissions-Policy",
    "risk": "Protection incomplète contre l'injection de contenu, l'intégration et les fuites d'adresse.",

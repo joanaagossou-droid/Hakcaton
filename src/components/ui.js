@@ -35,7 +35,7 @@ export function fictionNotice(caseId) {
 /** Récupère un audit ou lève une erreur lisible. */
 export function requireAudit(id) {
   const a = store.getAudit(id);
-  if (!a) throw new Error('Audit introuvable dans ce navigateur. Il a peut-être été supprimé, ou créé sur un autre appareil (importez son export JSON).');
+  if (!a) throw new Error('Audit introuvable dans ce navigateur. Il a peut-être été supprimé, ou créé sur un autre appareil (importez sa sauvegarde depuis le tableau de bord).');
   return a;
 }
 
@@ -48,7 +48,7 @@ export function persist(audit) {
 const STEPS = [
   ['analyse', 'Analyse'],
   ['criteres', '30 critères'],
-  ['scenarios', '7 scénarios'],
+  ['scenarios', 'Scénarios'],
   ['rapport', 'Rapport']
 ];
 

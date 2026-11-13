@@ -37,7 +37,7 @@ export function renderReport(ctx, id) {
     kpi(String(s.counts.partial), 'partiellement conformes'),
     kpi(String(s.counts.nonconform + s.counts.unverified), `non conformes (${s.counts.nonconform}) ou non vérifiés (${s.counts.unverified})`),
     kpi(`${s.blockingFailures.length}/5`, 'critères bloquants en échec'),
-    kpi(`${r.scenariosExecuted}/7`, 'scénarios exécutés'));
+    kpi(`${r.scenariosExecuted}/${r.scenarios.length}`, 'scénarios exécutés'));
 
   const planRows = r.plan.map((p) => {
     const sel = h('select', { class: 'plan-state', 'aria-label': `État de la correction ${p.criterion}` }, Object.entries(t.planStates).map(([k, l]) => h('option', { value: k, selected: p.state === k }, l)));
@@ -55,7 +55,7 @@ export function renderReport(ctx, id) {
       Object.entries(DOC_TYPES).filter(([k]) => k !== 'compare').map(([k, label]) => h('button', { type: 'button', class: k === 'report' ? 'btn' : 'btn secondary', onclick: () => exportPdf(k, r, data) }, `PDF · ${label}`)),
       parent ? h('button', { type: 'button', class: 'btn secondary', onclick: () => exportPdf('compare', buildReport(parent, data), data, { after: r }) }, 'PDF · Comparaison avant / après') : null,
       h('button', { type: 'button', class: 'btn secondary', onclick: () => window.print() }, 'Imprimer cette page'),
-      h('button', { type: 'button', class: 'btn secondary', onclick: () => { download(`NUKUN_audit_${safeFilename(r.meta.projectName)}.json`, auditToJson(audit), 'application/json'); toast('Export JSON téléchargé (sans les captures).', 'ok'); } }, 'Export JSON (réimportable)')));
+      h('button', { type: 'button', class: 'btn secondary', onclick: () => { download(`NUKUN_audit_${safeFilename(r.meta.projectName)}.json`, auditToJson(audit), 'application/json'); toast('Sauvegarde de l’audit téléchargée (sans les captures).', 'ok'); } }, 'Sauvegarder l’audit (fichier réimportable)')));
 
   const reaudit = async () => {
     const n = createReaudit(audit);

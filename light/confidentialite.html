@@ -32,7 +32,7 @@
   <p class="small">Modèle de démonstration en langage simple. Un vrai service devra le faire valider par un juriste.</p>
 
   <h2>1. Ce que nous collectons</h2>
-  <p>Dans ce prototype : le formulaire « Écrire » n'envoie et n'enregistre rien. Les fonctions de « Mon espace » (message vocal, preuves, alerte discrète) et les codes du mode discret sont enregistrés <strong>uniquement sur ce téléphone</strong>, dans le stockage du navigateur ; rien n'est envoyé à un serveur. Les codes sont gardés sous forme d'empreinte, les preuves sont chiffrées avec votre code secret. Dans un vrai service, nous ne demanderions que votre message ; votre nom et votre numéro resteraient facultatifs.</p>
+  <p>Dans ce prototype : le formulaire « Écrire » n'envoie et n'enregistre rien. Les fonctions de « Mon espace » (message vocal, preuves, alerte discrète) et le calcul secret du mode discret sont enregistrés <strong>uniquement sur ce téléphone</strong>, dans le stockage du navigateur ; rien n'est envoyé à un serveur. Le calcul secret est gardé sous forme d'empreinte, les preuves sont chiffrées avec lui. Dans un vrai service, nous ne demanderions que votre message ; votre nom et votre numéro resteraient facultatifs.</p>
 
   <h2>2. Qui peut lire</h2>
   <p>Dans un vrai service : uniquement l'équipe d'écoute formée, et personne d'autre. Les personnes autorisées seraient désignées par leur fonction.</p>
@@ -47,7 +47,7 @@
   <p>Dans un vrai service : vous pourriez demander la suppression de votre message avec votre code de suivi, sans donner votre nom.</p>
 
   <h2>6. Ce que nous ne faisons jamais</h2>
-  <p>Pas de traceur, pas de publicité, pas de revente, pas de notification, pas de SMS, pas de courriel automatique, pas de reconnaissance vocale par un service extérieur, pas d'intelligence artificielle extérieure (l'assistante fonctionne avec des règles, sur ce téléphone).</p>
+  <p>Pas de traceur, pas de publicité, pas de revente, pas de notification, pas de SMS, pas de courriel automatique, pas d'intelligence artificielle extérieure (l'assistante fonctionne avec des règles, sur ce téléphone). La transcription automatique d'un message vocal en français est <strong>désactivée par défaut</strong> : si vous l'activez vous-même, le son passe par le service de reconnaissance vocale du navigateur, un service extérieur. Sans elle, une personne écoute votre message.</p>
 
   <h2 id="limites">7. Les limites de la confidentialité</h2>
   <p>La confidentialité a des limites. Un vrai service doit vous le dire avant que vous écriviez :</p>

@@ -44,7 +44,32 @@ export function renderExpressStart(ctx) {
       choice('light', 'LIGHT', 'La plateforme fictive « après » : HAVEN reconstruite avec le kit NUKUN. Est-elle vraiment plus sûre ?', 'green')),
     status,
     h('p', { class: 'small muted' }, 'HAVEN et LIGHT sont des sites FICTIFS. Les critères qui demandent un humain sont pré-remplis par l\'évaluation de référence de l\'équipe (auto-évaluation) ; vous pouvez tous les revoir dans le mode complet.'),
-    h('p', null, h('a', { href: '#/nouvel-audit' }, 'Préférer le parcours complet (30 critères, 7 scénarios)')));
+    h('p', null, h('a', { href: '#/nouvel-audit' }, `Préférer le parcours complet (30 critères, ${ctx.data.scenarios.length} scénarios)`)));
+}
+
+/**
+ * « Et les autres scénarios ? » : le parcours express ne fait jouer que T4 et T6 au jury.
+ * Les autres scénarios comptent quand même dans le score : ils viennent de l'évaluation de
+ * référence de l'équipe (auto-évaluation), affichée ici en toute transparence, et rejouables.
+ */
+function otherScenarios(ctx, audit, r) {
+  const { t, data } = ctx;
+  const ref = audit.meta.caseId ? data.reference[audit.meta.caseId] : null;
+  const rows = r.scenarios.filter((s) => s.id !== 'T4' && s.id !== 'T6');
+  const tone = (v) => (v === 'exposed' ? 'red' : v === 'partial' ? 'orange' : v === 'protected' ? 'green' : '');
+  return h('section', { class: 'panel' },
+    h('h2', null, 'Et les autres scénarios ?'),
+    h('p', { class: 'muted' }, `Vous avez joué T4 et T6. Les ${rows.length} autres scénarios comptent aussi dans le score : ils ont été testés par l'équipe${ref ? ` (${ref.testedBy}, ${ref.testedOn})` : ''}. Leurs résultats sont affichés ci-dessous, et vous pouvez les rejouer vous-même : votre verdict remplacera celui de l'équipe.`),
+    h('div', { class: 'table-wrap' }, h('table', { class: 'data' },
+      h('thead', null, h('tr', null, h('th', null, 'Scénario'), h('th', null, 'Verdict'), h('th', { class: 'hide-sm' }, 'Ce qui a été constaté'))),
+      h('tbody', null, rows.map((s) => {
+        const def = data.scenarios.find((x) => x.id === s.id);
+        return h('tr', null,
+          h('td', null, h('b', null, s.id), ' ', s.title, def && def.origin === 'contexte' ? h('div', { class: 'small muted' }, 'Contexte béninois') : null),
+          h('td', null, h('span', { class: ['badge', tone(s.verdict)] }, s.verdict ? t.verdicts[s.verdict] : 'Non exécuté')),
+          h('td', { class: 'hide-sm small' }, (s.notes || '').replace(/^\[Référence équipe\]\s*/, '')));
+      })))),
+    h('div', { class: 'row' }, h('a', { class: 'btn small secondary', href: `#/audit/${audit.id}/scenarios` }, 'Rejouer ces scénarios')));
 }
 
 export function renderExpressStep(ctx, id, step) {
@@ -84,6 +109,7 @@ export function renderExpressStep(ctx, id, step) {
         h('div', { class: 'panel' }, h('h2', null, 'Défauts prioritaires'),
           r.risks.length ? h('ol', null, r.risks.slice(0, 6).map((x) => h('li', null, h('b', null, x.id), ` ${x.name} `, x.blocking ? h('span', { class: 'badge red' }, 'Bloquant') : null, ' — ', h('a', { href: `#/kit/${x.correction}` }, 'correctif')))) : h('p', null, 'Aucun défaut sur les critères évalués.'),
           r.risks.length > 6 ? h('p', { class: 'small muted' }, `… et ${r.risks.length - 6} autre(s) point(s).`) : null)),
+      otherScenarios(ctx, audit, r),
       disclaimer(),
       h('div', { class: 'row' }, h('a', { class: 'btn secondary', href: `#/audit/${id}/rapport` }, 'Rapport complet'), h('a', { class: 'btn secondary', href: '#/kit' }, 'Kit de correctifs')));
   } else {

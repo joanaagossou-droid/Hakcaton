@@ -56,8 +56,8 @@
     if (k === 'C') { expr = ''; justEvaluated = false; return render(); }
     if (k === 'back') { expr = expr.slice(0, -1); return render(); }
     if (k === '=') {
-      // Un nombre de 4 à 8 chiffres seul peut être un code : comparaison d'empreintes (asynchrone).
-      if (/^\d{4,8}$/.test(expr) && !checking && CAMO) {
+      // Tout calcul peut être le calcul secret choisi par la personne : comparaison d'empreintes (asynchrone).
+      if (expr.length >= 4 && !checking && CAMO && CAMO.isConfigured()) {
         var typed = expr;
         checking = true;
         CAMO.checkCode(typed).then(function (r) {

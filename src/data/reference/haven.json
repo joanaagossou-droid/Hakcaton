@@ -7,31 +7,128 @@
   "testedOn": "2026-11-13",
   "note": "Évaluation de référence des critères qui demandent un humain. Les critères observables (C1, C2, C3, C4, C5, S1, S3, S5, A1, A4) ne sont PAS ici : ils viennent de l'analyse automatique exécutée au moment de l'audit. Refaites ces tests vous-même : vos réponses remplacent celles-ci.",
   "assessments": {
-    "S2": { "note": 0, "proof": "human", "comment": "Aucun avertissement sur la surveillance de l'appareil, sur aucune page." },
-    "A2": { "note": 1, "proof": "human", "comment": "Phrases courtes, mais injonctions et statistiques confuses (« 20 % portent plainte par peur du jugement »)." },
-    "A3": { "note": 0, "proof": "human", "comment": "Uniquement en français écrit ; ni audio, ni pictogrammes, ni langue nationale." },
-    "R1": { "note": 0, "proof": "human", "comment": "Test avec des données fictives : l'envoi est impossible sans nom, téléphone, courriel, quartier et pièce jointe ; une fois tout rempli, aucune suite n'est indiquée." },
-    "R2": { "note": 0, "proof": "human", "comment": "La rubrique « Voies de recours » liste des tactiques d'agresseurs ; le même numéro est attribué à la ligne d'écoute et à la police ; numéros fictifs." },
-    "R3": { "note": "na", "naReason": "HAVEN ne prend aucune décision automatisée (pas d'IA, pas de tri, pas d'alerte).", "comment": "" },
-    "R4": { "note": 0, "proof": "human", "comment": "Message « Merci, votre demande a été prise en compte » sans code de suivi, sans prochaine étape, sans délai." },
-    "R5": { "note": 0, "proof": "human", "comment": "« 100 % confidentiel » affiché sans aucune explication ; politique de confidentialité vide." },
-    "N1": { "note": 2, "proof": "human", "comment": "HAVEN ne contient que des données et des numéros fictifs ; ses formulaires n'envoient rien." },
-    "N2": { "note": 0, "proof": "human", "comment": "« Signalez immédiatement », « Portez plainte sans attendre »." },
-    "N3": { "note": 2, "proof": "human", "comment": "Aucune formulation culpabilisante relevée." },
-    "N4": { "note": 0, "proof": "human", "comment": "Seul conseil pour une mineure : « informez vos parents »." },
-    "N5": { "note": 0, "proof": "human", "comment": "« Faites des captures d'écran de tout et envoyez-les-nous » ; « Garder les preuves » classé sous « À éviter » ; aucune mise en garde sur le cloud." },
-    "E1": { "note": 0, "proof": "human", "comment": "Statistiques sans source et contradictoires (20 % puis 30 % de plaintes) ; numéro incohérent ; onglets dupliqués." },
-    "E3": { "note": "na", "naReason": "HAVEN n'utilise aucune intelligence artificielle.", "comment": "" },
-    "E4": { "note": 1, "proof": "human", "comment": "S'adresse aux « victimes » seulement ; rien pour les proches ni les témoins." },
-    "E5": { "note": 0, "proof": "declared", "comment": "Aucune date de mise à jour ni relecture par une structure spécialisée." }
+    "S2": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Aucun avertissement sur la surveillance de l'appareil, sur aucune page."
+    },
+    "A2": {
+      "note": 1,
+      "proof": "human",
+      "comment": "Phrases courtes, mais injonctions et statistiques confuses (« 20 % portent plainte par peur du jugement »)."
+    },
+    "A3": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Uniquement en français écrit ; ni audio, ni pictogrammes, ni langue nationale."
+    },
+    "R1": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Test avec des données fictives : l'envoi est impossible sans nom, téléphone, courriel, quartier et pièce jointe ; une fois tout rempli, aucune suite n'est indiquée."
+    },
+    "R2": {
+      "note": 0,
+      "proof": "human",
+      "comment": "La rubrique « Voies de recours » liste des tactiques d'agresseurs ; le même numéro est attribué à la ligne d'écoute et à la police ; numéros fictifs."
+    },
+    "R3": {
+      "note": "na",
+      "naReason": "HAVEN ne prend aucune décision automatisée (pas d'IA, pas de tri, pas d'alerte).",
+      "comment": ""
+    },
+    "R4": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Message « Merci, votre demande a été prise en compte » sans code de suivi, sans prochaine étape, sans délai."
+    },
+    "R5": {
+      "note": 0,
+      "proof": "human",
+      "comment": "« 100 % confidentiel » affiché sans aucune explication ; politique de confidentialité vide."
+    },
+    "N1": {
+      "note": 2,
+      "proof": "human",
+      "comment": "HAVEN ne contient que des données et des numéros fictifs ; ses formulaires n'envoient rien."
+    },
+    "N2": {
+      "note": 0,
+      "proof": "human",
+      "comment": "« Signalez immédiatement », « Portez plainte sans attendre »."
+    },
+    "N3": {
+      "note": 2,
+      "proof": "human",
+      "comment": "Aucune formulation culpabilisante relevée."
+    },
+    "N4": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Seul conseil pour une mineure : « informez vos parents »."
+    },
+    "N5": {
+      "note": 0,
+      "proof": "human",
+      "comment": "« Faites des captures d'écran de tout et envoyez-les-nous » ; « Garder les preuves » classé sous « À éviter » ; aucune mise en garde sur le cloud."
+    },
+    "E1": {
+      "note": 0,
+      "proof": "human",
+      "comment": "Statistiques sans source et contradictoires (20 % puis 30 % de plaintes) ; numéro incohérent ; onglets dupliqués."
+    },
+    "E3": {
+      "note": "na",
+      "naReason": "HAVEN n'utilise aucune intelligence artificielle.",
+      "comment": ""
+    },
+    "E4": {
+      "note": 1,
+      "proof": "human",
+      "comment": "S'adresse aux « victimes » seulement ; rien pour les proches ni les témoins."
+    },
+    "E5": {
+      "note": 0,
+      "proof": "declared",
+      "comment": "Aucune date de mise à jour ni relecture par une structure spécialisée."
+    }
   },
   "scenarios": {
-    "T1": { "verdict": "exposed", "notes": "Titres d'onglet « Signaler une violence » visibles dans l'historique ; aucune sortie rapide." },
-    "T2": { "verdict": "unverified", "notes": "HAVEN, démonstration sans envoi, n'envoie aucun SMS : non vérifiable sur ce site fictif. Le formulaire exige pourtant un téléphone et un courriel." },
-    "T3": { "verdict": "exposed", "notes": "Icône « SOS » et nom évocateur dans l'onglet et dans un éventuel raccourci." },
-    "T4": { "verdict": "exposed", "notes": "Aucune sortie rapide ; il faut fermer l'onglet, « Retour » ramène à la page." },
-    "T5": { "verdict": "partial", "notes": "Pas de compte, mais conseil d'envoyer des captures sans mise en garde sur le cloud synchronisé." },
-    "T6": { "verdict": "exposed", "notes": "Signature de traceur d'audience (simulé) chargée sur toutes les pages." },
-    "T7": { "verdict": "exposed", "notes": "« Si vous êtes mineure : informez vos parents » ; limites de la confidentialité absentes." }
+    "T1": {
+      "verdict": "exposed",
+      "notes": "Titres d'onglet « Signaler une violence » visibles dans l'historique ; aucune sortie rapide."
+    },
+    "T2": {
+      "verdict": "unverified",
+      "notes": "HAVEN, démonstration sans envoi, n'envoie aucun SMS : non vérifiable sur ce site fictif. Le formulaire exige pourtant un téléphone et un courriel."
+    },
+    "T3": {
+      "verdict": "exposed",
+      "notes": "Icône « SOS » et nom évocateur dans l'onglet et dans un éventuel raccourci."
+    },
+    "T4": {
+      "verdict": "exposed",
+      "notes": "Aucune sortie rapide ; il faut fermer l'onglet, « Retour » ramène à la page."
+    },
+    "T5": {
+      "verdict": "partial",
+      "notes": "Pas de compte, mais conseil d'envoyer des captures sans mise en garde sur le cloud synchronisé."
+    },
+    "T6": {
+      "verdict": "exposed",
+      "notes": "Signature de traceur d'audience (simulé) chargée sur toutes les pages."
+    },
+    "T7": {
+      "verdict": "exposed",
+      "notes": "« Si vous êtes mineure : informez vos parents » ; limites de la confidentialité absentes."
+    },
+    "T8": {
+      "verdict": "exposed",
+      "notes": "HAVEN ne prévoit que la victime elle-même et exige nom, téléphone, courriel et quartier : un voisin témoin devrait s'identifier."
+    },
+    "T9": {
+      "verdict": "exposed",
+      "notes": "HAVEN n'existe qu'en français écrit ; aucun message vocal, aucune langue nationale."
+    }
   }
 }

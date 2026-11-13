@@ -37,8 +37,17 @@
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest ? e.target.closest('[data-quick-exit]') : null;
     if (t) { e.preventDefault(); quickExit(); return; }
-    // Mode discret : chaque lien interne remplace la page au lieu d'empiler l'historique.
+    // Numéros RÉELS : confirmation avant l'appel (prototype : éviter un appel d'urgence par erreur).
+    var call = e.target && e.target.closest ? e.target.closest('[data-confirm-call]') : null;
+    if (call && !window.confirm('Appel RÉEL vers le ' + call.getAttribute('data-confirm-call') + '. À utiliser seulement en cas de besoin réel. Continuer ?')) { e.preventDefault(); return; }
     var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    // Ouvrir la calculatrice REMPLACE la page de Light : « Retour » depuis la calculatrice ne ramène jamais à Light.
+    if (a && !a.target && /(^|\/)calculatrice\.html$/.test(a.getAttribute('href') || '')) {
+      e.preventDefault();
+      window.location.replace(new URL(a.getAttribute('href'), location.href).href);
+      return;
+    }
+    // Mode discret : chaque lien interne remplace la page au lieu d'empiler l'historique.
     if (a && camouflaged() && !a.target && !e.defaultPrevented) {
       var u;
       try { u = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
@@ -85,6 +94,7 @@
 
   form.addEventListener('change', function (e) {
     if (e.target && e.target.name === 'recontact' && zone) zone.hidden = e.target.value !== 'oui';
+    if (e.target && e.target.name === 'pour') { var ti = document.getElementById('temoin-info'); if (ti) ti.hidden = e.target.value !== 'autre'; }
   });
 
   function code() {

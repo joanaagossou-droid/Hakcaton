@@ -23,7 +23,7 @@ export const VERDICT_NOTES = { exposed: 0, partial: 1, protected: 2, unverified:
 
 const STRONG = ['manual', 'reference'];
 /** Liens scénario → critères (identiques à scenarios.json, mémoire § 5). */
-export const SCENARIO_LINKS = { T1: ['S3'], T2: ['S4'], T3: ['S1', 'S3'], T4: ['S1'], T5: ['C1', 'N5'], T6: ['C1'], T7: ['R2', 'R5', 'N4'] };
+export const SCENARIO_LINKS = { T1: ['S3'], T2: ['S4'], T3: ['S1', 'S3'], T4: ['S1'], T5: ['C1', 'N5'], T6: ['C1'], T7: ['R2', 'R5', 'N4'], T8: ['E4', 'C2', 'R1'], T9: ['A3', 'A2'] };
 
 export function newId() {
   const b = new Uint8Array(6);
@@ -180,7 +180,7 @@ export function sanitizeImported(obj) {
     };
   }
   for (const [id, s] of Object.entries(obj.scenarios || {})) {
-    if (!/^T[1-7]$/.test(id) || !s) continue;
+    if (!/^T[1-9]$/.test(id) || !s) continue;
     a.scenarios[id] = {
       verdict: VERDICT_NOTES.hasOwnProperty(s.verdict) ? s.verdict : 'unverified', notes: clean(s.notes, 2000),
       attachment: typeof s.attachment === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(s.attachment) && s.attachment.length < 200000 ? s.attachment : null,

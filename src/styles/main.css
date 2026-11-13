@@ -73,7 +73,7 @@
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
-main { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 20px 48px; outline: none; }
+main { flex: 1; width: 100%; max-width: 1440px; margin: 0 auto; padding: 20px clamp(16px, 3vw, 40px) 48px; outline: none; }
 main:focus, main:focus-visible { outline: none; }
 a { color: var(--teal-strong); text-underline-offset: 3px; }
 a:hover { color: var(--ink); }
@@ -91,7 +91,9 @@ p { margin: 8px 0; }
 .loading { padding: 60px; text-align: center; color: var(--muted); }
 
 /* ---- Capsule de navigation flottante ---- */
-.appbar { position: sticky; top: 12px; z-index: 40; width: calc(100% - 24px); max-width: 1200px; margin: 12px auto 0; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 14px; background: var(--glass); -webkit-backdrop-filter: saturate(160%) blur(16px); backdrop-filter: saturate(160%) blur(16px); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-sm); }
+/* Barre fixe et OPAQUE : le contenu défile dessous sans jamais apparaître à travers. */
+.appbar { position: sticky; top: 0; z-index: 100; width: 100%; display: flex; align-items: center; gap: 12px; padding: 10px clamp(12px, 3vw, 40px); background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: 0 2px 12px rgba(10, 18, 34, .08); }
+.appbar-inner { display: contents; }
 .logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
 .logo img { border-radius: 9px; }
 .logo span { display: flex; flex-direction: column; line-height: 1; }
@@ -114,13 +116,13 @@ p { margin: 8px 0; }
 .dock { display: none; }
 @media (max-width: 1060px) {
   body { padding-bottom: 92px; }
-  .dock { display: flex; position: fixed; z-index: 45; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); gap: 2px; padding: 6px; background: var(--glass); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); width: min(calc(100% - 20px), 460px); }
+  .dock { display: flex; position: fixed; z-index: 100; left: 50%; bottom: max(12px, env(safe-area-inset-bottom)); transform: translateX(-50%); gap: 2px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); width: min(calc(100% - 20px), 460px); }
   .dock a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 2px; border-radius: 16px; text-decoration: none; color: var(--muted); font-size: 11px; font-weight: 600; min-height: 52px; justify-content: center; }
   .dock a svg { width: 21px; height: 21px; }
   .dock a[aria-current="page"] { background: var(--ink); color: var(--bg); }
 }
 
-.offline { background: var(--orange-soft); color: var(--orange); text-align: center; padding: 8px 16px; font-size: 14px; margin: 10px auto 0; border-radius: 12px; width: calc(100% - 24px); max-width: 1200px; }
+.offline { background: var(--orange-soft); color: var(--orange); text-align: center; padding: 8px 16px; font-size: 14px; margin: 10px auto 0; border-radius: 12px; width: calc(100% - 24px); max-width: 1440px; }
 .appfoot { border-top: 1px solid var(--line); padding: 28px 20px 36px; text-align: center; font-size: 13.5px; color: var(--muted); margin-top: 24px; }
 .appfoot p { margin: 4px 0; }
 
@@ -378,3 +380,11 @@ details > summary { cursor: pointer; font-weight: 650; color: var(--ink); font-f
   .print-only { display: block !important; }
 }
 .print-only { display: none; }
+
+/* ---- Formulaires en deux colonnes sur grand écran, une colonne sur téléphone ---- */
+.form-grid { display: grid; grid-template-columns: 1fr; column-gap: 24px; }
+@media (min-width: 900px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid > .span2 { grid-column: 1 / -1; } }
+@media (min-width: 1100px) { .crit .controls { grid-template-columns: 1fr 1fr; align-items: start; } .crit .controls > .span2 { grid-column: 1 / -1; } }
+
+.checklist { padding-left: 22px; }
+.checklist li { margin: 8px 0; }

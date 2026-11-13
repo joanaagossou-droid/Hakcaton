@@ -55,6 +55,7 @@
         top.appendChild(el('span', 'tag' + (m.kind === 'alerte' ? ' red' : ''), m.kind === 'alerte' ? 'ALERTE DISCRÈTE' : m.kind === 'demo' ? 'Message fictif' : 'Message vocal'));
         if (m.priority) top.appendChild(el('span', 'level ' + m.priority, C.LEVEL_LABELS[m.priority]));
         if (m.recording) top.appendChild(el('span', 'tag live', '● enregistrement en cours'));
+        if (m.route === 'humain') top.appendChild(el('span', 'tag', 'Écoute humaine directe · ' + m.lang));
         b.appendChild(top);
         b.appendChild(el('span', 'meta', (m.pseudo || 'Sans prénom') + ' · ' + m.lang + ' · ' + when(m.alertAt || m.createdAt) + (m.durationSec ? ' · ' + m.durationSec + ' s' : '')));
         b.appendChild(el('span', 'meta', m.status === 'traite' ? 'Traité' : m.reply ? 'Réponse envoyée' : 'À traiter'));
@@ -77,6 +78,19 @@
         w.appendChild(document.createTextNode('La conduite à tenir est convenue à l’avance avec la personne. L’alerte ne contient aucune position ni aucun numéro. ' + (m.recording ? 'Enregistrement en cours : l’audio arrive par tranches de 10 secondes.' : m.noAudio ? 'Micro refusé : alerte sans enregistrement.' : 'Enregistrement terminé.')));
         d.appendChild(w);
         if (m.sha256) d.appendChild(el('p', 'small mono', 'Empreinte SHA-256 : ' + m.sha256));
+        if (m.trusted && m.trusted.phone) {
+          var tc = el('div', 'ok');
+          tc.appendChild(el('strong', null, 'Personne de confiance indiquée par la victime : '));
+          tc.appendChild(document.createTextNode((m.trusted.name || '—') + (m.trusted.rel ? ' (' + m.trusted.rel + ')' : '') + ' · ' + m.trusted.phone + '. À prévenir selon la conduite convenue à l’avance.'));
+          d.appendChild(tc);
+        }
+      }
+      if (m.route === 'humain') d.appendChild(el('p', 'ok', 'Écoute humaine directe : message en ' + m.lang + (m.lang === 'Français' ? ' sans transcription automatique' : '') + '. À confier à une personne qui parle cette langue.'));
+      if (m.transcript) {
+        d.appendChild(el('p', 'label', 'Transcription automatique (à vérifier en écoutant)'));
+        var tr0 = C.analyze(m.transcript);
+        d.appendChild(C.highlightNode(tr0));
+        var sp = el('p', 'small'); sp.appendChild(document.createTextNode('Priorité suggérée par le repérage : ')); sp.appendChild(el('span', 'level ' + tr0.level, C.LEVEL_LABELS[tr0.level])); sp.appendChild(document.createTextNode(' — c’est vous qui décidez.')); d.appendChild(sp);
       }
       if (m.audio) {
         audioUrl = URL.createObjectURL(m.audio);

@@ -83,7 +83,7 @@ function criteriaTable(pdf, r, compact = false) {
 }
 
 function scenariosSection(pdf, r) {
-  pdf.heading('Test de l\'agresseur intime — 7 scénarios', 2);
+  pdf.heading(`Test de l'agresseur intime — ${r.scenarios.length} scénarios`, 2);
   pdf.table([{ label: 'Scénario', width: 0.25 }, { label: 'Critères', width: 0.1 }, { label: 'Verdict', width: 0.25 }, { label: 'Observations', width: 0.4 }],
     r.scenarios.map((s) => [`${s.id} · ${s.title}`, s.criteria.join(', '), s.verdict ? VERDICTS[s.verdict] : 'Non exécuté', s.notes || '']), { size: 8 });
   pdf.para('Un verdict ne vaut que pour le périmètre testé ; il ne constitue pas une garantie de protection.', { size: 7.5, color: '#5b6b7f' });
@@ -151,7 +151,7 @@ export function buildPdf(type, r, data = {}) {
       ['Public', r.meta.audience || 'À préciser'],
       ['Type d\'outil', r.meta.toolType || 'À préciser'],
       ['Adresse', r.meta.url || '—'],
-      ['Tests réalisés', `Analyse automatique : ${r.analysis ? `oui (${r.analysis.mode}, ${day(r.analysis.analyzedAt)})` : 'non'} · Scénarios exécutés : ${r.scenariosExecuted}/7 · Critères évalués : ${r.score.evaluated}/30`],
+      ['Tests réalisés', `Analyse automatique : ${r.analysis ? `oui (${r.analysis.mode}, ${day(r.analysis.analyzedAt)})` : 'non'} · Scénarios exécutés : ${r.scenariosExecuted}/${r.scenarios.length} · Critères évalués : ${r.score.evaluated}/30`],
       ['Résultat', `${r.score.score}/100, feu ${LIGHT_NAMES[r.score.light]} (${r.score.lightLabel}), part prouvée ${r.score.provenShare} %`],
       ['Limites', 'Voir la section « Limites de l\'analyse ».'],
       ['Conditions avant un usage réel', 'Corriger tous les critères bloquants ; faire réaliser un audit tiers ; valider le contenu avec une structure spécialisée ; vérifier chaque contact auprès d\'une source institutionnelle ; test d\'intrusion sous mandat ; revue juridique.']
@@ -169,7 +169,7 @@ export function buildPdf(type, r, data = {}) {
     pdf.bullet(`Score : ${r.score.score}/100 — feu ${LIGHT_NAMES[r.score.light]} : ${r.score.lightLabel}.`);
     pdf.bullet(`${r.score.counts.conform} critère(s) conforme(s), ${r.score.counts.partial} partiel(s), ${r.score.counts.nonconform} non conforme(s), ${r.score.counts.unverified} non vérifié(s), ${r.score.counts.na} N/A.`);
     pdf.bullet(`Critères bloquants en échec : ${r.score.blockingFailures.length ? r.score.blockingFailures.join(', ') : 'aucun'}.`);
-    pdf.bullet(`Scénarios exécutés : ${r.scenariosExecuted}/7 ; exposition constatée : ${r.scenarios.filter((s) => s.verdict === 'exposed').map((s) => s.id).join(', ') || 'aucune'}.`);
+    pdf.bullet(`Scénarios exécutés : ${r.scenariosExecuted}/${r.scenarios.length} ; exposition constatée : ${r.scenarios.filter((s) => s.verdict === 'exposed').map((s) => s.id).join(', ') || 'aucune'}.`);
     pdf.bullet(`Priorité : ${r.plan.slice(0, 3).map((p) => `${p.criterion} (${p.correctionTitle})`).join(' ; ') || 'aucune correction requise'}.`);
     commonBase(pdf, r);
   } else if (type === 'plan') {

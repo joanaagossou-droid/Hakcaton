@@ -373,7 +373,7 @@ export function evaluatePages(pages, ctx = {}) {
   const headers = checkSecurityHeaders(pages[0].headers, isHttps);
   const nbHeaders = headers.filter((h) => h.present).length;
   findings.push({
-    id: 'headers', label: 'En-têtes de sécurité',
+    id: 'headers', label: 'Protections du site (en-têtes de sécurité)',
     status: nbHeaders === headers.length ? 'detected' : nbHeaders > 0 ? 'partial' : 'not_detected',
     evidence: headers.map((h) => `${h.present ? '✓' : '✗'} ${h.label}`).join(' · '),
     risk: nbHeaders === headers.length ? 'Aucun dans le périmètre observé' : 'Protection incomplète contre l\'injection de contenu, l\'intégration et les fuites d\'adresse.',

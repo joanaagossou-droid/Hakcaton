@@ -47,7 +47,10 @@ export function renderNew(ctx, params) {
   f.case.addEventListener('change', syncCase);
 
   const err = h('p', { class: 'notice danger', role: 'alert', hidden: true });
-  const form = h('form', { class: 'panel', novalidate: true },
+  refBox.classList.add('span2');
+  auditType.classList.add('span2');
+  err.classList.add('span2');
+  const form = h('form', { class: 'panel form-grid', novalidate: true },
     field('case', 'Outil à auditer', f.case),
     refBox,
     field('url', 'Adresse URL', f.url, 'Analyse passive, limitée aux adresses autorisées. Sans adresse, les critères se remplissent manuellement.'),
@@ -55,11 +58,11 @@ export function renderNew(ctx, params) {
     field('type', 'Type d\'outil', f.type),
     field('func', 'Fonction principale', f.func),
     field('aud', 'Public cible', f.aud),
-    h('label', { class: 'choice' }, f.ai, h('span', null, 'L\'outil utilise de l\'intelligence artificielle (sinon, le critère E3 pourra être marqué N/A)')),
+    h('label', { class: 'choice span2' }, f.ai, h('span', null, 'L\'outil utilise de l\'intelligence artificielle (sinon, le critère E3 pourra être marqué N/A)')),
     auditType,
-    h('p', { class: 'help' }, 'Ne saisissez aucune information réelle concernant une survivante. Ces champs décrivent un outil, pas une personne.'),
+    h('p', { class: 'help span2' }, 'Ne saisissez aucune information réelle concernant une survivante. Ces champs décrivent un outil, pas une personne.'),
     err,
-    h('div', { class: 'row' }, h('button', { type: 'submit', class: 'btn' }, mode === 'design' ? 'Commencer la grille de conception' : 'Lancer l\'analyse')));
+    h('div', { class: 'row span2' }, h('button', { type: 'submit', class: 'btn' }, mode === 'design' ? 'Commencer la grille de conception' : 'Lancer l\'analyse')));
   syncCase();
 
   form.addEventListener('submit', (e) => {
@@ -285,7 +288,7 @@ function criterionCard(ctx, audit, c, score) {
       h('div', null, h('span', { class: 'small muted' }, 'Votre note : '), noteSeg),
       h('div', null, h('span', { class: 'small muted' }, 'Niveau de preuve : '), proofSeg, h('p', { class: 'help' }, c.blocking ? 'Critère bloquant : une déclaration seule le laisse « non vérifié ».' : 'Une déclaration seule plafonne la note à 1. Le niveau « machine » est réservé à l\'analyse automatique.')),
       m && m.note === 'na' ? naReason : null,
-      comment,
+      h('div', { class: 'span2' }, comment),
       h('div', { class: 'attach' }, h('span', { class: 'small muted' }, 'Pièce justificative facultative (capture sans donnée personnelle) : '), file, st.attachment ? [h('img', { src: st.attachment, alt: `Capture jointe au critère ${c.id}` }), h('button', { type: 'button', class: 'btn small danger', onclick: () => save({ attachment: null }) }, 'Retirer la capture')] : null),
       h('div', { class: 'row' },
         h('a', { class: 'btn small secondary', href: `#/kit/${c.correction}` }, 'Comment corriger ?'),
@@ -312,9 +315,13 @@ export function renderScenarios(ctx, id) {
     h('div', { class: 'panel' },
       h('h2', null, 'Test de l\'agresseur intime'),
       h('p', null, 'Mettez-vous à la place de Kossi, qui a accès au téléphone d\'Afi. Ce ne sont pas des questions : exécutez réellement chaque action sur l\'outil audité, puis notez ce que vous constatez. Afi et Kossi sont des personnages fictifs.'),
-      h('p', { class: 'small muted' }, `${done}/7 scénarios exécutés. Chaque verdict alimente les critères liés comme preuve 🧪 humaine (sans écraser vos propres réponses).`),
+      h('p', { class: 'small muted' }, `${done}/${data.scenarios.length} scénarios exécutés (T1 à T7 : mémoire NUKUN ; T8 et T9 : contexte béninois). Chaque verdict alimente les critères liés comme preuve 🧪 humaine (sans écraser vos propres réponses).`),
       refCase ? h('button', { type: 'button', class: 'btn small secondary', onclick: () => { applyReferenceScenarios(audit, refCase, data.scenarios); persist(audit); toast('Verdicts de référence chargés pour les scénarios non encore exécutés.', 'ok'); refresh(); } }, 'Charger les verdicts de référence de l\'équipe (scénarios non exécutés)') : null),
-    data.scenarios.map((s) => scenarioCard(ctx, audit, s)),
+    h('h2', null, 'Scénarios du Test de l\'agresseur intime (T1 à T7)'),
+    data.scenarios.filter((s) => s.origin !== 'contexte').map((s) => scenarioCard(ctx, audit, s)),
+    h('h2', null, 'Scénarios complémentaires : contexte béninois (T8, T9)'),
+    h('p', { class: 'muted small' }, 'Situations fréquentes au Bénin : un témoin qui veut signaler pour une autre personne, une victime qui ne lit pas le français. Ils utilisent les mêmes critères que la grille.'),
+    data.scenarios.filter((s) => s.origin === 'contexte').map((s) => scenarioCard(ctx, audit, s)),
     nextStep(audit, 'scenarios'));
 }
 

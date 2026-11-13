@@ -51,3 +51,10 @@ fieldset { border: 1px solid #dde7e3; border-radius: 10px; padding: 10px 12px; }
 .steps-list li { margin: 8px 0; }
 .result.error { background: #fde7e5; color: #8e1b1b; }
 .btn.secondary { background: #fff; color: #0b6b5a; border: 2px solid #0b6b5a; }
+/* Numéros d'urgence vérifiés */
+.urgences { background: #fff; border: 2px solid #b3261e; border-radius: 14px; padding: 16px; margin: 16px 0; }
+.urgences h2 { margin-top: 0; color: #8e1b1b; }
+.card.urgent { border-color: #f3b9b4; background: #fff8f7; }
+.card.urgent .tel { background: #b3261e; }
+.tel.secondary { background: #fff; color: #0b6b5a; border: 2px solid #0b6b5a; }
+.card h3 { font-size: 17px; margin: 0 0 4px; }
