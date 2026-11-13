@@ -42,3 +42,12 @@ fieldset { border: 1px solid #dde7e3; border-radius: 10px; padding: 10px 12px; }
 .result .demo { font-weight: 700; color: #6b4e00; }
 .foot { text-align: center; padding: 24px 16px 40px; font-size: 14px; color: #4a5c57; }
 @media (max-width: 520px) { .top { padding-right: 16px; padding-top: 64px; } h1 { font-size: 23px; } }
+/* Mode discret */
+.camo-card { background: #1c1c1e; color: #f2f2f7; border-radius: 14px; padding: 18px 20px; margin-top: 24px; }
+.camo-card h2 { color: #fff; margin-top: 0; }
+.camo-card .btn { background: #ff9f0a; color: #1c1c1e; }
+.camo-card .btn.secondary { background: transparent; color: #fff; border-color: #fff; }
+.steps-list { padding-left: 22px; }
+.steps-list li { margin: 8px 0; }
+.result.error { background: #fde7e5; color: #8e1b1b; }
+.btn.secondary { background: #fff; color: #0b6b5a; border: 2px solid #0b6b5a; }

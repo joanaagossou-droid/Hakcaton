@@ -20,11 +20,12 @@ const out = [
   block('/', nukun, { 'Cache-Control': 'no-cache' }),
   block('/index.html', nukun, { 'Cache-Control': 'no-cache' }),
   block('/service-worker.js', nukun, { 'Cache-Control': 'no-cache' }),
-  block('/manifest.webmanifest', nukun),
+  block('/manifest.webmanifest', nukun, { 'Content-Type': 'application/manifest+json; charset=utf-8' }),
   block('/robots.txt', nukun),
   block('/src/*', nukun),
   block('/public/*', nukun),
   block('/light/*', byId.light),
+  block('/light/manifest.webmanifest', { 'Content-Type': 'application/manifest+json; charset=utf-8' }),
   // HAVEN : le cookie de session fictif n'est déposé que sur les pages HTML.
   block('/haven/*', Object.fromEntries(Object.entries(byId.haven).filter(([k]) => k !== 'Set-Cookie'))),
   block('/haven/', { 'Set-Cookie': byId.haven['Set-Cookie'] }),

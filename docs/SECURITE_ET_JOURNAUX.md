@@ -25,7 +25,7 @@ NUKUN ne demande jamais d'information sur une survivante. HAVEN et LIGHT n'envoi
 | Injection (XSS) | DOM construit par `textContent` ; `safeUrl()` ; CSP sans `unsafe-inline` ; texte échappé dans les PDF | Tests S-6 (unitaire, statique, navigateur) |
 | SSRF via l'analyseur | Liste autorisée ; http(s) seulement ; ports 80/443 ; pas d'identifiants ; refus de localhost, IP privées/réservées, métadonnées cloud, IPv6 locales, IPv4 mappées ; **vérification DNS au moment de la connexion** (pas de rebinding) ; chaque redirection revalidée (3 au plus) | `tests/security` |
 | Abus de l'analyseur | 10 analyses/min/appareil, 120/min au total ; cache 5 min ; 2 Mo et 8 s par réponse ; requête de 4 Ko au plus | Tests S-7, taille, 413 |
-| Analyse intrusive | GET uniquement, sans cookie ni corps ; aucun formulaire soumis ; seuls les liens visibles de la même section, 6 pages max ; domaines tiers jamais contactés | Test « GET uniquement » |
+| Analyse intrusive | GET uniquement, sans cookie ni corps ; aucun formulaire soumis ; seuls les liens visibles de la même section, 8 pages max ; domaines tiers jamais contactés | Test « GET uniquement » |
 | Fuite vers des tiers | Aucun script, police ou image tiers ; `connect-src 'self'` ; traceur de HAVEN simulé localement | Test navigateur S-2 (aucune requête tierce) |
 | Accès à des fichiers internes | Serveur : liste blanche de dossiers, refus des `..`, `\`, fichiers cachés ; Netlify : redirections 404 | Test traversée |
 | Imports falsifiés | `sanitizeImported` : types, tailles, identifiants, images JPEG seulement ; analyses importées rétrogradées en déclaration | Test d'import hostile |

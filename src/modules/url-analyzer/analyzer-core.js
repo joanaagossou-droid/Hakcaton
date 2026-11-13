@@ -12,7 +12,7 @@
  */
 
 export const ANALYZER_VERSION = '1.0.0';
-export const MAX_PAGES = 6;
+export const MAX_PAGES = 8;
 export const MAX_RESOURCES_PER_PAGE = 20;
 
 // ---------------------------------------------------------------------------
@@ -234,6 +234,11 @@ export function detectQuickExit(html) {
     if (QUICK_EXIT_TEXT_RE.test(text) || QUICK_EXIT_TEXT_RE.test(aria)) return true;
   }
   return false;
+}
+
+/** Page de camouflage déclarée : <meta name="page-role" content="camouflage">. */
+export function isCamouflagePage(html) {
+  return /<meta\s+name=["']page-role["']\s+content=["']camouflage["']/i.test(withoutComments(html));
 }
 
 export function detectPhones(html, baseUrl) {
@@ -472,17 +477,32 @@ export function evaluatePages(pages, ctx = {}) {
   suggest('A1', maxWeight < 500 * 1024 ? 2 : 0, `Page la plus lourde : ${formatKb(maxWeight)} (seuil du critère : moins de 500 Ko).`);
 
   // 8. Sortie rapide
-  const exitPages = pages.map((p) => ({ url: p.url, found: detectQuickExit(p.html) }));
+  // Une page de camouflage déclarée (ex. calculatrice) EST la page neutre : elle n'est pas
+  // une page sensible. Elle est exclue du contrôle, et cette exclusion est écrite dans le constat.
+  const camoPages = pages.filter((p) => isCamouflagePage(p.html));
+  const sensitive = pages.filter((p) => !isCamouflagePage(p.html));
+  const exitPages = sensitive.map((p) => ({ url: p.url, found: detectQuickExit(p.html) }));
   const nbExit = exitPages.filter((p) => p.found).length;
+  const allExit = sensitive.length > 0 && nbExit === sensitive.length;
+  const camoNote = camoPages.length ? ` · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : ${camoPages.map((p) => shortName(p.url)).join(', ')} (déclaration à vérifier par les scénarios T3 et T4)` : '';
   findings.push({
     id: 'quick-exit', label: 'Bouton de sortie rapide',
-    status: nbExit === pages.length ? 'detected' : nbExit > 0 ? 'partial' : 'not_detected',
-    evidence: exitPages.map((p) => `${p.found ? '✓' : '✗'} ${shortName(p.url)}`).join(' · '),
-    risk: nbExit === pages.length ? 'Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.' : 'Afi ne peut pas masquer l\'outil rapidement.',
-    criteria: ['S1'], severity: nbExit === pages.length ? 'ok' : 'critical'
+    status: allExit ? 'detected' : nbExit > 0 ? 'partial' : 'not_detected',
+    evidence: exitPages.map((p) => `${p.found ? '✓' : '✗'} ${shortName(p.url)}`).join(' · ') + camoNote,
+    risk: allExit ? 'Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.' : 'Afi ne peut pas masquer l\'outil rapidement.',
+    criteria: ['S1'], severity: allExit ? 'ok' : 'critical'
   });
-  suggest('S1', nbExit === pages.length ? 2 : nbExit > 0 ? 1 : 0,
-    `Sortie rapide repérée sur ${nbExit}/${pages.length} page(s). Fonctionnement à confirmer par le scénario T4.`);
+  suggest('S1', allExit ? 2 : nbExit > 0 ? 1 : 0,
+    `Sortie rapide repérée sur ${nbExit}/${sensitive.length} page(s) sensible(s)${camoPages.length ? ` (${camoPages.length} page de camouflage déclarée exclue)` : ''}. Fonctionnement à confirmer par le scénario T4.`);
+  if (camoPages.length) {
+    findings.push({
+      id: 'camouflage', label: 'Mode discret (page de camouflage)',
+      status: 'detected',
+      evidence: camoPages.map((p) => `${shortName(p.url)} : titre « ${extractTitle(p.html)} »`).join(' · '),
+      risk: 'Information : la page se présente comme une autre application. Son efficacité réelle (code secret, retour automatique) se vérifie par les scénarios T3 et T4.',
+      criteria: ['S1', 'S3'], severity: 'info', informative: true
+    });
+  }
 
   // 9. Numéros cliquables
   const phones = pages.map((p) => detectPhones(p.html, p.url));

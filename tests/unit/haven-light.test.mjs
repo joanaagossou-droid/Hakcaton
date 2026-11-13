@@ -34,6 +34,10 @@ test('HAVEN et LIGHT : analyse réelle, résultats réellement différents', asy
     const lf = Object.fromEntries(light.analysis.findings.map((f) => [f.id, f.status]));
     for (const id of ['trackers', 'pixels', 'third-party', 'required-ident']) assert.equal(lf[id], 'not_detected', id);
     for (const id of ['quick-exit', 'phones', 'privacy', 'weight', 'local-traces', 'device-warning']) assert.equal(lf[id], 'detected', id);
+    // Mode discret : la calculatrice est déclarée page de camouflage, signalée dans les constats
+    assert.equal(lf.camouflage, 'detected');
+    assert.ok(light.analysis.pages.some((p) => p.url.endsWith('/light/calculatrice.html')), 'calculatrice analysée');
+    assert.match(light.analysis.findings.find((f) => f.id === 'quick-exit').evidence, /camouflage déclarée/);
 
     // F1 : HAVEN rouge et plafonnée ; LIGHT verte sans critère bloquant en échec, mais pas 100
     assert.equal(haven.score.light, 'red');

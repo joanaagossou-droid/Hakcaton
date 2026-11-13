@@ -1,0 +1,16 @@
+{
+  "name": "Calculatrice",
+  "short_name": "Calculatrice",
+  "description": "Calculatrice",
+  "lang": "fr",
+  "start_url": "calculatrice.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1c1c1e",
+  "theme_color": "#1c1c1e",
+  "icons": [
+    { "src": "assets/calc-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/calc-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/calc-icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

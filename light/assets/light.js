@@ -3,6 +3,9 @@
  *  1. Sortie rapide (K-EXIT) : bouton [data-quick-exit] + touche Échap.
  *  2. Bandeau « appareil surveillé ? » (K-BANNER) : masquable pour la session seulement.
  *  3. Formulaire minimal (K-FORM) : anonyme par défaut, rien n'est envoyé ni enregistré.
+ *  4. Mode discret (camouflage « Calculatrice ») : si Light a été ouverte depuis la calculatrice,
+ *     « Quitter », Échap et le passage en arrière-plan ramènent à la calculatrice, et la
+ *     navigation REMPLACE l'entrée d'historique (« Retour » ne peut jamais ramener à Light).
  */
 (function () {
   'use strict';
@@ -10,20 +13,50 @@
   // ---- 1. Sortie rapide -------------------------------------------------
   // Page neutre externe : une recherche météo. Elle est configurable.
   var NEUTRAL_URL = 'https://www.google.com/search?q=m%C3%A9t%C3%A9o';
+  var CALC_URL = 'calculatrice.html';
+
+  function camouflaged() {
+    try { return sessionStorage.getItem('calc.s') === '1'; } catch (e) { return false; }
+  }
 
   function quickExit() {
+    var toCalc = camouflaged();
+    var notifPending = null;
+    try { notifPending = sessionStorage.getItem('calc.n'); } catch (e) { /* ignoré */ }
     // Masquer immédiatement le contenu, avant même la redirection.
     document.documentElement.classList.add('exiting');
-    document.title = 'Météo';
+    document.title = toCalc ? 'Calculatrice' : 'Météo';
     try { sessionStorage.clear(); } catch (e) { /* ignoré */ }
+    // La notification camouflée éventuelle est conservée pour la calculatrice.
+    if (toCalc && notifPending === '1') { try { sessionStorage.setItem('calc.n', '1'); } catch (e) { /* ignoré */ } }
     // Remplace l'entrée courante de l'historique : « Retour » ne ramène pas ici.
-    window.location.replace(NEUTRAL_URL);
+    window.location.replace(toCalc ? CALC_URL : NEUTRAL_URL);
   }
   window.LIGHT_QUICK_EXIT = quickExit;
 
   document.addEventListener('click', function (e) {
     var t = e.target && e.target.closest ? e.target.closest('[data-quick-exit]') : null;
-    if (t) { e.preventDefault(); quickExit(); }
+    if (t) { e.preventDefault(); quickExit(); return; }
+    // Mode discret : chaque lien interne remplace la page au lieu d'empiler l'historique.
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (a && camouflaged() && !a.target && !e.defaultPrevented) {
+      var u;
+      try { u = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+      if (u.origin === location.origin && u.pathname.indexOf('/light/') >= 0) {
+        e.preventDefault();
+        window.location.replace(u.href);
+      }
+    }
+  });
+
+  // Mode discret : si l'application passe en arrière-plan, elle se referme sur la calculatrice.
+  // Le déchargement d'une page (navigation interne) déclenche lui aussi « hidden » : on l'ignore.
+  var leaving = false;
+  window.addEventListener('beforeunload', function () { leaving = true; });
+  window.addEventListener('pagehide', function () { leaving = true; });
+  window.addEventListener('pageshow', function () { leaving = false; });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden && camouflaged() && !leaving) quickExit();
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' || e.key === 'Esc') quickExit();
@@ -88,6 +121,8 @@
     }
     var c = code();
     form.reset();
+    // Mode discret : la calculatrice affichera une notification camouflée (dans la page seulement).
+    if (camouflaged()) { try { sessionStorage.setItem('calc.n', '1'); } catch (e) { /* ignoré */ } }
     if (zone) zone.hidden = true;
     show([
       { text: 'Votre code de suivi anonyme : ' + c, strong: true },

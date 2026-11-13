@@ -2,7 +2,7 @@
  "version": "1.0.0",
  "entryUrl": "/haven/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T01:00:46.316Z",
+ "analyzedAt": "2026-11-13T09:26:19.515Z",
  "pages": [
   {
    "url": "/haven/",
@@ -294,7 +294,7 @@
   "S1": {
    "note": 0,
    "proof": "machine",
-   "comment": "Sortie rapide repérée sur 0/4 page(s). Fonctionnement à confirmer par le scénario T4."
+   "comment": "Sortie rapide repérée sur 0/4 page(s) sensible(s). Fonctionnement à confirmer par le scénario T4."
   },
   "A4": {
    "note": 0,

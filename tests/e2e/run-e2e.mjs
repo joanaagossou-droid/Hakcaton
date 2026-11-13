@@ -207,15 +207,48 @@ try {
   errors.length = errorsBeforeExit;
   await send('Network.setBlockedURLs', { urls: [] });
 
+  // 8 bis. Mode discret : calculatrice de camouflage (reprise du prototype SafeElle)
+  const press = (keys) => evalJs(`(() => { for (const k of ${JSON.stringify(keys)}) document.querySelector('#keys button[data-k="' + k + '"]').click(); return document.querySelector('#result').textContent; })()`);
+  await nav(BASE + '/#/');
+  await nav(BASE + '/light/calculatrice.html');
+  check('Calculatrice : 12 + 3 × 4 = 24 (priorité des opérateurs)', (await press(['C', '1', '2', '+', '3', '*', '4', '='])) === '24');
+  check('Calculatrice : 10 ÷ 4 = 2,5 et 50 % = 0,5', (await press(['C', '1', '0', '/', '4', '='])) === '2,5' && (await press(['C', '5', '0', '%', '='])) === '0,5');
+  check('Calculatrice : titre neutre « Calculatrice », manifeste « Calculatrice »', await evalJs(`(async () => document.title === 'Calculatrice' && (await (await fetch('manifest.webmanifest')).json()).name === 'Calculatrice')()`));
+  await press(['C', '0', '0', '0', '0', '=']);
+  check('Code leurre 0000 : historique banal affiché', await waitFor('!document.querySelector("#decoy").hidden && document.querySelectorAll("#decoy li").length === 4', 8000));
+  await evalJs('document.querySelector("#decoy-back").click()');
+  const prefsRaw = await evalJs('localStorage.getItem("calc.prefs") || ""');
+  check('Codes jamais stockés en clair (empreintes PBKDF2 seulement)', prefsRaw.includes('sHash') && !/1234|0000/.test(prefsRaw.replace(/"[sd](Hash|Salt)":"[^"]*"/g, '')), prefsRaw.slice(0, 60));
+  await press(['C', '1', '2', '3', '4', '=']);
+  check('Code secret 1234 : LIGHT s\'ouvre', await waitFor('location.pathname.endsWith("/light/index.html") && document.querySelector("h1")', 8000));
+  await evalJs('[...document.querySelectorAll("nav a")].find(a => a.textContent === "Écrire").click()');
+  await waitFor('location.pathname.endsWith("/light/ecrire.html") && document.querySelector("#light-send")', 8000);
+  await evalJs('document.querySelector("#consent").click(); document.querySelector("#light-send").click()');
+  await sleep(200);
+  await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+  await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'Escape', code: 'Escape', windowsVirtualKeyCode: 27 });
+  check('Mode discret : Échap ramène à la calculatrice', await waitFor('location.pathname.endsWith("/light/calculatrice.html") && document.querySelector("#keys")', 8000));
+  check('Mode discret : notification camouflée « Calcul enregistré » après l\'envoi', await waitFor('document.querySelector("#notif").classList.contains("show") && document.querySelector("#notif-txt").textContent === "Calcul enregistré"', 5000));
+  const camoHist = await send('Page.getNavigationHistory');
+  const prevCamo = camoHist.entries[camoHist.currentIndex - 1] ? camoHist.entries[camoHist.currentIndex - 1].url : '';
+  check('Mode discret : « Retour » ne ramène à aucune page de LIGHT', !prevCamo.includes('/light/'), `entrée précédente : ${prevCamo.replace(BASE, '')}`);
+  check('Mode discret : session refermée à l\'arrivée sur la calculatrice', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
+  await press(['C', '1', '2', '3', '4', '=']);
+  await waitFor('location.pathname.endsWith("/light/index.html")', 8000);
+  await evalJs(`Object.defineProperty(document, 'hidden', { configurable: true, get: () => true }); document.dispatchEvent(new Event('visibilitychange'))`);
+  check('Mode discret : passage en arrière-plan → retour automatique à la calculatrice', await waitFor('location.pathname.endsWith("/light/calculatrice.html")', 8000));
+  await nav(BASE + '/light/');
+  check('Sans code secret, la sortie rapide de LIGHT reste la page neutre externe', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
+
   // 9. Mobile : 360 px sans défilement horizontal
   await send('Emulation.setDeviceMetricsOverride', { width: 360, height: 740, deviceScaleFactor: 2, mobile: true });
-  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/light/', '/light/contacts.html', '/haven/']) {
+  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/light/', '/light/contacts.html', '/light/calculatrice.html', '/light/discret.html', '/haven/']) {
     await nav(BASE + p);
     await waitFor('document.querySelector("h1")', 20000);
     await sleep(500);
     const sw = await evalJs('document.documentElement.scrollWidth');
     check(`Mobile 360 px sans défilement horizontal : ${p}`, sw <= 361, `largeur ${sw}`);
-    if (['/#/', '/#/comparer', '/light/'].includes(p)) await shot('07-mobile-' + (p.replace(/[^a-z]/g, '') || 'accueil'));
+    if (['/#/', '/#/comparer', '/light/', '/light/calculatrice.html', '/light/discret.html'].includes(p)) await shot('07-mobile-' + (p.replace(/[^a-z]/g, '') || 'accueil'));
   }
   await send('Emulation.clearDeviceMetricsOverride');
 

@@ -61,7 +61,10 @@ function demo(kind) {
         h('tr', null, h('td', null, '« Signaler une violence »'), h('td', null, '« Light · Formulaire »')),
         h('tr', null, h('td', null, 'Icône « SOS » ou cœur brisé'), h('td', null, 'Icône neutre (soleil, feuille)')),
         h('tr', null, h('td', null, 'SMS « Votre signalement est reçu »'), h('td', null, 'Code de suivi affiché à l\'écran seulement')),
-        h('tr', null, h('td', null, 'Adresse /signaler-violence.html'), h('td', null, 'Adresse /ecrire.html')))));
+        h('tr', null, h('td', null, 'Adresse /signaler-violence.html'), h('td', null, 'Adresse /ecrire.html')),
+        h('tr', null, h('td', null, 'Application installée « Aide violences »'), h('td', null, 'Application « Calculatrice » qui calcule vraiment, ouverte par un code secret')))),
+      h('p', null, h('a', { class: 'btn small secondary', href: 'light/calculatrice.html', target: '_blank', rel: 'noopener' }, 'Essayer la calculatrice de LIGHT'), ' ',
+        h('span', { class: 'small muted' }, 'Démonstration : 1234 puis « = » ouvre LIGHT ; 0000 puis « = » affiche le code leurre.')));
   }
   if (kind === 'banner') {
     const show = () => mount(box, h('div', { class: 'notice' },

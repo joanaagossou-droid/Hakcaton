@@ -2,31 +2,43 @@
  "version": "1.0.0",
  "entryUrl": "/light/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T01:00:46.425Z",
+ "analyzedAt": "2026-11-13T09:26:19.730Z",
  "pages": [
   {
    "url": "/light/",
    "status": 200,
    "title": "Light · Accueil",
-   "bytes": 12257
+   "bytes": 17360
   },
   {
    "url": "/light/contacts.html",
    "status": 200,
    "title": "Light · Contacts",
-   "bytes": 14993
+   "bytes": 19661
   },
   {
    "url": "/light/ecrire.html",
    "status": 200,
    "title": "Light · Formulaire",
-   "bytes": 12979
+   "bytes": 17647
+  },
+  {
+   "url": "/light/discret.html",
+   "status": 200,
+   "title": "Light · Réglages",
+   "bytes": 26012
   },
   {
    "url": "/light/confidentialite.html",
    "status": 200,
    "title": "Light · Confidentialité",
-   "bytes": 12346
+   "bytes": 17014
+  },
+  {
+   "url": "/light/calculatrice.html",
+   "status": 200,
+   "title": "Calculatrice",
+   "bytes": 19257
   }
  ],
  "findings": [
@@ -145,7 +157,7 @@
    "id": "weight",
    "label": "Poids approximatif des pages",
    "status": "detected",
-   "evidence": "Page la plus lourde : 14.6 Ko (contacts.html). light : 12 Ko · contacts.html : 14.6 Ko · ecrire.html : 12.7 Ko · confidentialite.html : 12.1 Ko. Taille décodée des ressources de même origine.",
+   "evidence": "Page la plus lourde : 25.4 Ko (discret.html). light : 17 Ko · contacts.html : 19.2 Ko · ecrire.html : 17.2 Ko · discret.html : 25.4 Ko · confidentialite.html : 16.6 Ko · calculatrice.html : 18.8 Ko. Taille décodée des ressources de même origine.",
    "risk": "Aucun (sous le seuil de 500 Ko)",
    "criteria": [
     "A1"
@@ -154,27 +166,39 @@
    "detail": [
     {
      "url": "/light/",
-     "html": 3365,
-     "resources": 8892,
-     "total": 12257
+     "html": 4015,
+     "resources": 13345,
+     "total": 17360
     },
     {
      "url": "/light/contacts.html",
-     "html": 6101,
-     "resources": 8892,
-     "total": 14993
+     "html": 6316,
+     "resources": 13345,
+     "total": 19661
     },
     {
      "url": "/light/ecrire.html",
-     "html": 4087,
-     "resources": 8892,
-     "total": 12979
+     "html": 4302,
+     "resources": 13345,
+     "total": 17647
+    },
+    {
+     "url": "/light/discret.html",
+     "html": 5234,
+     "resources": 20778,
+     "total": 26012
     },
     {
      "url": "/light/confidentialite.html",
-     "html": 3454,
-     "resources": 8892,
-     "total": 12346
+     "html": 3669,
+     "resources": 13345,
+     "total": 17014
+    },
+    {
+     "url": "/light/calculatrice.html",
+     "html": 3029,
+     "resources": 16228,
+     "total": 19257
     }
    ]
   },
@@ -182,12 +206,25 @@
    "id": "quick-exit",
    "label": "Bouton de sortie rapide",
    "status": "detected",
-   "evidence": "✓ light · ✓ contacts.html · ✓ ecrire.html · ✓ confidentialite.html",
+   "evidence": "✓ light · ✓ contacts.html · ✓ ecrire.html · ✓ discret.html · ✓ confidentialite.html · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : calculatrice.html (déclaration à vérifier par les scénarios T3 et T4)",
    "risk": "Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.",
    "criteria": [
     "S1"
    ],
    "severity": "ok"
+  },
+  {
+   "id": "camouflage",
+   "label": "Mode discret (page de camouflage)",
+   "status": "detected",
+   "evidence": "calculatrice.html : titre « Calculatrice »",
+   "risk": "Information : la page se présente comme une autre application. Son efficacité réelle (code secret, retour automatique) se vérifie par les scénarios T3 et T4.",
+   "criteria": [
+    "S1",
+    "S3"
+   ],
+   "severity": "info",
+   "informative": true
   },
   {
    "id": "phones",
@@ -204,7 +241,7 @@
    "id": "forms",
    "label": "Formulaire",
    "status": "detected",
-   "evidence": "ecrire.html : 6 champ(s)",
+   "evidence": "ecrire.html : 6 champ(s) · discret.html : 2 champ(s)",
    "risk": "Voir les champs obligatoires.",
    "criteria": [
     "C2",
@@ -228,7 +265,7 @@
    "id": "privacy",
    "label": "Politique de confidentialité",
    "status": "detected",
-   "evidence": "Page confidentialite.html : 338 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
+   "evidence": "Page confidentialite.html : 340 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
    "risk": "Lisibilité à confirmer par un humain.",
    "criteria": [
     "C4",
@@ -279,17 +316,17 @@
   "C1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Aucun traceur ni ressource tierce dans le code reçu (4 page(s) analysée(s)). Un contenu ajouté dynamiquement ne serait pas vu."
+   "comment": "Aucun traceur ni ressource tierce dans le code reçu (6 page(s) analysée(s)). Un contenu ajouté dynamiquement ne serait pas vu."
   },
   "A1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Page la plus lourde : 14.6 Ko (seuil du critère : moins de 500 Ko)."
+   "comment": "Page la plus lourde : 25.4 Ko (seuil du critère : moins de 500 Ko)."
   },
   "S1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Sortie rapide repérée sur 4/4 page(s). Fonctionnement à confirmer par le scénario T4."
+   "comment": "Sortie rapide repérée sur 5/5 page(s) sensible(s) (1 page de camouflage déclarée exclue). Fonctionnement à confirmer par le scénario T4."
   },
   "A4": {
    "note": 2,
@@ -309,7 +346,7 @@
   "C4": {
    "note": 2,
    "proof": "machine",
-   "comment": "Politique présente : 338 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
+   "comment": "Politique présente : 340 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
   },
   "S3": {
    "note": 2,

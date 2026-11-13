@@ -10,7 +10,7 @@
 | 0:50 | Étape T6 → **Afi est exposée** | « Le traceur révèle la visite. » |
 | 1:00 | Score **9/100 en ligne (7 en local), rouge**, plafonné | « Quatre critères bloquants : non déployable. NUKUN donne le plan de correction et les correctifs. » |
 | 1:20 | **HAVEN → LIGHT** | « Nous avons appliqué le plan : Haven est devenue Light. Même moteur : **85/100 en ligne**, vert. Et pas 100 : NUKUN affiche ce qui reste à valider (langues nationales, test utilisateur, contacts à vérifier). » |
-| 1:45 | Ouvrir LIGHT, appuyer sur **Quitter** | « Une page neutre, et Retour ne ramène pas ici. » |
+| 1:45 | Ouvrir **LIGHT → Mode discret → la calculatrice** : calculer, puis taper **1234 =** ; dans LIGHT, appuyer sur **Quitter** | « Pour Kossi, ce n'est qu'une calculatrice qui marche. Le code secret ouvre Light ; Quitter la referme, et Retour ne ramène jamais ici. » |
 | 1:55 | QR code (`#/partager`) | « Scannez, et auditez Haven vous-mêmes. » |
 
 Ne jamais nommer de site ou d'institution réels.

@@ -7,7 +7,7 @@ Date d'exécution : 13/11/2026. Machine : Windows 11, Node.js 24.19, Microsoft E
 | Famille | Commande | Résultat |
 |---|---|---|
 | Unitaires + sécurité | `npm test` | **36/36 réussis** |
-| Navigateur réel (bout en bout) | `npm run test:e2e` | **34/34 réussis** |
+| Navigateur réel (bout en bout) | `npm run test:e2e` | **48/48 réussis** (dont 14 sur le mode discret : calculs, code leurre, empreintes des codes, code secret, Échap, notification camouflée, historique, verrouillage en arrière-plan) |
 | Charge locale | `node tests/load/mini-load.mjs 200 60` | **Réussi** : 200 utilisateurs, 31 897 requêtes, 0 erreur, p95 = 24 ms, p99 = 27 ms |
 | Poids | `node tools/measure-weight.mjs` | NUKUN 282 Ko bruts / 100 Ko compressés (< 300 Ko) ; pages LIGHT 12 à 14 Ko (< 150 Ko) |
 | QR code | décodage par la bibliothèque indépendante jsQR 1.4.0 | **5/5** textes décodés à l'identique (versions 1, 3, 8 et 10, accents) |
@@ -73,6 +73,10 @@ HAVEN passe de 7 (local) à 9 (en ligne) : avec HTTPS et sa CSP, son critère S5
 - Titre de section orphelin en bas de page PDF → corrigé.
 - Doublon `/` et `/index.html` dans l'analyse ; seuil A1 aligné sur le texte du critère ; détection du bandeau de LIGHT.
 - Récursion infinie dans la conversion de caractères du PDF (caractère « · ») → corrigée.
+
+## Anomalie trouvée et corrigée sur le mode discret
+
+- Le déchargement d'une page lors d'une navigation interne déclenchait le verrouillage automatique et fermait la session : corrigé (événements `beforeunload` / `pagehide` pris en compte), puis vérifié par test.
 
 ## Ce que ces résultats ne prouvent pas
 

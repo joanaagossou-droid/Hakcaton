@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-title" content="Calculatrice">
+<title>Light · Réglages</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/light-icon.svg">
+<link rel="apple-touch-icon" href="assets/calc-192.png">
+<link rel="stylesheet" href="assets/light.css">
+<script src="assets/light.js" defer></script>
+<script src="assets/camouflage.js" defer></script>
+<script src="assets/discret.js" defer></script>
+</head>
+<body>
+<div class="fiction-banner" role="note"><strong>SITE FICTIF</strong> — Créé exclusivement pour une démonstration pédagogique. Ce site n'est pas un service officiel et ne reçoit aucun signalement réel.</div>
+<button type="button" class="quick-exit" data-quick-exit aria-label="Sortie rapide : quitter le site immédiatement (touche Échap)">Quitter ✕</button>
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/light-icon.svg" alt="" width="26" height="26"> Light</a>
+  <nav aria-label="Navigation principale">
+    <a href="index.html">Accueil</a>
+    <a href="ecrire.html">Écrire</a>
+    <a href="contacts.html">Contacts</a>
+    <a href="discret.html" aria-current="page">Mode discret</a>
+    <a href="confidentialite.html">Confidentialité</a>
+  </nav>
+</header>
+<main id="contenu">
+  <h1>Mode discret : Light déguisée en calculatrice</h1>
+  <p>Si quelqu'un regarde votre téléphone, il ne voit qu'une calculatrice qui fonctionne vraiment. Light ne s'ouvre qu'avec votre code secret.</p>
+
+  <ol class="steps-list">
+    <li><b>Ouvrez la calculatrice.</b> Elle calcule normalement.</li>
+    <li><b>Tapez votre code secret, puis « = ».</b> Light s'ouvre.</li>
+    <li><b>« Quitter » ou la touche Échap</b> vous ramènent à la calculatrice. Light se referme aussi seule si vous changez d'application.</li>
+    <li><b>Si on vous force à ouvrir</b>, tapez le <b>code leurre</b> puis « = » : un simple historique de calculs s'affiche.</li>
+  </ol>
+  <p><a class="btn" href="calculatrice.html">Ouvrir la calculatrice</a></p>
+
+  <section class="note">
+    <h2>Installer la calculatrice sur l'écran d'accueil</h2>
+    <p>L'icône et le nom affichés seront ceux d'une calculatrice.</p>
+    <ul>
+      <li><b>Android (Chrome)</b> : ouvrez la calculatrice, menu ⋮, puis « Ajouter à l'écran d'accueil » ou « Installer l'application ».</li>
+      <li><b>iPhone (Safari)</b> : ouvrez la calculatrice, bouton Partager, puis « Sur l'écran d'accueil ».</li>
+    </ul>
+  </section>
+
+  <h2>Réglages</h2>
+  <p class="warning-box" id="default-warning" hidden><strong>Codes de démonstration actifs.</strong> Le code secret 1234 et le code leurre 0000 sont publics : un vrai service vous demanderait de choisir vos propres codes dès la première ouverture.</p>
+  <form id="camo-form" class="form" novalidate>
+    <label for="secret">Nouveau code secret</label>
+    <input id="secret" name="secret" type="password" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]*" aria-describedby="code-help">
+    <label for="decoy">Nouveau code leurre</label>
+    <input id="decoy" name="decoy" type="password" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]*" aria-describedby="code-help">
+    <p class="small" id="code-help">Chiffres uniquement, de 4 à 8 chiffres ; 6 ou plus est conseillé. Les deux codes doivent être différents. Ils ne sont jamais enregistrés en clair : seule une empreinte est gardée sur ce téléphone.</p>
+
+    <fieldset>
+      <legend>Après l'envoi d'un message, la calculatrice affiche :</legend>
+      <div id="notif-choices"></div>
+      <p class="small">Uniquement à l'écran, dans la calculatrice. Aucune notification ni aucun SMS n'est envoyé.</p>
+    </fieldset>
+
+    <button type="button" class="btn" id="camo-save">Enregistrer</button>
+    <div id="camo-msg" class="result" role="status" aria-live="polite" hidden></div>
+  </form>
+
+  <section>
+    <h2>Les limites du mode discret</h2>
+    <ul>
+      <li>Si Light est ouverte dans le navigateur (et non installée), son adresse peut rester dans l'historique : préférez l'application installée ou la navigation privée.</li>
+      <li>Un code de 4 chiffres se devine facilement : choisissez-en un plus long, que la personne qui vous fait du mal ne peut pas deviner (pas votre date de naissance).</li>
+      <li>Le camouflage ne protège pas d'un logiciel espion installé sur le téléphone.</li>
+      <li>Si vous oubliez votre code, effacez les réglages ci-dessous : les codes de démonstration reviennent.</li>
+    </ul>
+  </section>
+
+  <section class="note">
+    <h2>Désactiver et tout effacer</h2>
+    <p>Supprime les codes et les réglages du mode discret de ce téléphone.</p>
+    <button type="button" class="btn secondary" id="camo-wipe">Tout effacer</button>
+  </section>
+</main>
+<footer class="foot">
+  <a href="confidentialite.html">Confidentialité et limites</a> · Light — démonstration HACK4HER, contenu du 13/11/2026, site fictif
+</footer>
+</body>
+</html>

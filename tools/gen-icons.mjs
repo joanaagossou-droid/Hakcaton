@@ -27,9 +27,38 @@ function chunk(type, data) {
   return Buffer.concat([len, td, crc]);
 }
 
-function draw(size) {
+const NAVY = [11, 31, 58], TEAL = [20, 184, 166], WHITE = [255, 255, 255];
+function eyeShade(u, v) {
+  let col = NAVY;
+  // amande de l'œil : |v| < 0.5*(1-u²)  (sur u ∈ [-0.78, 0.78])
+  const uu = u / 0.78;
+  const edge = 0.46 * (1 - uu * uu);
+  const inEye = Math.abs(uu) <= 1 && Math.abs(v) <= edge;
+  const nearEdge = Math.abs(uu) <= 1.06 && Math.abs(Math.abs(v) - Math.max(edge, 0)) < 0.06;
+  if (nearEdge) col = TEAL;
+  const r = Math.hypot(u, v);
+  if (inEye && r < 0.27 && r > 0.17) col = WHITE;
+  if (r < 0.09) col = WHITE;
+  return col;
+}
+
+/** Icône « Calculatrice » du mode discret de LIGHT (mêmes formes que light/assets/calc-icon.svg). */
+function calcShade(u, v) {
+  const x = (u + 1) * 32, y = (v + 1) * 32;
+  const BG = [28, 28, 30], OUT = [11, 31, 58];
+  // coins arrondis (rayon 14 sur 64)
+  const cx = Math.min(Math.max(x, 14), 50), cy = Math.min(Math.max(y, 14), 50);
+  if (Math.hypot(x - cx, y - cy) > 14) return BG;
+  if (x >= 10 && x <= 54 && y >= 9 && y <= 22) return [58, 58, 60];
+  const cols = [15, 27, 39, 51], rows = [32, 43, 54];
+  for (const ky of rows) for (const kx of cols) {
+    if (Math.hypot(x - kx, y - ky) <= 4.5) return kx === 51 ? [255, 159, 10] : ky === 32 && kx < 39 ? [165, 165, 165] : [90, 90, 94];
+  }
+  return BG;
+}
+
+function draw(size, shade = eyeShade) {
   const px = Buffer.alloc(size * (size * 4 + 1));
-  const NAVY = [11, 31, 58], TEAL = [20, 184, 166], WHITE = [255, 255, 255];
   for (let y = 0; y < size; y++) {
     px[y * (size * 4 + 1)] = 0;
     for (let x = 0; x < size; x++) {
@@ -38,16 +67,7 @@ function draw(size) {
       for (let sy = 0; sy < 3; sy++) for (let sx = 0; sx < 3; sx++) {
         const u = ((x + (sx + .5) / 3) / size) * 2 - 1;
         const v = ((y + (sy + .5) / 3) / size) * 2 - 1;
-        let col = NAVY;
-        // amande de l'œil : |v| < 0.5*(1-u²)  (sur u ∈ [-0.78, 0.78])
-        const uu = u / 0.78;
-        const edge = 0.46 * (1 - uu * uu);
-        const inEye = Math.abs(uu) <= 1 && Math.abs(v) <= edge;
-        const nearEdge = Math.abs(uu) <= 1.06 && Math.abs(Math.abs(v) - Math.max(edge, 0)) < 0.06;
-        if (nearEdge) col = TEAL;
-        const r = Math.hypot(u, v);
-        if (inEye && r < 0.27 && r > 0.17) col = WHITE;
-        if (r < 0.09) col = WHITE;
+        const col = shade(u, v);
         acc = acc.map((a, i) => a + col[i]);
       }
       const o = y * (size * 4 + 1) + 1 + x * 4;
@@ -61,6 +81,9 @@ function draw(size) {
 }
 
 for (const s of [192, 512]) {
+  const c = path.join(root, 'light', 'assets', 'calc-' + s + '.png');
+  fs.writeFileSync(c, draw(s, calcShade));
+  console.log(c + ' : ' + Math.round(fs.statSync(c).size / 1024) + ' Ko');
   const f = path.join(root, 'public', 'icons', `icon-${s}.png`);
   fs.writeFileSync(f, draw(s));
   console.log(`${f} : ${Math.round(fs.statSync(f).size / 1024)} Ko`);

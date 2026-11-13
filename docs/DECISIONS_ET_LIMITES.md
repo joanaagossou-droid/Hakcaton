@@ -21,6 +21,11 @@ Quand une information manquait, une décision prudente a été prise et document
 | Export PDF | Générateur PDF écrit pour le projet (polices standard, accents WinAnsi) ; émojis remplacés par du texte | Aucune bibliothèque externe ; génération 100 % locale |
 | Ré-audit | Les réponses humaines ne sont pas recopiées | Un ré-audit doit revérifier, pas reconduire |
 | Analyses importées (JSON) | Rétrogradées en « déclaration » | Un fichier peut être modifié ; seule une analyse faite par NUKUN vaut preuve machine |
+| Mode discret de LIGHT | Repris du prototype SafeElle : calculatrice, code secret, code leurre, « Quitter vite » vers la calculatrice, retour automatique en arrière-plan, notification camouflée dans la page, installation « Calculatrice ». **Non repris** : coffre de preuves, messages vocaux, assistante IA, alerte discrète par micro | LIGHT est une démonstration qui ne doit ni recevoir ni stocker de données réelles (N1) ; le micro et le stockage de preuves sortent de ce cadre |
+| Codes du mode discret | Empreinte PBKDF2-SHA-256 salée (100 000 itérations), jamais en clair ; codes de démonstration publics 1234 / 0000 affichés sur la calculatrice | Démonstration pour le jury ; un vrai service imposerait un code personnel de 6 chiffres ou plus au premier lancement |
+| Historique en mode discret | Chaque lien interne de LIGHT remplace l'entrée d'historique ; « Quitter » remplace la page par la calculatrice | « Retour » ne peut jamais ramener à une page de LIGHT (vérifié par test) |
+| Bandeau sur la calculatrice | Bandeau « SITE FICTIF » conservé, en petit, en bas de la calculatrice | Obligation de la démonstration ; à retirer dans un vrai service |
+| Analyse de la calculatrice | Page déclarée « camouflage » (balise meta), exclue du contrôle de la sortie rapide, exclusion écrite dans le constat | La calculatrice est la page neutre ; une déclaration reste à vérifier par T3 et T4 |
 | Hébergeur | Netlify proposé (fichiers prêts), Cloudflare Pages possible | HTTPS automatique, offre gratuite, fonction serveur |
 
 ## Limites connues
@@ -28,6 +33,7 @@ Quand une information manquait, une décision prudente a été prise et document
 - L'analyse lit le code reçu, par expressions régulières : un contenu ajouté par JavaScript n'est pas vu, et un code très inhabituel peut tromper la détection (faux négatifs possibles). Les critères concernés demandent un test humain.
 - Les signatures de traceurs couvrent 13 services courants, pas tous.
 - Les verdicts ne valent que pour l'appareil, le navigateur et la date du test.
+- Le mode discret ne protège pas d'un logiciel espion ; un code de 4 chiffres se devine ; ouverte dans le navigateur (et non installée), LIGHT peut laisser son adresse dans l'historique ; une application web ne peut pas masquer son icône dans la liste des onglets récents du système.
 - La sortie rapide ne supprime pas l'historique déjà enregistré ni les traces sur d'autres appareils synchronisés.
 - La limitation de débit et le cache de la fonction en ligne sont en mémoire par instance (limite effective plus élevée si plusieurs instances).
 - Le stockage local peut être indisponible (navigation privée stricte) : NUKUN prévient et propose l'export.

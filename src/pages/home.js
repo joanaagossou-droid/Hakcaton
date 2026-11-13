@@ -232,7 +232,7 @@ export function renderMethod(ctx) {
       h('h2', null, 'L\'analyse automatique (module 0)'),
       h('p', null, 'Elle lit le code et les en-têtes comme une visiteuse ordinaire : HTTPS, en-têtes de sécurité, cookies (y compris avant consentement), signatures de traceurs et de pixels connus, domaines tiers, poids des pages, sortie rapide, numéros cliquables, formulaires et champs identifiants obligatoires, politique de confidentialité, signaux de traces locales.'),
       h('ul', null,
-        h('li', null, 'Strictement passive : aucun formulaire soumis, aucun test intrusif, aucune page cachée (seuls les liens visibles de la même section sont suivis, 6 pages au plus).'),
+        h('li', null, 'Strictement passive : aucun formulaire soumis, aucun test intrusif, aucune page cachée (seuls les liens visibles de la même section sont suivis, 8 pages au plus).'),
         h('li', null, 'Les domaines tiers sont relevés dans le code, jamais contactés.'),
         h('li', null, 'Liste d\'adresses autorisées ; refus de localhost, des adresses IP privées ou réservées, des services de métadonnées cloud, des protocoles autres que http(s), des identifiants dans l\'adresse, des ports non standard, des redirections vers une destination interdite ; vérification DNS au moment de la connexion ; 10 analyses par minute et par appareil ; 2 Mo et 8 s au plus par réponse ; cache de 5 minutes.'),
         h('li', null, 'Limite : un contenu ajouté par JavaScript après le chargement n\'est pas vu. Les critères concernés passent par un test humain.')),
