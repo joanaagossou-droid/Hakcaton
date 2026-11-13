@@ -1,0 +1,40 @@
+{
+  "case": "light",
+  "title": "LIGHT (plateforme corrigée)",
+  "path": "light/",
+  "auditType": "self",
+  "testedBy": "Équipe NUKUN (auto-évaluation, non certifiée)",
+  "testedOn": "2026-11-13",
+  "note": "Évaluation de référence des critères qui demandent un humain. Les critères observables viennent de l'analyse automatique exécutée au moment de l'audit. Les points non encore validés sont laissés tels quels : LIGHT n'obtient pas 100/100. Refaites ces tests vous-même : vos réponses remplacent celles-ci.",
+  "assessments": {
+    "C5": { "note": 2, "proof": "human", "comment": "Case d'accord non précochée, un seul usage (lecture par l'équipe d'écoute), retrait possible annoncé ; aucun cookie." },
+    "S2": { "note": 2, "proof": "human", "comment": "Bandeau « Votre appareil est-il sûr ? » sur l'accueil et le formulaire, avec conseils de sécurité." },
+    "S4": { "note": 2, "proof": "human", "comment": "Test T2 : aucune demande d'autorisation de notification, aucun SMS ni courriel ; le code de suivi n'est affiché qu'à l'écran." },
+    "A2": { "note": 1, "proof": "human", "comment": "Langage simple relu par l'équipe, mais pas encore testé avec des personnes peu scolarisées." },
+    "A3": { "note": 0, "proof": "human", "comment": "Pas encore de langue nationale ni d'audio : prévu après validation des traductions par des locuteurs." },
+    "R1": { "note": 2, "proof": "human", "comment": "Parcours de démonstration complet : message → accord → code de suivi → prochaine étape et délai. Aucun envoi réel (démonstration)." },
+    "R2": { "note": 1, "proof": "human", "comment": "Structure correcte (6 catégories, numéros cohérents et cliquables), mais numéros FICTIFS : vérification institutionnelle non faite." },
+    "R3": { "note": "na", "naReason": "LIGHT ne prend aucune décision automatisée (pas d'IA, pas de tri, pas d'alerte).", "comment": "" },
+    "R4": { "note": 2, "proof": "human", "comment": "Code de suivi anonyme, prochaine étape et délai (48 h) affichés à l'écran." },
+    "R5": { "note": 2, "proof": "human", "comment": "Page « Confidentialité » avec section « Les limites de la confidentialité » (mineurs, danger immédiat, obligation légale)." },
+    "N1": { "note": 2, "proof": "human", "comment": "Aucune donnée réelle ; formulaire de démonstration sans envoi ; avertissement « n'y écrivez pas de vraie situation »." },
+    "N2": { "note": 2, "proof": "human", "comment": "« Vous pouvez demander de l'aide quand vous êtes prête ou prêt » ; aucune injonction." },
+    "N3": { "note": 2, "proof": "human", "comment": "« Ce n'est pas votre faute » ; le choix de la personne est rappelé." },
+    "N4": { "note": 2, "proof": "human", "comment": "Rubriques « Si la personne qui vous fait du mal est un proche » et « Si vous avez moins de 18 ans »." },
+    "N5": { "note": 2, "proof": "human", "comment": "Conservation présentée comme un choix ; mise en garde explicite sur la galerie et le cloud partagés." },
+    "E1": { "note": 1, "proof": "human", "comment": "Contenu cohérent d'une page à l'autre et sourcé (UNFPA), mais contacts non vérifiés." },
+    "E2": { "note": 1, "proof": "declared", "comment": "Parcours pensés pour majeurs, mineurs, proches ; pas encore testés avec des profils variés." },
+    "E3": { "note": "na", "naReason": "LIGHT n'utilise aucune intelligence artificielle.", "comment": "" },
+    "E4": { "note": 2, "proof": "human", "comment": "S'adresse aux femmes et aux hommes, à tout âge, aux proches et aux témoins." },
+    "E5": { "note": 0, "proof": "declared", "comment": "Contenu daté (13/11/2026) mais pas encore relu par une structure spécialisée." }
+  },
+  "scenarios": {
+    "T1": { "verdict": "protected", "notes": "Titres neutres (« Light · Formulaire »), adresses neutres (ecrire.html), sortie par location.replace. L'adresse du site reste dans l'historique : la navigation privée est conseillée." },
+    "T2": { "verdict": "protected", "notes": "Aucune notification, aucun SMS, aucun courriel." },
+    "T3": { "verdict": "protected", "notes": "Nom « Light » et icône soleil neutres ; aucune invitation à installer." },
+    "T4": { "verdict": "protected", "notes": "Bouton « Quitter » sur chaque page et touche Échap : page neutre en moins de 2 s ; « Retour » ne ramène pas à la page quittée. Vérifié sur ordinateur (test automatisé, navigateur Edge) ; à refaire sur Android et iPhone." },
+    "T5": { "verdict": "protected", "notes": "Aucun compte, aucune synchronisation ; mise en garde sur le cloud partagé." },
+    "T6": { "verdict": "protected", "notes": "Aucune ressource ni requête tierce (analyse automatique et onglet Réseau)." },
+    "T7": { "verdict": "partial", "notes": "Orientation adaptée au cas familial et limites expliquées, mais contacts fictifs non vérifiés." }
+  }
+}

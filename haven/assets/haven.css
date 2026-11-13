@@ -1,0 +1,23 @@
+/* HAVEN — charte fictive volontairement différente de NUKUN et de tout site réel. */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Georgia, "Times New Roman", serif; background: #fbf3ef; color: #3b2a2a; line-height: 1.5; }
+.fiction-banner { background: #fff3a8; color: #2b2200; border-bottom: 3px dashed #8a6d00; padding: 10px 16px; font-family: system-ui, sans-serif; font-size: 15px; text-align: center; }
+.top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; background: #8b3a62; }
+.top a { color: #fff; text-decoration: none; margin-right: 12px; font-size: 15px; }
+.brand { display: inline-flex; align-items: center; gap: 8px; font-weight: bold; letter-spacing: 2px; font-size: 18px !important; }
+nav { display: flex; flex-wrap: wrap; gap: 4px; }
+main { max-width: 760px; margin: 0 auto; padding: 16px; }
+.hero { background: #f2d7e3; padding: 20px; border-radius: 4px; }
+h1 { color: #8b3a62; font-size: 26px; }
+h2 { color: #5c2340; margin-top: 28px; }
+.cta { display: inline-block; background: #c0392b; color: #fff; padding: 12px 18px; text-decoration: none; font-weight: bold; }
+.stats li { margin: 6px 0; }
+.form { display: grid; gap: 6px; background: #fff; padding: 16px; border: 1px solid #e3c9d5; }
+.form input, .form textarea { font-size: 16px; padding: 8px; border: 1px solid #b998a8; width: 100%; }
+.form button { margin-top: 12px; background: #8b3a62; color: #fff; border: 0; padding: 12px; font-size: 16px; }
+.result { font-weight: bold; color: #5c2340; }
+.numbers { border-collapse: collapse; width: 100%; }
+.numbers td, .numbers th { border: 1px solid #e3c9d5; padding: 8px; text-align: left; }
+.small { font-size: 12px; color: #7a6060; }
+.foot { text-align: center; padding: 24px 16px; font-size: 13px; color: #7a6060; }
+.foot a { color: #8b3a62; }

@@ -1,0 +1,95 @@
+{
+  "version": "1.0.0",
+  "corrections": [
+    {
+      "id": "K-EXIT", "title": "Bouton de sortie rapide", "effort": "faible", "criteria": ["S1", "S3"],
+      "risk": "L'agresseur entre dans la pièce pendant qu'Afi consulte l'outil.",
+      "problem": "Sans sortie rapide, Afi doit fermer l'onglet en urgence ; la page sensible reste à l'écran ou dans le bouton « Retour ».",
+      "solution": "Un bouton toujours visible et la touche Échap remplacent immédiatement la page par une page neutre, sans ajouter d'entrée dans l'historique (location.replace). Le contenu est masqué avant même la redirection.",
+      "demo": "exit",
+      "code": "<button type=\"button\" class=\"quick-exit\" data-quick-exit>Quitter</button>\n<script src=\"quick-exit.js\" defer></script>\n\n// quick-exit.js — aucune dépendance\n(function () {\n  var NEUTRAL = 'https://www.google.com/search?q=m%C3%A9t%C3%A9o';\n  function leave() {\n    document.documentElement.style.visibility = 'hidden';\n    document.title = 'Météo';\n    try { history.replaceState(null, '', '/'); } catch (e) {}\n    window.location.replace(NEUTRAL);\n  }\n  document.addEventListener('click', function (e) {\n    if (e.target.closest('[data-quick-exit]')) { e.preventDefault(); leave(); }\n  });\n  document.addEventListener('keydown', function (e) {\n    if (e.key === 'Escape') leave();\n  });\n})();",
+      "limits": "La sortie rapide ne supprime pas l'historique déjà enregistré, le cache, les captures d'écran ni les traces sur d'autres appareils synchronisés. Elle doit être complétée par des titres neutres et le conseil d'utiliser la navigation privée."
+    },
+    {
+      "id": "K-DISCREET", "title": "Mode discret", "effort": "faible", "criteria": ["S3", "S4"],
+      "risk": "L'historique, les onglets, les icônes ou les notifications trahissent l'usage de l'outil.",
+      "problem": "Titres explicites (« Signaler une violence »), icône évocatrice, confirmations par SMS ou courriel, saisie automatique qui mémorise les phrases tapées.",
+      "solution": "Titres d'onglet neutres ; icône neutre ; aucune notification ni message automatique ; autocomplete=\"off\" sur les champs sensibles ; en-tête Cache-Control: no-store sur les pages sensibles ; conseil de navigation privée affiché.",
+      "demo": "discreet",
+      "code": "<title>Infos pratiques</title>\n<link rel=\"icon\" href=\"icone-neutre.svg\">\n<textarea name=\"recit\" autocomplete=\"off\" spellcheck=\"false\"></textarea>\n\n# En-tête HTTP des pages sensibles\nCache-Control: no-store\n\n// Ne jamais appeler Notification.requestPermission()\n// Ne jamais envoyer de SMS ou de courriel de confirmation par défaut.",
+      "limits": "Un titre neutre n'empêche pas l'agresseur de reconnaître l'adresse du site. Le mode discret réduit les traces, il ne les supprime pas."
+    },
+    {
+      "id": "K-BANNER", "title": "Bandeau « appareil surveillé ? »", "effort": "faible", "criteria": ["S2"],
+      "risk": "Afi ignore que son téléphone peut être surveillé (code connu, logiciel espion, compte partagé).",
+      "problem": "Aucun avertissement : Afi utilise l'outil sur un appareil qui n'est peut-être pas sûr.",
+      "solution": "Un bandeau sobre explique le risque et laisse choisir : continuer, ouvrir les conseils, ou quitter. Le choix « ne plus afficher » est mémorisé seulement pour la session.",
+      "demo": "banner",
+      "code": "<div class=\"device-warning\" role=\"region\" aria-label=\"Avertissement de sécurité\">\n  <p><strong>Votre appareil est-il sûr ?</strong> Si quelqu'un connaît votre code ou a accès à votre téléphone, il peut voir ce que vous faites ici. Si possible, utilisez un appareil de confiance et la navigation privée.</p>\n  <button type=\"button\" data-dismiss>Continuer</button>\n  <a href=\"conseils.html\">Conseils de sécurité</a>\n  <button type=\"button\" data-quick-exit>Quitter</button>\n</div>",
+      "limits": "Le bandeau informe ; il ne détecte pas un logiciel espion. Il ne doit pas alarmer ni culpabiliser."
+    },
+    {
+      "id": "K-FORM", "title": "Formulaire minimal", "effort": "moyen", "criteria": ["C2", "C3", "C5", "R1", "R4"],
+      "risk": "Un formulaire exige nom, téléphone ou pièce jointe et crée une trace identifiante.",
+      "problem": "Champs identifiants obligatoires, pièce jointe obligatoire, consentement absent, aucune information après l'envoi.",
+      "solution": "Anonyme par défaut ; nom, téléphone et pièce jointe facultatifs et masqués derrière un choix explicite ; une case de consentement non précochée par usage ; après l'envoi, un code de suivi anonyme, la prochaine étape et un délai affichés à l'écran (jamais envoyés par SMS).",
+      "demo": "form",
+      "code": "<form id=\"demande\" novalidate>\n  <label for=\"quoi\">Que se passe-t-il ? (facultatif)</label>\n  <textarea id=\"quoi\" name=\"quoi\" autocomplete=\"off\"></textarea>\n\n  <fieldset>\n    <legend>Souhaitez-vous être recontactée ?</legend>\n    <label><input type=\"radio\" name=\"contact\" value=\"non\" checked> Non, je reste anonyme</label>\n    <label><input type=\"radio\" name=\"contact\" value=\"oui\"> Oui, je choisis un moyen sûr</label>\n  </fieldset>\n\n  <label><input type=\"checkbox\" name=\"consent\" required> J'accepte que ma demande soit lue par l'équipe d'écoute (révocable).</label>\n  <button type=\"submit\">Envoyer</button>\n</form>",
+      "limits": "Un formulaire anonyme ne protège pas contre les traces locales (historique, captures). Le serveur qui reçoit les données doit lui-même être sécurisé et audité. Dans la démonstration, rien n'est transmis."
+    },
+    {
+      "id": "K-PRIVACY", "title": "Politique de confidentialité et limites", "effort": "faible", "criteria": ["C4", "R5"],
+      "risk": "Afi confie des informations sans savoir qui les lit ni dans quels cas elles peuvent être transmises.",
+      "problem": "Politique vide ou juridique, « 100 % confidentiel » affiché sans nuance, limites de la confidentialité absentes.",
+      "solution": "Une page courte en langage simple : quelles données, qui y accède, combien de temps, comment les supprimer, et les limites de la confidentialité (personne mineure, danger imminent, signalement obligatoire).",
+      "demo": "privacy",
+      "code": "Modèle (à adapter et à faire valider par un juriste) :\n\n1. Ce que nous collectons : …\n2. Qui peut lire : uniquement … (fonction, pas de nom)\n3. Combien de temps : … jours, puis suppression automatique\n4. Où : serveur situé à … , chiffré\n5. Supprimer vos données : …\n6. Limites de la confidentialité : si vous êtes mineure et en danger, si une vie est menacée, ou si la loi l'impose, certaines informations peuvent être transmises à … Nous vous le dirons avant, sauf danger immédiat.\n7. Ce que nous ne faisons jamais : publicité, traceurs, revente.",
+      "limits": "Le modèle doit être adapté au service réel et validé juridiquement (Code du numérique du Bénin, protection des données personnelles). Les références légales sont à confirmer."
+    },
+    {
+      "id": "K-EVIDENCE", "title": "Guide de conservation des preuves", "effort": "moyen", "criteria": ["N5", "N1"],
+      "risk": "Des preuves stockées dans une galerie ou un cloud partagé sont découvertes par l'agresseur.",
+      "problem": "Le conseil se limite à « faites des captures d'écran », sans mise en garde.",
+      "solution": "Une fiche prudente : ce qui peut être conservé (messages, liens, profils, dates), comment (captures, export, journal), où (support que seule la survivante contrôle) et les risques (galerie synchronisée, appareil partagé). La conservation reste un choix, jamais une obligation.",
+      "demo": "evidence",
+      "code": "Contenu inspiré du support UNFPA « Identifier, répondre et coordonner la réponse aux VBG-FT » :\n- Ce qui peut être conservé : comptes et appareils impliqués, messages, images, publications, liens, noms d'utilisateur, dates et heures.\n- Comment : garder les messages originaux, captures d'écran, enregistrer les pages, exporter les discussions, tenir un journal.\n- Attention au cloud : privilégier un support auquel seule la personne a accès.\n- Ne jamais transmettre de preuves à un outil de démonstration.",
+      "limits": "Ce guide n'est pas un avis juridique. La valeur d'une preuve devant la justice dépend de la procédure : orienter vers une assistance juridique ou un service spécialisé."
+    },
+    {
+      "id": "K-ORIENTATION", "title": "Orientation et recours", "effort": "moyen", "criteria": ["R2", "A2", "A3", "A4", "N2", "N3", "N4", "E1", "E2", "E4", "E5", "R3", "E3"],
+      "risk": "Une orientation fausse, incohérente ou inadaptée envoie Afi au mauvais endroit, ou vers son agresseur.",
+      "problem": "Voies de recours remplies de contenus hors sujet, numéros non cliquables ou incohérents, injonctions (« signalez immédiatement »), conseil unique « informez vos parents ».",
+      "solution": "Six catégories (assistance sociale, médicale, juridique, services de sécurité, assistance numérique, organisations spécialisées), chaque contact cliquable, daté et vérifié, une rubrique « si l'auteur est un proche », un ton qui propose sans ordonner.",
+      "demo": "orientation",
+      "code": "{\n  \"categorie\": \"Assistance juridique\",\n  \"nom\": \"…\",\n  \"telephone\": \"…\",\n  \"source\": \"site officiel ou annuaire institutionnel\",\n  \"verifie_le\": \"AAAA-MM-JJ\",\n  \"verifie_par\": \"structure ou personne\"\n}\n\nRègle : un contact sans source et sans date de vérification n'est pas publié.",
+      "limits": "NUKUN ne fournit aucun numéro réel : chaque contact doit être vérifié auprès d'une source institutionnelle béninoise (validité, attribution, actualité) avant publication."
+    },
+    {
+      "id": "K-TRACKERS", "title": "Suppression des traceurs tiers", "effort": "très faible", "criteria": ["C1", "C5"],
+      "risk": "Un service tiers apprend qu'un appareil a visité un site d'aide.",
+      "problem": "Script de mesure d'audience ou pixel publicitaire sur les pages sensibles ; cookies déposés avant consentement.",
+      "solution": "Retirer les scripts de mesure et de publicité ; héberger soi-même polices et bibliothèques ; interdire les domaines tiers par une Content-Security-Policy ; si une mesure est indispensable, utiliser un comptage côté serveur agrégé, sans cookie.",
+      "demo": "trackers",
+      "code": "# En-tête HTTP\nContent-Security-Policy: default-src 'self'; script-src 'self'; connect-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
+      "limits": "La CSP n'empêche pas l'hébergeur ou le fournisseur d'accès de voir la connexion au site lui-même."
+    },
+    {
+      "id": "K-HEADERS", "title": "HTTPS et en-têtes de sécurité", "effort": "faible", "criteria": ["S5"],
+      "risk": "Des échanges lisibles ou modifiables sur un réseau partagé.",
+      "problem": "HTTPS absent ou incomplet, en-têtes de sécurité manquants.",
+      "solution": "HTTPS partout, HSTS, Content-Security-Policy, Referrer-Policy: no-referrer, X-Content-Type-Options: nosniff, Permissions-Policy restrictive, frame-ancestors 'none'. Chiffrement des données stockées côté serveur (à vérifier par audit).",
+      "demo": "headers",
+      "code": "Strict-Transport-Security: max-age=31536000; includeSubDomains\nContent-Security-Policy: default-src 'self'; frame-ancestors 'none'; base-uri 'none'; object-src 'none'\nReferrer-Policy: no-referrer\nX-Content-Type-Options: nosniff\nPermissions-Policy: camera=(), microphone=(), geolocation=()",
+      "limits": "Les en-têtes ne remplacent pas un test d'intrusion du serveur, hors périmètre de NUKUN."
+    },
+    {
+      "id": "K-LIGHTWEIGHT", "title": "Version légère et test utilisateur", "effort": "élevé", "criteria": ["A1", "A5"],
+      "risk": "La page charge trop lentement sur un téléphone d'entrée de gamme ; la personne ne trouve pas comment faire.",
+      "problem": "Fichiers lourds, bibliothèques inutiles, aucun test avec de vraies personnes.",
+      "solution": "Moins de 150 Ko par page, aucune bibliothèque inutile, images compressées ; test de prise en main avec des personnes extérieures à l'équipe, documenté (date, profil, résultat).",
+      "demo": "lightweight",
+      "code": "Budget de performance :\n- page HTML + CSS + JS < 150 Ko\n- utilisable en moins de 5 s en 3G lente\n- aucune police externe",
+      "limits": "Un test utilisateur avec de vraies survivantes ne peut se faire qu'avec une structure spécialisée, dans un cadre éthique."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "version": "1.0.0",
+  "source": "Mémoire NUKUN final, § 5 « Test de l'agresseur intime ». Personas entièrement fictifs : Afi (survivante) et Kossi (agresseur).",
+  "verdicts": [
+    { "id": "exposed", "label": "Afi est exposée", "note": 0, "tone": "red" },
+    { "id": "partial", "label": "Risque partiellement maîtrisé", "note": 1, "tone": "orange" },
+    { "id": "protected", "label": "Afi est protégée dans le périmètre testé", "note": 2, "tone": "green" },
+    { "id": "unverified", "label": "Non vérifié", "note": null, "tone": "grey" }
+  ],
+  "scenarios": [
+    {
+      "id": "T1", "title": "L'historique du navigateur", "criteria": ["S3"],
+      "situation": "Kossi prend le téléphone d'Afi et ouvre l'historique du navigateur.",
+      "explanation": "L'historique garde la liste des pages visitées, leur titre et parfois une icône. Un titre explicite (« Signaler une violence ») suffit à révéler la démarche.",
+      "action": "Ouvrez l'outil audité dans un navigateur normal (pas en navigation privée), visitez 2 ou 3 pages, utilisez la sortie rapide si elle existe, puis ouvrez l'historique du navigateur.",
+      "question": "Une trace de l'utilisation de l'outil est-elle visible dans l'historique (titre, adresse, icône) ?",
+      "guidance": {
+        "exposed": "Les titres ou adresses des pages révèlent clairement l'objet de l'outil.",
+        "partial": "Des entrées existent mais leurs titres sont neutres, ou la page sensible a été remplacée par la sortie rapide.",
+        "protected": "Aucune entrée révélatrice n'apparaît après l'usage normal et la sortie rapide (dans la limite de ce que permet le navigateur)."
+      },
+      "recommendation": "Utiliser des titres d'onglet neutres, remplacer la page dans l'historique lors de la sortie rapide (location.replace) et conseiller la navigation privée.",
+      "correction": "K-DISCREET"
+    },
+    {
+      "id": "T2", "title": "Les notifications et SMS", "criteria": ["S4"],
+      "situation": "Kossi consulte les notifications et les messages d'Afi.",
+      "explanation": "Une confirmation automatique par SMS, courriel ou notification peut être lue par toute personne qui a accès au téléphone.",
+      "action": "Réalisez la démarche principale de l'outil avec des données fictives, puis vérifiez les notifications, SMS et courriels reçus sur l'appareil de test. Vérifiez aussi si l'outil demande l'autorisation d'envoyer des notifications.",
+      "question": "L'outil a-t-il envoyé une confirmation susceptible de révéler une demande d'aide ?",
+      "guidance": {
+        "exposed": "Un message ou une notification révélant la démarche a été reçu sans demande explicite.",
+        "partial": "Un message est envoyé seulement sur demande, mais son contenu reste explicite.",
+        "protected": "Aucun message n'est envoyé sans demande explicite ; l'outil ne demande pas d'autorisation de notification."
+      },
+      "recommendation": "Ne jamais envoyer de confirmation par défaut ; afficher le code de suivi à l'écran uniquement.",
+      "correction": "K-DISCREET"
+    },
+    {
+      "id": "T3", "title": "Les applications installées", "criteria": ["S1", "S3"],
+      "situation": "Kossi regarde les applications installées sur le téléphone.",
+      "explanation": "Une icône ou un nom d'application explicite (ou un raccourci ajouté à l'écran d'accueil) éveille les soupçons.",
+      "action": "Installez l'application ou ajoutez le site à l'écran d'accueil si c'est proposé. Regardez le nom et l'icône affichés, puis le titre de l'onglet et l'icône du site.",
+      "question": "Le nom ou l'icône de l'application révèle-t-il son objet ?",
+      "guidance": {
+        "exposed": "Le nom ou l'icône évoque clairement les violences, l'aide ou le signalement.",
+        "partial": "Le nom est neutre mais l'icône (ou l'inverse) reste évocatrice.",
+        "protected": "Le nom et l'icône sont neutres, ou l'outil n'incite pas à l'installation."
+      },
+      "recommendation": "Prévoir un titre et une icône neutres ; ne pas pousser l'installation ; documenter le mode discret.",
+      "correction": "K-DISCREET"
+    },
+    {
+      "id": "T4", "title": "La sortie rapide", "criteria": ["S1"],
+      "situation": "Kossi entre dans la pièce pendant qu'Afi utilise l'outil.",
+      "explanation": "Afi doit pouvoir masquer l'outil en un geste, en moins de 2 secondes, et le bouton « Retour » ne doit pas ramener sur la page sensible.",
+      "action": "Ouvrez une page sensible de l'outil (par exemple « Signaler »). Chronométrez : appuyez sur la sortie rapide (ou la touche Échap). Appuyez ensuite sur « Retour ».",
+      "question": "Afi peut-elle quitter rapidement la page sensible et afficher une page neutre ?",
+      "guidance": {
+        "exposed": "Il n'existe pas de sortie rapide, ou elle met plus de 2 secondes, ou « Retour » ramène à la page sensible.",
+        "partial": "La sortie rapide existe mais n'est pas présente sur toutes les pages, ou « Retour » ramène à une page de l'outil.",
+        "protected": "Une page neutre s'affiche en moins de 2 secondes depuis chaque page ; « Retour » ne ramène pas à la page sensible."
+      },
+      "recommendation": "Ajouter le composant de sortie rapide du kit sur toutes les pages, avec la touche Échap et location.replace.",
+      "correction": "K-EXIT"
+    },
+    {
+      "id": "T5", "title": "Le compte partagé", "criteria": ["C1", "N5"],
+      "situation": "Kossi connaît le mot de passe du compte Google d'Afi.",
+      "explanation": "Historique synchronisé, galerie sauvegardée dans le cloud, comptes de connexion : tout ce qui est synchronisé est visible depuis un autre appareil.",
+      "action": "Vérifiez si l'outil demande une connexion par un compte tiers, s'il enregistre des éléments dans un espace synchronisé, et si ses conseils sur les preuves mettent en garde contre le cloud partagé.",
+      "question": "Des informations sont-elles synchronisées dans un espace partagé ou visibles depuis un autre appareil ?",
+      "guidance": {
+        "exposed": "L'outil impose un compte tiers ou conseille de stocker les preuves dans la galerie ou le cloud sans mise en garde.",
+        "partial": "L'outil ne synchronise rien lui-même mais ne met pas en garde contre le cloud partagé.",
+        "protected": "Aucune connexion tierce, rien n'est synchronisé, et les conseils de conservation mettent en garde contre le cloud partagé."
+      },
+      "recommendation": "Ne pas proposer de connexion par compte tiers ; publier le guide de conservation sûre des preuves.",
+      "correction": "K-EVIDENCE"
+    },
+    {
+      "id": "T6", "title": "Le réseau partagé", "criteria": ["C1"],
+      "situation": "Kossi partage le forfait ou le Wi-Fi d'Afi.",
+      "explanation": "Chaque service tiers contacté (mesure d'audience, publicité, polices, cartes) peut laisser une trace hors du contrôle de l'outil.",
+      "action": "Consultez le résultat de l'analyse automatique (traceurs et domaines tiers). Sur ordinateur, vous pouvez aussi ouvrir l'onglet « Réseau » des outils de développement et recharger chaque page.",
+      "question": "L'outil contacte-t-il des services tiers susceptibles de révéler sa visite ?",
+      "guidance": {
+        "exposed": "Au moins un traceur ou service tiers de mesure ou de publicité est contacté.",
+        "partial": "Seuls des services tiers techniques (polices, bibliothèques) sont contactés.",
+        "protected": "Aucun service tiers n'est contacté dans le périmètre observé."
+      },
+      "recommendation": "Retirer tout traceur des pages ; héberger soi-même polices et bibliothèques ; appliquer une Content-Security-Policy stricte.",
+      "correction": "K-TRACKERS"
+    },
+    {
+      "id": "T7", "title": "La survivante mineure", "criteria": ["R2", "R5", "N4"],
+      "situation": "Afi est mineure et l'auteur présumé est un membre de sa famille.",
+      "explanation": "Les conseils standards (« parlez-en à vos parents ») peuvent l'exposer. Elle doit aussi savoir que la confidentialité a des limites lorsqu'une personne mineure est en danger.",
+      "action": "Lisez les pages d'orientation et de confidentialité comme si vous étiez une adolescente dont l'oncle est l'auteur. Cherchez une orientation adaptée et l'explication des limites de la confidentialité.",
+      "question": "L'outil fournit-il une orientation adaptée et explique-t-il correctement les limites de confidentialité ?",
+      "guidance": {
+        "exposed": "Seul « informez vos parents » est proposé, et les limites de la confidentialité ne sont pas expliquées.",
+        "partial": "Une orientation adaptée existe, mais les limites ne sont pas expliquées (ou l'inverse), ou les contacts ne sont pas vérifiés.",
+        "protected": "Orientation adaptée au cas familial, limites de la confidentialité expliquées simplement, contacts vérifiés."
+      },
+      "recommendation": "Ajouter une rubrique « Si l'auteur est un proche », une page « Limites de la confidentialité » et vérifier chaque contact.",
+      "correction": "K-ORIENTATION"
+    }
+  ]
+}

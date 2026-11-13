@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Haven (démo fictive) — Signaler une violence</title>
+<link rel="icon" href="assets/haven-icon.svg">
+<link rel="stylesheet" href="assets/haven.css">
+<script src="assets/gtag-sim.js"></script>
+<script src="assets/bundle.js" defer></script>
+<script src="assets/haven.js" defer></script>
+</head>
+<body>
+<div class="fiction-banner" role="note"><strong>SITE FICTIF</strong> — Créé exclusivement pour une démonstration pédagogique. Ce site n'est pas un service officiel et ne reçoit aucun signalement réel.</div>
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/haven-icon.svg" alt="" width="28" height="28"> HAVEN</a>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="signaler.html">Signaler un cas</a>
+    <a href="recours.html">Voies de recours</a>
+  </nav>
+</header>
+<main>
+  <h1>Signaler un cas de violence</h1>
+  <p>Remplissez tous les champs. Votre signalement est 100 % confidentiel.</p>
+
+  <!-- DÉFAUTS VOLONTAIRES (C2, C3, C5, R1, R4, S3) : identité, téléphone et pièce jointe obligatoires,
+       auto-complétion active, aucun consentement, aucune suite indiquée.
+       Le bouton n'est pas de type « submit » : sans JavaScript, rien n'est jamais envoyé. -->
+  <form id="haven-form" class="form" novalidate>
+    <label for="nom">Nom et prénoms *</label>
+    <input id="nom" name="nom" type="text" required>
+
+    <label for="telephone">Téléphone *</label>
+    <input id="telephone" name="telephone" type="tel" required>
+
+    <label for="email">E-mail *</label>
+    <input id="email" name="email" type="email" required>
+
+    <label for="quartier">Quartier de résidence *</label>
+    <input id="quartier" name="quartier" type="text" required>
+
+    <label for="recit">Décrivez les faits *</label>
+    <textarea id="recit" name="recit" rows="5" required></textarea>
+
+    <label for="preuve">Preuve (capture d'écran) *</label>
+    <input id="preuve" name="preuve" type="file" required>
+
+    <button type="button" id="haven-send">Envoyer le signalement</button>
+    <p id="haven-result" class="result" role="status" aria-live="polite"></p>
+  </form>
+</main>
+<footer class="foot">
+  <a href="confidentialite.html">Politique de confidentialité</a> · Haven © 2026 · Démonstration HACK4HER — site fictif
+</footer>
+</body>
+</html>

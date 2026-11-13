@@ -1,0 +1,37 @@
+# NUKUN — configuration Netlify (hébergement statique HTTPS + fonction serveur légère).
+# Les en-têtes HTTP sont dans le fichier _headers (généré par tools/build-headers.mjs).
+[build]
+  publish = "."
+  command = "node tools/build-headers.mjs"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["src/modules/url-analyzer/*.js", "server/*.mjs"]
+
+# Fichiers du dépôt qui ne doivent pas être servis publiquement.
+[[redirects]]
+  from = "/server/*"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/tests/*"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/tools/*"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/netlify/*"
+  to = "/404"
+  status = 404
+  force = true
+[[redirects]]
+  from = "/docs/*"
+  to = "/404"
+  status = 404
+  force = true

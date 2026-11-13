@@ -1,0 +1,18 @@
+{
+  "name": "nukun",
+  "version": "1.0.0",
+  "description": "NUKUN — plateforme d'audit Safety by Design des outils anti-VBG-FT (HACK4HER 2026, Défi 6). Inclut HAVEN (plateforme fictive vulnérable) et LIGHT (version corrigée).",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server/server.mjs",
+    "start:lan": "node -e \"process.env.HOST='0.0.0.0';import('./server/server.mjs').then(m=>m.createServer().listen(process.env.PORT||8080,'0.0.0.0'))\"",
+    "test": "node --test \"tests/unit/*.test.mjs\" \"tests/security/*.test.mjs\"",
+    "test:e2e": "node tests/e2e/run-e2e.mjs",
+    "test:load": "node tests/load/mini-load.mjs",
+    "build": "node tools/gen-haven-bundle.mjs && node tools/gen-icons.mjs && node tools/build-headers.mjs && node tools/snapshot-analyses.mjs && node tools/gen-precache.mjs",
+    "qr": "node tools/gen-qr.mjs"
+  }
+}

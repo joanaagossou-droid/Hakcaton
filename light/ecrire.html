@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<title>Light · Formulaire</title>
+<link rel="icon" href="assets/light-icon.svg">
+<link rel="stylesheet" href="assets/light.css">
+<script src="assets/light.js" defer></script>
+</head>
+<body>
+<div class="fiction-banner" role="note"><strong>SITE FICTIF</strong> — Créé exclusivement pour une démonstration pédagogique. Ce site n'est pas un service officiel et ne reçoit aucun signalement réel.</div>
+<button type="button" class="quick-exit" data-quick-exit aria-label="Sortie rapide : quitter le site immédiatement (touche Échap)">Quitter ✕</button>
+<div class="device-warning" id="device-warning" role="region" aria-label="Avertissement de sécurité">
+  <p><strong>Votre appareil est-il sûr ?</strong> Un téléphone peut être surveillé par un proche : il peut voir ce que vous écrivez. Si possible, utilisez un appareil de confiance et la navigation privée.</p>
+  <div class="row">
+    <button type="button" data-dismiss-warning>Continuer</button>
+    <a href="contacts.html#securite">Conseils de sécurité</a>
+  </div>
+</div>
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/light-icon.svg" alt="" width="26" height="26"> Light</a>
+  <nav aria-label="Navigation principale">
+    <a href="index.html">Accueil</a>
+    <a href="ecrire.html" aria-current="page">Écrire</a>
+    <a href="contacts.html">Contacts</a>
+    <a href="confidentialite.html">Confidentialité</a>
+  </nav>
+</header>
+<main id="contenu">
+  <h1>Écrire un message anonyme</h1>
+  <p>Vous pouvez demander de l'aide quand vous êtes prête ou prêt. Tous les champs sont facultatifs. Vous n'avez pas à donner votre nom.</p>
+  <p class="note small">Démonstration : ce formulaire n'envoie rien. N'y écrivez pas de vraie situation.</p>
+
+  <form id="light-form" class="form" novalidate>
+    <label for="besoin">De quoi avez-vous besoin ? (facultatif)</label>
+    <select id="besoin" name="besoin" autocomplete="off">
+      <option value="">— Choisir —</option>
+      <option>Être écoutée ou écouté</option>
+      <option>Un conseil sur la sécurité de mon téléphone</option>
+      <option>Faire retirer un contenu en ligne</option>
+      <option>Un conseil juridique</option>
+      <option>Aider une autre personne</option>
+    </select>
+
+    <label for="message">Votre message (facultatif)</label>
+    <textarea id="message" name="message" rows="5" autocomplete="off" spellcheck="false"></textarea>
+
+    <fieldset>
+      <legend>Souhaitez-vous être recontacté·e ?</legend>
+      <label class="inline"><input type="radio" name="recontact" value="non" checked> Non, je reste anonyme</label>
+      <label class="inline"><input type="radio" name="recontact" value="oui"> Oui, par un moyen que je choisis</label>
+      <div id="contact-zone" class="contact-zone" hidden>
+        <label for="moyen">Moyen et moment sûrs (facultatif)</label>
+        <input id="moyen" name="moyen" type="text" autocomplete="off" placeholder="Exemple : appel le mardi matin, au numéro d'une amie">
+        <p class="small">N'indiquez jamais un moyen auquel la personne qui vous fait du mal a accès.</p>
+      </div>
+    </fieldset>
+
+    <label class="inline consent"><input type="checkbox" id="consent" name="consent"> J'accepte que mon message soit lu uniquement par l'équipe d'écoute. Je peux retirer mon accord à tout moment.</label>
+
+    <button type="button" id="light-send" class="btn">Envoyer</button>
+    <div id="light-result" class="result" role="status" aria-live="polite" hidden></div>
+  </form>
+
+  <p class="small">Avant d'envoyer, lisez <a href="confidentialite.html">qui lit les messages et les limites de la confidentialité</a>.</p>
+</main>
+<footer class="foot">
+  <a href="confidentialite.html">Confidentialité et limites</a> · Light — démonstration HACK4HER, contenu du 13/11/2026, site fictif
+</footer>
+</body>
+</html>

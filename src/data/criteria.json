@@ -1,0 +1,284 @@
+{
+  "version": "1.0.0",
+  "source": "Mémoire NUKUN final (OUTPUT/11_Memoire_complet_NUKUN_final.md), § 4 et § 4 bis — 30 critères repris à l'identique, aucun ajout ni suppression.",
+  "pillars": [
+    { "id": "C", "name": "Confidentialité et données", "weight": 25, "icon": "lock" },
+    { "id": "S", "name": "Sécurité par défaut", "weight": 20, "icon": "shield" },
+    { "id": "A", "name": "Accessibilité et inclusion", "weight": 15, "icon": "access" },
+    { "id": "R", "name": "Recours et contrôle humain", "weight": 20, "icon": "route" },
+    { "id": "N", "name": "Ne pas nuire", "weight": 10, "icon": "heart" },
+    { "id": "E", "name": "Équité et fiabilité", "weight": 10, "icon": "scale" }
+  ],
+  "criteria": [
+    {
+      "id": "C1", "pillar": "C", "blocking": true, "criticality": "bloquant", "weight": 1,
+      "name": "Aucun traceur tiers sur les pages sensibles",
+      "question": "Les pages sensibles sont-elles exemptes de tout traceur tiers (outil de mesure d'audience, publicité, pixels) ?",
+      "explanation": "Un traceur envoie à une entreprise tierce l'adresse des pages visitées, l'heure et des informations sur l'appareil.",
+      "survivorWhy": "Si l'agresseur partage le forfait, le Wi-Fi ou un compte publicitaire avec Afi, une visite sur un site d'aide peut laisser des traces hors de son contrôle.",
+      "example": "Un script de mesure d'audience chargé sur la page « Signaler un cas ».",
+      "machine": true, "correction": "K-TRACKERS"
+    },
+    {
+      "id": "C2", "pillar": "C", "blocking": true, "criticality": "bloquant", "weight": 1,
+      "name": "Demande d'aide possible sans donnée identifiante",
+      "question": "Peut-on signaler ou demander de l'aide sans fournir de donnée identifiante (anonyme par défaut) ?",
+      "explanation": "Le nom, le téléphone ou l'adresse électronique doivent rester facultatifs.",
+      "survivorWhy": "Exiger un nom ou un numéro décourage la révélation et crée une trace qui peut être retrouvée.",
+      "example": "Un formulaire qui refuse l'envoi tant que le champ « Téléphone » est vide.",
+      "machine": true, "correction": "K-FORM"
+    },
+    {
+      "id": "C3", "pillar": "C", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Minimisation des données",
+      "question": "Seuls les champs indispensables sont-ils demandés, sans champ obligatoire injustifié ?",
+      "explanation": "Chaque champ collecté doit avoir une raison d'être expliquée.",
+      "survivorWhy": "Moins de données collectées, c'est moins de données qui peuvent fuiter ou être exigées par l'agresseur.",
+      "example": "Une pièce jointe de preuve obligatoire pour envoyer une demande.",
+      "machine": true, "correction": "K-FORM"
+    },
+    {
+      "id": "C4", "pillar": "C", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Politique de confidentialité en langage simple",
+      "question": "Une politique de confidentialité en langage simple indique-t-elle qui lit les données, combien de temps elles sont gardées et où elles sont stockées ?",
+      "explanation": "La politique doit être réelle, lisible et accessible depuis chaque page.",
+      "survivorWhy": "Afi doit pouvoir décider en connaissance de cause de ce qu'elle confie à l'outil.",
+      "example": "Un lien « Confidentialité » qui mène à une page vide.",
+      "machine": true, "correction": "K-PRIVACY"
+    },
+    {
+      "id": "C5", "pillar": "C", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Consentement éclairé, granulaire et révocable",
+      "question": "Le consentement est-il demandé de façon éclairée, granulaire et révocable avant tout partage de données ?",
+      "explanation": "Une case par usage, jamais précochée, avec la possibilité de revenir sur son choix.",
+      "survivorWhy": "La survivante garde le contrôle sur ce qui est transmis, à qui et quand.",
+      "example": "Des cookies de mesure déposés avant toute question.",
+      "machine": true, "correction": "K-FORM"
+    },
+    {
+      "id": "S1", "pillar": "S", "blocking": true, "criticality": "bloquant", "weight": 1,
+      "name": "Bouton de sortie rapide",
+      "question": "Un bouton de sortie rapide est-il présent sur toutes les pages sensibles ?",
+      "explanation": "Un bouton visible (et un raccourci) qui remplace immédiatement la page par une page neutre.",
+      "survivorWhy": "Si l'agresseur entre dans la pièce, Afi doit pouvoir masquer l'outil en un geste.",
+      "example": "Aucune sortie rapide : Afi doit fermer l'onglet en catastrophe, la page reste dans « Retour ».",
+      "machine": true, "correction": "K-EXIT"
+    },
+    {
+      "id": "S2", "pillar": "S", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Avertissement « appareil peut-être surveillé »",
+      "question": "L'outil avertit-il que l'appareil peut être surveillé et donne-t-il des conseils associés ?",
+      "explanation": "Un bandeau ou un encart explique les risques et propose des options plus sûres.",
+      "survivorWhy": "Beaucoup de survivantes ignorent que leur téléphone peut être surveillé par un proche.",
+      "example": "Aucun message sur les logiciels espions ou le partage de compte.",
+      "machine": false, "correction": "K-BANNER"
+    },
+    {
+      "id": "S3", "pillar": "S", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Traces locales limitées",
+      "question": "Les traces locales sont-elles limitées (pas de cache sensible, page remplacée dans l'historique à la sortie rapide, pas d'auto-complétion, navigation privée conseillée) ?",
+      "explanation": "L'outil réduit ce que l'appareil garde en mémoire : historique, cache, saisie automatique.",
+      "survivorWhy": "L'agresseur qui ouvre l'historique ou le clavier ne doit pas découvrir la démarche d'Afi.",
+      "example": "Le champ « Description » propose les phrases déjà tapées.",
+      "machine": true, "correction": "K-DISCREET"
+    },
+    {
+      "id": "S4", "pillar": "S", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Pas de notification ni de confirmation non sollicitée",
+      "question": "L'outil évite-t-il toute notification, SMS ou courriel de confirmation non sollicité ?",
+      "explanation": "Aucun message n'est envoyé sans demande explicite de la personne.",
+      "survivorWhy": "Un SMS « Votre signalement a bien été reçu » peut être lu par l'agresseur.",
+      "example": "Un SMS automatique envoyé au numéro saisi.",
+      "machine": false, "correction": "K-DISCREET"
+    },
+    {
+      "id": "S5", "pillar": "S", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Chiffrement des échanges et des données stockées",
+      "question": "Les échanges sont-ils chiffrés (HTTPS, en-têtes de sécurité) ainsi que les données stockées ?",
+      "explanation": "HTTPS partout, en-têtes de sécurité (CSP, HSTS…), chiffrement des données au repos.",
+      "survivorWhy": "Sur un Wi-Fi partagé, des échanges non chiffrés peuvent être lus ou modifiés.",
+      "example": "Un site sans en-tête Content-Security-Policy.",
+      "machine": true, "correction": "K-HEADERS"
+    },
+    {
+      "id": "A1", "pillar": "A", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Téléphone d'entrée de gamme et connexion faible",
+      "question": "L'outil est-il utilisable sur un téléphone d'entrée de gamme et avec une connexion faible (page < 500 Ko, version légère) ?",
+      "explanation": "Le poids de la page et le nombre de ressources conditionnent le temps de chargement en 3G.",
+      "survivorWhy": "Une page qui met trop longtemps à charger laisse Afi exposée plus longtemps, ou la fait renoncer.",
+      "example": "Un fichier JavaScript de plusieurs mégaoctets.",
+      "machine": true, "correction": "K-LIGHTWEIGHT"
+    },
+    {
+      "id": "A2", "pillar": "A", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Langage simple",
+      "question": "Le langage est-il simple et compréhensible par une personne peu scolarisée ?",
+      "explanation": "Phrases courtes, mots courants, pas de jargon juridique ou technique non expliqué.",
+      "survivorWhy": "Une information incomprise est une information inutile, voire dangereuse.",
+      "example": "« Saisir la juridiction compétente » sans explication.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "A3", "pillar": "A", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Langues nationales, audio et pictogrammes",
+      "question": "L'outil propose-t-il des langues nationales, un support audio ou des pictogrammes ?",
+      "explanation": "Les contenus essentiels doivent être accessibles aux personnes qui ne lisent pas le français.",
+      "survivorWhy": "Une partie des survivantes ne lit pas le français ; elles doivent pouvoir s'orienter quand même.",
+      "example": "Un site uniquement en français écrit.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "A4", "pillar": "A", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Numéros d'urgence cliquables",
+      "question": "Les numéros d'urgence sont-ils cliquables, avec un appel possible en un geste ?",
+      "explanation": "Chaque numéro est un lien « tel: » qui ouvre directement le composeur.",
+      "survivorWhy": "En situation de stress, recopier un numéro fait perdre du temps et provoque des erreurs.",
+      "example": "Un numéro affiché dans une image ou en texte simple.",
+      "machine": true, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "A5", "pillar": "A", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Prise en main sans aide (test utilisateur)",
+      "question": "Une personne qui découvre l'outil le prend-elle en main sans aide (test utilisateur documenté) ?",
+      "explanation": "Seul un test avec des personnes extérieures à l'équipe permet de le vérifier.",
+      "survivorWhy": "Afi n'aura personne pour lui expliquer l'outil au moment où elle en a besoin.",
+      "example": "Aucun test utilisateur réalisé avant la mise en ligne.",
+      "machine": false, "correction": "K-LIGHTWEIGHT"
+    },
+    {
+      "id": "R1", "pillar": "R", "blocking": true, "criticality": "bloquant", "weight": 1,
+      "name": "La fonction principale fonctionne de bout en bout",
+      "question": "La fonction principale annoncée (signaler, s'orienter) fonctionne-t-elle réellement de bout en bout ?",
+      "explanation": "On teste le parcours complet, jusqu'au message final qui dit ce qui va se passer.",
+      "survivorWhy": "Un parcours qui échoue au dernier moment fait perdre confiance et peut décourager toute nouvelle démarche.",
+      "example": "Une page « Signaler un cas » dont l'envoi est impossible sans pièce jointe.",
+      "machine": false, "correction": "K-FORM"
+    },
+    {
+      "id": "R2", "pillar": "R", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Orientation exacte et à jour",
+      "question": "L'orientation vers les structures est-elle exacte et à jour, avec des numéros cohérents ?",
+      "explanation": "Chaque contact est vérifié auprès d'une source institutionnelle, daté et cohérent d'une page à l'autre.",
+      "survivorWhy": "Un mauvais numéro au mauvais moment peut coûter très cher.",
+      "example": "Le même numéro attribué à deux services différents.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "R3", "pillar": "R", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Un humain valide les décisions sensibles",
+      "question": "Un humain valide-t-il les décisions sensibles (IA, priorisation, alerte) ?",
+      "explanation": "Aucune décision qui affecte la sécurité d'une personne n'est prise par un automate seul.",
+      "survivorWhy": "Une erreur automatique (fausse alerte, mauvais tri) peut mettre Afi en danger.",
+      "example": "Un tri automatique des signalements sans relecture humaine.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "R4", "pillar": "R", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Suivi anonyme, prochaine étape et délai",
+      "question": "L'outil donne-t-il un code de suivi anonyme, la prochaine étape et un délai ?",
+      "explanation": "Après une démarche, la personne sait ce qui va se passer et comment suivre sans s'identifier.",
+      "survivorWhy": "Sans suivi, Afi ne sait pas si sa démarche a abouti, ni quoi faire ensuite.",
+      "example": "« Merci, votre demande a été prise en compte. » sans autre information.",
+      "machine": false, "correction": "K-FORM"
+    },
+    {
+      "id": "R5", "pillar": "R", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Limites de la confidentialité expliquées",
+      "question": "Les limites de la confidentialité sont-elles expliquées (mineurs, danger imminent, signalement obligatoire) ?",
+      "explanation": "La personne doit savoir dans quels cas une information peut être transmise malgré elle.",
+      "survivorWhy": "Promettre « 100 % confidentiel » sans nuance peut trahir la confiance d'une survivante mineure.",
+      "example": "« 100 % confidentiel » affiché sans aucune explication.",
+      "machine": false, "correction": "K-PRIVACY"
+    },
+    {
+      "id": "N1", "pillar": "N", "blocking": true, "criticality": "bloquant", "weight": 1,
+      "name": "Aucune donnée réelle de survivante",
+      "question": "Les tests et la démonstration sont-ils réalisés sans aucune donnée réelle de survivante ?",
+      "explanation": "Seules des données et des personas fictifs sont utilisés.",
+      "survivorWhy": "Utiliser de vrais témoignages pour tester un outil expose des personnes réelles.",
+      "example": "Un vrai témoignage copié dans un formulaire de test.",
+      "machine": false, "correction": "K-EVIDENCE"
+    },
+    {
+      "id": "N2", "pillar": "N", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Révélation volontaire",
+      "question": "L'outil respecte-t-il la révélation volontaire, sans injonction (« signalez immédiatement », « portez plainte ») ?",
+      "explanation": "Le texte propose, il n'ordonne pas.",
+      "survivorWhy": "La survivante est la mieux placée pour savoir quand et comment agir sans se mettre en danger.",
+      "example": "« Signalez immédiatement ! »",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "N3", "pillar": "N", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Ton non culpabilisant",
+      "question": "Le ton est-il non culpabilisant (« ce n'est pas votre faute ») et respecte-t-il le choix de la survivante ?",
+      "explanation": "Aucune formulation ne rend la survivante responsable de ce qu'elle subit.",
+      "survivorWhy": "La culpabilisation pousse au silence.",
+      "example": "« Vous n'auriez pas dû envoyer cette photo. »",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "N4", "pillar": "N", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Conseils adaptés quand l'auteur est un proche",
+      "question": "Les conseils sont-ils adaptés au cas où l'auteur est un proche ou un membre de la famille ?",
+      "explanation": "Les conseils prévoient le cas où l'interlocuteur suggéré est lui-même l'auteur.",
+      "survivorWhy": "« Parlez-en à vos parents » est dangereux si l'auteur est l'oncle qui vit sous le même toit.",
+      "example": "« Informez vos parents » sans autre option.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "N5", "pillar": "N", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Conservation des preuves sûre",
+      "question": "Les conseils de conservation des preuves sont-ils sûrs (stockage hors cloud partagé, accès réservé à la survivante) ?",
+      "explanation": "Les conseils expliquent où et comment conserver des éléments sans qu'un tiers y accède.",
+      "survivorWhy": "Des captures synchronisées dans un cloud partagé peuvent être vues par l'agresseur.",
+      "example": "« Faites des captures d'écran » sans mise en garde sur la galerie synchronisée.",
+      "machine": false, "correction": "K-EVIDENCE"
+    },
+    {
+      "id": "E1", "pillar": "E", "blocking": false, "criticality": "élevée", "weight": 1,
+      "name": "Informations exactes, sourcées et cohérentes",
+      "question": "Les informations sont-elles exactes, sourcées et cohérentes d'une page à l'autre ?",
+      "explanation": "Chaque chiffre a une source, chaque numéro est le même partout.",
+      "survivorWhy": "Une information fausse fait perdre confiance dans tout l'outil.",
+      "example": "Une statistique sans source, contradictoire d'une page à l'autre.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "E2", "pillar": "E", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Pas de biais selon les profils",
+      "question": "L'outil fonctionne-t-il aussi bien pour tous les profils (âge, genre, langue, handicap) ?",
+      "explanation": "Les parcours sont testés avec des profils variés.",
+      "survivorWhy": "Un outil pensé pour une seule catégorie laisse les autres sans réponse.",
+      "example": "Un parcours qui suppose que la victime est majeure.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "E3", "pillar": "E", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "IA : limites, taux d'erreur et biais affichés",
+      "question": "Pour l'IA : les limites, le taux d'erreur et les biais sont-ils documentés et affichés ?",
+      "explanation": "Critère non applicable si l'outil n'utilise pas d'intelligence artificielle (justification obligatoire).",
+      "survivorWhy": "Une réponse automatique présentée comme certaine peut induire en erreur.",
+      "example": "Un chatbot qui ne dit pas qu'il peut se tromper.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "E4", "pillar": "E", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Inclusif : survivant·e·s, témoins et proches",
+      "question": "L'outil s'adresse-t-il aux femmes et aux hommes, aux survivant·e·s, aux témoins et aux proches ?",
+      "explanation": "Les contenus et les parcours n'excluent personne.",
+      "survivorWhy": "Les proches et les témoins sont souvent les premiers à chercher de l'aide.",
+      "example": "Un parcours réservé à la victime directe.",
+      "machine": false, "correction": "K-ORIENTATION"
+    },
+    {
+      "id": "E5", "pillar": "E", "blocking": false, "criticality": "moyenne", "weight": 1,
+      "name": "Contenu relu par une structure spécialisée",
+      "question": "Le contenu est-il relu par une structure spécialisée (INF, ONG) et mis à jour régulièrement ?",
+      "explanation": "Une date de relecture et le nom de la structure qui a relu sont affichés.",
+      "survivorWhy": "Les conseils évoluent ; un contenu non relu peut devenir dangereux.",
+      "example": "Aucune date de mise à jour.",
+      "machine": false, "correction": "K-ORIENTATION"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "NUKUN — Audit Safety by Design",
+  "short_name": "NUKUN",
+  "description": "Vérifier qu'un outil numérique anti-VBG-FT protège sans exposer.",
+  "lang": "fr",
+  "start_url": "./#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f5f0",
+  "theme_color": "#0b1f3a",
+  "icons": [
+    { "src": "public/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "public/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "public/icons/nukun.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

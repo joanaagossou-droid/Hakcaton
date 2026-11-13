@@ -1,0 +1,382 @@
+{
+ "version": "1.0.0",
+ "entryUrl": "/light/",
+ "mode": "instantané",
+ "analyzedAt": "2026-11-13T01:00:46.425Z",
+ "pages": [
+  {
+   "url": "/light/",
+   "status": 200,
+   "title": "Light · Accueil",
+   "bytes": 12257
+  },
+  {
+   "url": "/light/contacts.html",
+   "status": 200,
+   "title": "Light · Contacts",
+   "bytes": 14993
+  },
+  {
+   "url": "/light/ecrire.html",
+   "status": 200,
+   "title": "Light · Formulaire",
+   "bytes": 12979
+  },
+  {
+   "url": "/light/confidentialite.html",
+   "status": 200,
+   "title": "Light · Confidentialité",
+   "bytes": 12346
+  }
+ ],
+ "findings": [
+  {
+   "id": "https",
+   "label": "Connexion chiffrée (HTTPS)",
+   "status": "not_detected",
+   "evidence": "L'adresse utilise http:// (non chiffré)",
+   "risk": "Sur un réseau partagé, les échanges peuvent être lus ou modifiés.",
+   "criteria": [
+    "S5"
+   ],
+   "severity": "high"
+  },
+  {
+   "id": "headers",
+   "label": "En-têtes de sécurité",
+   "status": "partial",
+   "evidence": "✗ HSTS (Strict-Transport-Security) · ✓ Content-Security-Policy · ✓ X-Content-Type-Options · ✓ Referrer-Policy · ✓ Protection contre l'intégration (frame-ancestors ou X-Frame-Options) · ✓ Permissions-Policy",
+   "risk": "Protection incomplète contre l'injection de contenu, l'intégration et les fuites d'adresse.",
+   "criteria": [
+    "S5"
+   ],
+   "severity": "ok",
+   "detail": [
+    {
+     "id": "strict-transport-security",
+     "label": "HSTS (Strict-Transport-Security)",
+     "present": false
+    },
+    {
+     "id": "content-security-policy",
+     "label": "Content-Security-Policy",
+     "present": true
+    },
+    {
+     "id": "x-content-type-options",
+     "label": "X-Content-Type-Options",
+     "present": true
+    },
+    {
+     "id": "referrer-policy",
+     "label": "Referrer-Policy",
+     "present": true
+    },
+    {
+     "id": "frame-protection",
+     "label": "Protection contre l'intégration (frame-ancestors ou X-Frame-Options)",
+     "present": true
+    },
+    {
+     "id": "permissions-policy",
+     "label": "Permissions-Policy",
+     "present": true
+    }
+   ]
+  },
+  {
+   "id": "cookies",
+   "label": "Cookies déposés",
+   "status": "unverifiable",
+   "evidence": "En-têtes Set-Cookie non lisibles dans ce mode d'analyse · Aucune écriture de cookie par script observée",
+   "risk": "Aucun dans le périmètre observé",
+   "criteria": [
+    "C1",
+    "C5"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "cookies-consent",
+   "label": "Cookies de suivi déposés avant consentement",
+   "status": "unverifiable",
+   "evidence": "Aucun cookie de suivi observé au chargement.",
+   "risk": "Aucun dans le périmètre observé",
+   "criteria": [
+    "C5",
+    "C1"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "trackers",
+   "label": "Traceurs tiers connus (mesure d'audience)",
+   "status": "not_detected",
+   "evidence": "Aucune signature connue de mesure d'audience dans le code reçu.",
+   "risk": "Aucun dans le périmètre observé (un traceur ajouté dynamiquement ne serait pas vu).",
+   "criteria": [
+    "C1"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "pixels",
+   "label": "Pixels publicitaires connus",
+   "status": "not_detected",
+   "evidence": "Aucune signature connue de pixel publicitaire.",
+   "risk": "Aucun dans le périmètre observé",
+   "criteria": [
+    "C1"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "third-party",
+   "label": "Ressources chargées depuis des domaines tiers",
+   "status": "not_detected",
+   "evidence": "Toutes les ressources proviennent du même site.",
+   "risk": "Aucun",
+   "criteria": [
+    "C1"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "weight",
+   "label": "Poids approximatif des pages",
+   "status": "detected",
+   "evidence": "Page la plus lourde : 14.6 Ko (contacts.html). light : 12 Ko · contacts.html : 14.6 Ko · ecrire.html : 12.7 Ko · confidentialite.html : 12.1 Ko. Taille décodée des ressources de même origine.",
+   "risk": "Aucun (sous le seuil de 500 Ko)",
+   "criteria": [
+    "A1"
+   ],
+   "severity": "ok",
+   "detail": [
+    {
+     "url": "/light/",
+     "html": 3365,
+     "resources": 8892,
+     "total": 12257
+    },
+    {
+     "url": "/light/contacts.html",
+     "html": 6101,
+     "resources": 8892,
+     "total": 14993
+    },
+    {
+     "url": "/light/ecrire.html",
+     "html": 4087,
+     "resources": 8892,
+     "total": 12979
+    },
+    {
+     "url": "/light/confidentialite.html",
+     "html": 3454,
+     "resources": 8892,
+     "total": 12346
+    }
+   ]
+  },
+  {
+   "id": "quick-exit",
+   "label": "Bouton de sortie rapide",
+   "status": "detected",
+   "evidence": "✓ light · ✓ contacts.html · ✓ ecrire.html · ✓ confidentialite.html",
+   "risk": "Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.",
+   "criteria": [
+    "S1"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "phones",
+   "label": "Numéros de téléphone cliquables",
+   "status": "detected",
+   "evidence": "6 numéro(s) affiché(s), 6 cliquable(s) ; 6 lien(s) tel:",
+   "risk": "Aucun",
+   "criteria": [
+    "A4"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "forms",
+   "label": "Formulaire",
+   "status": "detected",
+   "evidence": "ecrire.html : 6 champ(s)",
+   "risk": "Voir les champs obligatoires.",
+   "criteria": [
+    "C2",
+    "R1"
+   ],
+   "severity": "info"
+  },
+  {
+   "id": "required-ident",
+   "label": "Champs identifiants obligatoires",
+   "status": "not_detected",
+   "evidence": "Aucun champ identifiant obligatoire (0 champ(s) identifiant(s) facultatif(s)).",
+   "risk": "Aucun dans le périmètre observé (une validation par script ne serait pas vue).",
+   "criteria": [
+    "C2",
+    "C3"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "privacy",
+   "label": "Politique de confidentialité",
+   "status": "detected",
+   "evidence": "Page confidentialite.html : 338 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
+   "risk": "Lisibilité à confirmer par un humain.",
+   "criteria": [
+    "C4",
+    "R5"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "local-traces",
+   "label": "Limitation des traces locales (signaux observables)",
+   "status": "detected",
+   "evidence": "✓ Titres d'onglet neutres · ✓ Auto-complétion désactivée sur les champs sensibles · ✓ En-tête Cache-Control: no-store · ✓ Sortie par remplacement de page (location.replace) · ✓ Navigation privée conseillée",
+   "risk": "À confirmer par le scénario T1 (historique).",
+   "criteria": [
+    "S3"
+   ],
+   "severity": "ok"
+  },
+  {
+   "id": "device-warning",
+   "label": "Avertissement « appareil surveillé » (texte repéré)",
+   "status": "detected",
+   "evidence": "Un texte d'avertissement sur la surveillance de l'appareil est présent.",
+   "risk": "Contenu à évaluer par un humain (S2).",
+   "criteria": [
+    "S2"
+   ],
+   "severity": "info",
+   "informative": true
+  },
+  {
+   "id": "noindex",
+   "label": "Exclusion des moteurs de recherche (noindex)",
+   "status": "detected",
+   "evidence": "Toutes les pages analysées demandent à ne pas être indexées.",
+   "risk": "Information (utile pour un site de démonstration).",
+   "criteria": [],
+   "severity": "info",
+   "informative": true
+  }
+ ],
+ "suggestions": {
+  "S5": {
+   "note": 1,
+   "proof": "machine",
+   "comment": "HTTPS absent ; 5/6 en-têtes de sécurité observés."
+  },
+  "C1": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Aucun traceur ni ressource tierce dans le code reçu (4 page(s) analysée(s)). Un contenu ajouté dynamiquement ne serait pas vu."
+  },
+  "A1": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Page la plus lourde : 14.6 Ko (seuil du critère : moins de 500 Ko)."
+  },
+  "S1": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Sortie rapide repérée sur 4/4 page(s). Fonctionnement à confirmer par le scénario T4."
+  },
+  "A4": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "6 numéro(s), tous cliquables. L'exactitude des numéros relève de R2."
+  },
+  "C2": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Aucun champ identifiant obligatoire dans le code des formulaires. À confirmer en remplissant le formulaire avec des données fictives."
+  },
+  "C3": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Aucun champ obligatoire hors consentement."
+  },
+  "C4": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "Politique présente : 338 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
+  },
+  "S3": {
+   "note": 2,
+   "proof": "machine",
+   "comment": "5/5 signaux observables de limitation des traces. À confirmer par le scénario T1."
+  }
+ },
+ "trackers": [],
+ "thirdPartyHosts": [],
+ "unverifiable": [
+  {
+   "criteria": [
+    "S2",
+    "S4"
+   ],
+   "why": "Le contenu des avertissements et l'envoi de notifications ou SMS demandent un test humain (T2)."
+  },
+  {
+   "criteria": [
+    "R1",
+    "R4"
+   ],
+   "why": "Le fonctionnement de bout en bout n'est jamais testé automatiquement (aucun formulaire n'est soumis)."
+  },
+  {
+   "criteria": [
+    "R2",
+    "R5",
+    "E1",
+    "E5"
+   ],
+   "why": "L'exactitude des contacts et des informations demande une vérification auprès de sources institutionnelles."
+  },
+  {
+   "criteria": [
+    "A2",
+    "A3",
+    "A5",
+    "E2",
+    "E4"
+   ],
+   "why": "La compréhension, les langues et l'inclusion se vérifient avec des personnes."
+  },
+  {
+   "criteria": [
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5",
+    "R3",
+    "E3"
+   ],
+   "why": "Le ton, les conseils et les processus internes relèvent d'une revue humaine ou d'une déclaration."
+  },
+  {
+   "criteria": [
+    "S5"
+   ],
+   "why": "Le chiffrement des données stockées côté serveur n'est pas observable (test d'intrusion sous mandat, hors périmètre)."
+  }
+ ],
+ "errors": [],
+ "limits": [
+  "Analyse passive du code reçu : un contenu ajouté par JavaScript après le chargement n'est pas vu.",
+  "Aucun formulaire n'est soumis, aucun test intrusif n'est réalisé, aucune page cachée n'est explorée.",
+  "Les domaines tiers sont relevés dans le code, jamais contactés par NUKUN.",
+  "Une analyse automatique ne garantit pas la sécurité d'un site : elle couvre environ un tiers des critères."
+ ]
+}
