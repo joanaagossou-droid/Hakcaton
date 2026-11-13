@@ -54,7 +54,7 @@ const srv = await startServer();
 const BASE = srv.base;
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'nukun-e2e-'));
 const port = 9300 + Math.floor(Math.random() * 500);
-const proc = spawn(browserPath, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--disable-sync', '--disable-background-networking', '--disable-component-update', '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
+const proc = spawn(browserPath, ['--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, '--no-first-run', '--no-default-browser-check', '--disable-extensions', '--disable-sync', '--disable-background-networking', '--disable-component-update', '--use-fake-device-for-media-stream', '--use-fake-ui-for-media-stream', '--autoplay-policy=no-user-gesture-required', '--window-size=1280,900', 'about:blank'], { stdio: 'ignore' });
 
 let wsUrl;
 for (let i = 0; i < 50 && !wsUrl; i++) {
@@ -240,9 +240,112 @@ try {
   await nav(BASE + '/light/');
   check('Sans code secret, la sortie rapide de LIGHT reste la page neutre externe', (await evalJs('sessionStorage.getItem("calc.s")')) === null);
 
+  // 8 ter. Mon espace : message vocal, réponse, assistante, coffre, alerte discrète (micro simulé)
+  const tab = (id) => evalJs(`document.querySelector('[data-tab="${id}"]').click()`);
+  await nav(BASE + '/light/espace.html');
+  await waitFor('document.querySelector("#lang-chips .chip")');
+  await evalJs('[...document.querySelectorAll("#lang-chips .chip")].find(b => b.textContent === "Fon").click()');
+  await evalJs('document.querySelector("#rec-btn").click()');
+  const recOn = await waitFor('document.querySelector("#rec-btn").classList.contains("on")', 8000);
+  await sleep(2500);
+  await evalJs('document.querySelector("#rec-btn").click()');
+  const recDone = await waitFor('!document.querySelector("#voice-step3").hidden && document.querySelector("#playback").src', 8000);
+  check('Message vocal : enregistrement (micro simulé), réécoute possible', recOn && recDone, await evalJs('document.querySelector("#rec-timer").textContent'));
+  await evalJs('document.querySelector("#voice-consent").click(); document.querySelector("#send-voice").click()');
+  await waitFor('!document.querySelector("#voice-code").hidden', 8000);
+  const trackCode = await evalJs('document.querySelector("#code-show").textContent');
+  check('Message vocal : code de suivi affiché une seule fois', /^[A-Z2-9]{3}-[A-Z2-9]{3}-[A-Z2-9]{3}$/.test(trackCode), trackCode);
+  await evalJs('document.querySelector("#code-done").click()');
+  check('Code de suivi effacé de l\'écran après « J\'ai retenu mon code »', (await evalJs('document.querySelector("#code-show").textContent')) === '');
+
+  await nav(BASE + '/light/agent.html');
+  await waitFor('[...document.querySelectorAll(".agent-item")].some(b => b.textContent.includes("Message vocal"))', 10000);
+  await evalJs('[...document.querySelectorAll(".agent-item")].find(b => b.textContent.includes("Message vocal")).click()');
+  await waitFor('document.querySelector("#detail textarea") && document.querySelector("#detail audio")', 8000);
+  await evalJs(`(() => { const t = document.querySelector('#detail textarea'); t.value = 'Il me menace de publier mes photos si je ne paie pas.'; t.dispatchEvent(new Event('input')); })()`);
+  const suggested = await evalJs('document.querySelector("#detail .level") ? document.querySelector("#detail .level").textContent : ""');
+  check('Console agent : audio reçu, mots surlignés, priorité SUGGÉRÉE (l\'agent décide)', suggested === 'Urgente' && (await evalJs('document.querySelectorAll("#detail mark").length')) >= 2, `suggestion : ${suggested}`);
+  await evalJs(`(() => { const sel = document.querySelectorAll('#detail select'); sel[0].value = 'urgente'; sel[1].value = 'Assistance juridique'; const ta = document.querySelectorAll('#detail textarea'); ta[1].value = 'Bonjour Étoile (réponse fictive). Ne payez pas et gardez les messages. Une juriste peut vous aider.'; [...document.querySelectorAll('#detail button')].find(b => b.textContent === 'Envoyer la réponse').click(); })()`);
+  await waitFor('document.querySelector("#detail [role=status]").textContent.includes("Réponse enregistrée")', 8000);
+
+  await nav(BASE + '/light/espace.html');
+  await waitFor('document.querySelector("[data-tab=v-reply]")');
+  await tab('v-reply');
+  await evalJs(`document.querySelector('#code-in').value = ${JSON.stringify(trackCode)}; document.querySelector('#code-go').click()`);
+  check('Ma réponse : la personne lit la réponse avec son code', await waitFor('document.querySelector("#reply-out").textContent.includes("Une juriste peut vous aider") && document.querySelector("#reply-out").textContent.includes("Assistance juridique")', 8000));
+
+  await tab('v-chat');
+  await evalJs(`document.querySelector('#chat-in').value = 'Il dit qu il va publier mes photos si je ne paie pas'; document.querySelector('#chat-send').click()`);
+  await waitFor('document.querySelectorAll("#chat-log .bubble.bot").length >= 2', 5000);
+  const chat = await evalJs('document.querySelector("#chat-log").textContent');
+  check('Assistante : repère le chantage, rappelle « ce n\'est pas votre faute » et ses limites', /chantage/i.test(chat) && /pas ta faute/.test(chat) && /peux me tromper/.test(chat));
+  check('Assistante : aucun numéro réel (117, 114, 138), seulement des numéros fictifs', !/\b(117|114|138)\b/.test(chat) && /00 00 01 04/.test(chat));
+
+  await tab('v-vault');
+  await evalJs(`document.querySelector('#vault-code').value = '9999'; document.querySelector('#vault-open').click()`);
+  check('Coffre : un mauvais code n\'ouvre rien', await waitFor('document.querySelector("#vault-lock-msg").textContent.includes("incorrect")', 8000));
+  await evalJs(`document.querySelector('#vault-code').value = '1234'; document.querySelector('#vault-open').click()`);
+  await waitFor('!document.querySelector("#vault-body").hidden', 10000);
+  await evalJs(`(async () => { const c = document.createElement('canvas'); c.width = 40; c.height = 30; c.getContext('2d').fillRect(0, 0, 20, 20);
+    const blob = await new Promise((r) => c.toBlob(r, 'image/png')); const dt = new DataTransfer(); dt.items.add(new File([blob], 'capture-fictive.png', { type: 'image/png' }));
+    const inp = document.querySelector('#vault-file'); inp.files = dt.files; inp.dispatchEvent(new Event('change')); document.querySelector('#vault-platform').value = 'WhatsApp'; document.querySelector('#vault-add').click(); })()`);
+  check('Coffre : capture fictive mise à l\'abri et listée', await waitFor('document.querySelectorAll("#vault-list .vitem").length === 1', 10000));
+  const cipherOk = await evalJs(`new Promise((res) => { const rq = indexedDB.open('calc-cache'); rq.onsuccess = () => { const t = rq.result.transaction('vault').objectStore('vault').getAll(); t.onsuccess = () => { const recs = t.result; const ok = recs.length === 1 && recs.every((r) => { const b = new Uint8Array(r.ctD); return !(b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47); }); rq.result.close(); res(ok); }; }; })`);
+  check('Coffre : le fichier stocké est chiffré (signature PNG absente)', cipherOk);
+
+  await tab('v-alert');
+  await evalJs(`document.querySelector('#alert-code').value = '1234'; document.querySelector('#alert-prep').scrollIntoView({ block: 'center' })`);
+  {
+    const r = await evalJs('(() => { const b = document.querySelector("#alert-prep").getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + b.height / 2 }; })()');
+    await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: r.x, y: r.y, button: 'left', clickCount: 1 });
+    await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: r.x, y: r.y, button: 'left', clickCount: 1 });
+  }
+  check('Alerte discrète : micro autorisé et dépôt chiffré préparé', await waitFor('document.querySelector("#alert-msg").textContent.includes("Micro autorisé") && document.querySelector("#alert-msg").textContent.includes("chiffrés")', 15000));
+  // Vraies tapes (événements d'entrée du navigateur), comme un doigt sur l'écran.
+  const tapScreen = async () => {
+    const r = await evalJs('(() => { const b = document.querySelector("#screen").getBoundingClientRect(); return { x: b.left + b.width / 2, y: b.top + 20 }; })()');
+    for (let i = 0; i < 3; i++) {
+      await send('Input.dispatchMouseEvent', { type: 'mousePressed', x: r.x, y: r.y, button: 'left', clickCount: 1 });
+      await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: r.x, y: r.y, button: 'left', clickCount: 1 });
+    }
+  };
+  const countAlerts = () => evalJs(`new Promise((res) => { const rq = indexedDB.open('calc-cache'); rq.onsuccess = () => { const t = rq.result.transaction('items').objectStore('items').getAll(); t.onsuccess = () => { const a = t.result.filter((m) => m.kind === 'alerte'); rq.result.close(); res(a.map((m) => ({ p: m.priority, rec: m.recording, size: m.audio ? m.audio.size : 0, sha: !!m.sha256 }))); }; }; })`);
+  await nav(BASE + '/light/calculatrice.html');
+  await waitFor('document.querySelector("#screen")');
+  await tapScreen();
+  await sleep(1200);
+  await tapScreen();
+  await sleep(5500);
+  check('Alerte discrète : 3 nouvelles tapes dans les 5 s annulent, rien n\'est déposé', (await countAlerts()).length === 0);
+  await tapScreen();
+  check('Alerte discrète : l\'écran de la calculatrice ne change pas', (await evalJs('document.querySelector("#result").textContent')) === '0' && (await evalJs('document.title')) === 'Calculatrice');
+  await sleep(6500);
+  const sentA = await countAlerts();
+  check('Alerte discrète : alerte urgente déposée après 5 s, enregistrement en cours', sentA.length === 1 && sentA[0].p === 'urgente' && sentA[0].rec === true, JSON.stringify(sentA));
+  await sleep(4000);
+  await tapScreen();
+  await sleep(1500);
+  const stopA = await countAlerts();
+  check('Alerte discrète : 3 tapes arrêtent l\'enregistrement, audio et empreinte SHA-256 gardés', stopA.length === 1 && stopA[0].rec === false && stopA[0].size > 0 && stopA[0].sha, JSON.stringify(stopA));
+  await nav(BASE + '/light/agent.html');
+  check('Console agent : alerte en tête, en rouge, consigne « ne jamais rappeler »', await waitFor('document.querySelector(".agent-item") && document.querySelector(".agent-item").classList.contains("alert")', 8000) &&
+    (await evalJs('document.querySelector(".agent-item").click(), new Promise((r) => setTimeout(() => r(document.querySelector("#detail").textContent.includes("Ne jamais rappeler") && ![...document.querySelectorAll("#detail button")].some((b) => b.textContent === "Envoyer la réponse")), 800))')));
+  await nav(BASE + '/light/espace.html');
+  await waitFor('document.querySelector("[data-tab=v-vault]")');
+  await tab('v-vault');
+  await evalJs(`document.querySelector('#vault-code').value = '1234'; document.querySelector('#vault-open').click()`);
+  check('Coffre : l\'enregistrement de l\'alerte y est, lisible avec le code', await waitFor('[...document.querySelectorAll("#vault-list .vitem")].some((b) => b.textContent.includes("Alerte discrète"))', 15000));
+
+  await nav(BASE + '/light/discret.html');
+  await waitFor('document.querySelector("#camo-wipe")');
+  await evalJs('document.querySelector("#camo-wipe").click()');
+  await sleep(1500);
+  const left = await evalJs(`new Promise((res) => { const rq = indexedDB.open('calc-cache'); rq.onsuccess = () => { const db = rq.result; const a = db.transaction('items').objectStore('items').count(); a.onsuccess = () => { const b = db.transaction('vault').objectStore('vault').count(); b.onsuccess = () => { db.close(); res(a.result + b.result + (localStorage.getItem('calc.v') ? 1 : 0)); }; }; }; })`);
+  check('Tout effacer : messages, preuves et clés supprimés du téléphone', left === 0, `éléments restants : ${left}`);
+
   // 9. Mobile : 360 px sans défilement horizontal
   await send('Emulation.setDeviceMetricsOverride', { width: 360, height: 740, deviceScaleFactor: 2, mobile: true });
-  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/light/', '/light/contacts.html', '/light/calculatrice.html', '/light/discret.html', '/haven/']) {
+  for (const p of ['/#/', '/#/express', `/#/audit/${auditId}/rapport`, '/#/comparer', '/#/kit/K-EXIT', '/light/', '/light/contacts.html', '/light/calculatrice.html', '/light/discret.html', '/light/espace.html', '/light/agent.html', '/haven/']) {
     await nav(BASE + p);
     await waitFor('document.querySelector("h1")', 20000);
     await sleep(500);

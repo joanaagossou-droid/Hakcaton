@@ -48,17 +48,36 @@
       say(s ? 'Codes et réglages enregistrés. Retenez bien votre code secret.' : 'Réglages enregistrés.');
     };
     if (!s) { done(); return; }
-    CAMO.setCodes(s, d).then(function () {
+    var CORE = window.LIGHT_CORE;
+    var current = $('current') ? $('current').value.trim() : '';
+    // Si des preuves existent, le coffre doit être re-chiffré avec le nouveau code (sinon elles deviendraient illisibles).
+    var vaultStep = Promise.resolve(null);
+    if (CORE && CORE.vaultExists()) {
+      if (!current) { say('Vous avez des preuves : saisissez d’abord votre code secret actuel.', true); return; }
+      vaultStep = CAMO.checkCode(current).then(function (r) {
+        if (r !== 'secret') throw new Error('code');
+        return CORE.openVault(current);
+      });
+    }
+    vaultStep.then(function (vault) {
+      return CAMO.setCodes(s, d).then(function () { return vault ? CORE.rewrapVault(vault, s) : null; });
+    }).then(function () {
       var q = CAMO.getPrefs(); q.custom = true; q.notif = notif; CAMO.setPrefs(q);
+      if ($('current')) $('current').value = '';
       done();
-    }).catch(function () { say('Enregistrement impossible sur ce navigateur.', true); });
+    }).catch(function (e) {
+      say(e && e.message === 'code' ? 'Code secret actuel incorrect : rien n’a été changé.' : 'Enregistrement impossible sur ce navigateur.', true);
+    });
   });
 
   $('camo-wipe').addEventListener('click', function () {
-    if (!window.confirm('Effacer les codes et les réglages du mode discret sur ce téléphone ?')) return;
-    CAMO.wipe();
-    refresh();
-    say('Tout est effacé. Les codes de démonstration sont de nouveau actifs.');
+    if (!window.confirm('Effacer les codes, les réglages, les messages et les preuves de Light sur ce téléphone ?')) return;
+    var CORE = window.LIGHT_CORE;
+    (CORE ? CORE.wipeAll() : Promise.resolve()).then(function () {
+      CAMO.wipe();
+      refresh();
+      say('Tout est effacé : codes, réglages, messages et preuves. Les codes de démonstration sont de nouveau actifs.');
+    });
   });
 
   refresh();

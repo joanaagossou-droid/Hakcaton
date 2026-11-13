@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="assets/light.css">
 <script src="assets/light.js" defer></script>
 <script src="assets/camouflage.js" defer></script>
+<script src="assets/espace-core.js" defer></script>
 <script src="assets/discret.js" defer></script>
 </head>
 <body>
@@ -22,6 +23,7 @@
   <a class="brand" href="index.html"><img src="assets/light-icon.svg" alt="" width="26" height="26"> Light</a>
   <nav aria-label="Navigation principale">
     <a href="index.html">Accueil</a>
+    <a href="espace.html">Mon espace</a>
     <a href="ecrire.html">Écrire</a>
     <a href="contacts.html">Contacts</a>
     <a href="discret.html" aria-current="page">Mode discret</a>
@@ -52,6 +54,8 @@
   <h2>Réglages</h2>
   <p class="warning-box" id="default-warning" hidden><strong>Codes de démonstration actifs.</strong> Le code secret 1234 et le code leurre 0000 sont publics : un vrai service vous demanderait de choisir vos propres codes dès la première ouverture.</p>
   <form id="camo-form" class="form" novalidate>
+    <label for="current">Code secret actuel (obligatoire si vous avez des preuves)</label>
+    <input id="current" name="current" type="password" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]*">
     <label for="secret">Nouveau code secret</label>
     <input id="secret" name="secret" type="password" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]*" aria-describedby="code-help">
     <label for="decoy">Nouveau code leurre</label>
@@ -80,7 +84,7 @@
 
   <section class="note">
     <h2>Désactiver et tout effacer</h2>
-    <p>Supprime les codes et les réglages du mode discret de ce téléphone.</p>
+    <p>Supprime de ce téléphone les codes, les réglages, les messages et les preuves de Light.</p>
     <button type="button" class="btn secondary" id="camo-wipe">Tout effacer</button>
   </section>
 </main>

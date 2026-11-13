@@ -12,7 +12,7 @@
  */
 
 export const ANALYZER_VERSION = '1.0.0';
-export const MAX_PAGES = 8;
+export const MAX_PAGES = 10;
 export const MAX_RESOURCES_PER_PAGE = 20;
 
 // ---------------------------------------------------------------------------

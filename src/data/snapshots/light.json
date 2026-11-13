@@ -2,43 +2,55 @@
  "version": "1.0.0",
  "entryUrl": "/light/",
  "mode": "instantané",
- "analyzedAt": "2026-11-13T09:26:19.730Z",
+ "analyzedAt": "2026-11-13T09:43:51.861Z",
  "pages": [
   {
    "url": "/light/",
    "status": 200,
    "title": "Light · Accueil",
-   "bytes": 17360
+   "bytes": 17496
   },
   {
    "url": "/light/contacts.html",
    "status": 200,
    "title": "Light · Contacts",
-   "bytes": 19661
+   "bytes": 19702
+  },
+  {
+   "url": "/light/espace.html",
+   "status": 200,
+   "title": "Light · Espace",
+   "bytes": 77156
   },
   {
    "url": "/light/ecrire.html",
    "status": 200,
    "title": "Light · Formulaire",
-   "bytes": 17647
+   "bytes": 17688
   },
   {
    "url": "/light/discret.html",
    "status": 200,
    "title": "Light · Réglages",
-   "bytes": 26012
+   "bytes": 48211
   },
   {
    "url": "/light/confidentialite.html",
    "status": 200,
    "title": "Light · Confidentialité",
-   "bytes": 17014
+   "bytes": 17834
   },
   {
    "url": "/light/calculatrice.html",
    "status": 200,
    "title": "Calculatrice",
-   "bytes": 19257
+   "bytes": 46288
+  },
+  {
+   "url": "/light/agent.html",
+   "status": 200,
+   "title": "Light · Console",
+   "bytes": 52163
   }
  ],
  "findings": [
@@ -157,7 +169,7 @@
    "id": "weight",
    "label": "Poids approximatif des pages",
    "status": "detected",
-   "evidence": "Page la plus lourde : 25.4 Ko (discret.html). light : 17 Ko · contacts.html : 19.2 Ko · ecrire.html : 17.2 Ko · discret.html : 25.4 Ko · confidentialite.html : 16.6 Ko · calculatrice.html : 18.8 Ko. Taille décodée des ressources de même origine.",
+   "evidence": "Page la plus lourde : 75.3 Ko (espace.html). light : 17.1 Ko · contacts.html : 19.2 Ko · espace.html : 75.3 Ko · ecrire.html : 17.3 Ko · discret.html : 47.1 Ko · confidentialite.html : 17.4 Ko · calculatrice.html : 45.2 Ko · agent.html : 50.9 Ko. Taille décodée des ressources de même origine.",
    "risk": "Aucun (sous le seuil de 500 Ko)",
    "criteria": [
     "A1"
@@ -166,39 +178,51 @@
    "detail": [
     {
      "url": "/light/",
-     "html": 4015,
+     "html": 4151,
      "resources": 13345,
-     "total": 17360
+     "total": 17496
     },
     {
      "url": "/light/contacts.html",
-     "html": 6316,
+     "html": 6357,
      "resources": 13345,
-     "total": 19661
+     "total": 19702
+    },
+    {
+     "url": "/light/espace.html",
+     "html": 11281,
+     "resources": 65875,
+     "total": 77156
     },
     {
      "url": "/light/ecrire.html",
-     "html": 4302,
+     "html": 4343,
      "resources": 13345,
-     "total": 17647
+     "total": 17688
     },
     {
      "url": "/light/discret.html",
-     "html": 5234,
-     "resources": 20778,
-     "total": 26012
+     "html": 5564,
+     "resources": 42647,
+     "total": 48211
     },
     {
      "url": "/light/confidentialite.html",
-     "html": 3669,
+     "html": 4489,
      "resources": 13345,
-     "total": 17014
+     "total": 17834
     },
     {
      "url": "/light/calculatrice.html",
-     "html": 3029,
-     "resources": 16228,
-     "total": 19257
+     "html": 3128,
+     "resources": 43160,
+     "total": 46288
+    },
+    {
+     "url": "/light/agent.html",
+     "html": 2491,
+     "resources": 49672,
+     "total": 52163
     }
    ]
   },
@@ -206,7 +230,7 @@
    "id": "quick-exit",
    "label": "Bouton de sortie rapide",
    "status": "detected",
-   "evidence": "✓ light · ✓ contacts.html · ✓ ecrire.html · ✓ discret.html · ✓ confidentialite.html · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : calculatrice.html (déclaration à vérifier par les scénarios T3 et T4)",
+   "evidence": "✓ light · ✓ contacts.html · ✓ espace.html · ✓ ecrire.html · ✓ discret.html · ✓ confidentialite.html · ✓ agent.html · Page(s) de camouflage déclarée(s), exclue(s) du contrôle : calculatrice.html (déclaration à vérifier par les scénarios T3 et T4)",
    "risk": "Présence observée ; son fonctionnement réel doit être vérifié par le scénario T4.",
    "criteria": [
     "S1"
@@ -241,7 +265,7 @@
    "id": "forms",
    "label": "Formulaire",
    "status": "detected",
-   "evidence": "ecrire.html : 6 champ(s) · discret.html : 2 champ(s)",
+   "evidence": "ecrire.html : 6 champ(s) · discret.html : 3 champ(s)",
    "risk": "Voir les champs obligatoires.",
    "criteria": [
     "C2",
@@ -265,7 +289,7 @@
    "id": "privacy",
    "label": "Politique de confidentialité",
    "status": "detected",
-   "evidence": "Page confidentialite.html : 340 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
+   "evidence": "Page confidentialite.html : 461 mots ; sujets couverts 5/5 (données collectées, qui y accède, durée de conservation, suppression, limites de la confidentialité).",
    "risk": "Lisibilité à confirmer par un humain.",
    "criteria": [
     "C4",
@@ -316,17 +340,17 @@
   "C1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Aucun traceur ni ressource tierce dans le code reçu (6 page(s) analysée(s)). Un contenu ajouté dynamiquement ne serait pas vu."
+   "comment": "Aucun traceur ni ressource tierce dans le code reçu (8 page(s) analysée(s)). Un contenu ajouté dynamiquement ne serait pas vu."
   },
   "A1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Page la plus lourde : 25.4 Ko (seuil du critère : moins de 500 Ko)."
+   "comment": "Page la plus lourde : 75.3 Ko (seuil du critère : moins de 500 Ko)."
   },
   "S1": {
    "note": 2,
    "proof": "machine",
-   "comment": "Sortie rapide repérée sur 5/5 page(s) sensible(s) (1 page de camouflage déclarée exclue). Fonctionnement à confirmer par le scénario T4."
+   "comment": "Sortie rapide repérée sur 7/7 page(s) sensible(s) (1 page de camouflage déclarée exclue). Fonctionnement à confirmer par le scénario T4."
   },
   "A4": {
    "note": 2,
@@ -346,7 +370,7 @@
   "C4": {
    "note": 2,
    "proof": "machine",
-   "comment": "Politique présente : 340 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
+   "comment": "Politique présente : 461 mots, 5/5 sujets couverts. Le langage simple reste à confirmer."
   },
   "S3": {
    "note": 2,

@@ -7,7 +7,7 @@ Date d'exécution : 13/11/2026. Machine : Windows 11, Node.js 24.19, Microsoft E
 | Famille | Commande | Résultat |
 |---|---|---|
 | Unitaires + sécurité | `npm test` | **36/36 réussis** |
-| Navigateur réel (bout en bout) | `npm run test:e2e` | **48/48 réussis** (dont 14 sur le mode discret : calculs, code leurre, empreintes des codes, code secret, Échap, notification camouflée, historique, verrouillage en arrière-plan) |
+| Navigateur réel (bout en bout) | `npm run test:e2e` | **68/68 réussis** (dont 20 sur « Mon espace » avec micro simulé : message vocal, code de suivi, réponse, assistante, coffre chiffré, alerte discrète, annulation, effacement ; et 14 sur le mode discret : calculs, code leurre, empreintes des codes, code secret, Échap, notification camouflée, historique, verrouillage en arrière-plan) |
 | Charge locale | `node tests/load/mini-load.mjs 200 60` | **Réussi** : 200 utilisateurs, 31 897 requêtes, 0 erreur, p95 = 24 ms, p99 = 27 ms |
 | Poids | `node tools/measure-weight.mjs` | NUKUN 282 Ko bruts / 100 Ko compressés (< 300 Ko) ; pages LIGHT 12 à 14 Ko (< 150 Ko) |
 | QR code | décodage par la bibliothèque indépendante jsQR 1.4.0 | **5/5** textes décodés à l'identique (versions 1, 3, 8 et 10, accents) |
@@ -27,7 +27,7 @@ Adresse : **https://nukun-demo.netlify.app** (Netlify, HTTPS). La protection vis
 | `/api/status` | liste autorisée = `nukun-demo.netlify.app/haven/` et `/light/` |
 | `/api/analyze` : métadonnées cloud, localhost, `file://`, site hors liste | 4 refus avec message clair |
 | `/api/analyze` sur HAVEN | analyse en mode serveur ; traceur et en-tête Set-Cookie détectés |
-| Scores calculés en ligne (navigateur) | **HAVEN 9/100** rouge, plafonné (C1, C2, S1, R1) · **LIGHT 85/100** vert (S5 conforme grâce au HTTPS) |
+| Scores calculés en ligne | **HAVEN 9/100** rouge, plafonné (C1, C2, S1, R1) · **LIGHT 86/100** vert (S5 conforme grâce au HTTPS ; R3 devenu applicable et conforme avec « Mon espace ») |
 | QR code `https://nukun-demo.netlify.app/#/express` | décodé à l'identique par jsQR ; fichier `OUTPUT/21_QR_code_NUKUN_demo.png` |
 
 HAVEN passe de 7 (local) à 9 (en ligne) : avec HTTPS et sa CSP, son critère S5 devient « partiel ». Elle reste rouge et plafonnée.

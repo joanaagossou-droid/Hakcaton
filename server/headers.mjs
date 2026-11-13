@@ -60,6 +60,9 @@ export const ZONES = [
     id: 'light', prefix: '/light/',
     headers: {
       ...COMMON_STRONG,
+      // Mon espace : micro (message vocal, alerte discrète) et lecture audio en mémoire (blob:).
+      'Content-Security-Policy': CSP_STRICT + "; media-src 'self' blob:",
+      'Permissions-Policy': 'camera=(), microphone=(self), geolocation=(), payment=(), usb=(), interest-cohort=()',
       'X-Robots-Tag': 'noindex, nofollow, noarchive',
       'Cache-Control': 'no-store'
     }

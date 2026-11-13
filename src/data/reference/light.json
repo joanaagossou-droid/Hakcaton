@@ -10,7 +10,7 @@
     "C5": {
       "note": 2,
       "proof": "human",
-      "comment": "Case d'accord non précochée, un seul usage (lecture par l'équipe d'écoute), retrait possible annoncé ; aucun cookie."
+      "comment": "Case d'accord non précochée pour le formulaire et pour le message vocal ; retrait possible annoncé ; aucun cookie."
     },
     "S2": {
       "note": 2,
@@ -43,9 +43,9 @@
       "comment": "Structure correcte (6 catégories, numéros cohérents et cliquables), mais numéros FICTIFS : vérification institutionnelle non faite."
     },
     "R3": {
-      "note": "na",
-      "naReason": "LIGHT ne prend aucune décision automatisée (pas d'IA, pas de tri, pas d'alerte).",
-      "comment": ""
+      "note": 2,
+      "proof": "human",
+      "comment": "Console agent : le repérage de mots suggère une priorité, l'agent la décide ; l'assistante ne contacte personne ; les alertes portent la consigne « ne jamais rappeler ». Vérifié par test automatisé (même navigateur)."
     },
     "R4": {
       "note": 2,
@@ -60,7 +60,7 @@
     "N1": {
       "note": 2,
       "proof": "human",
-      "comment": "Aucune donnée réelle ; formulaire de démonstration sans envoi ; avertissement « n'y écrivez pas de vraie situation »."
+      "comment": "Aucune donnée réelle ; avertissements « situations inventées uniquement » sur le formulaire, Mon espace et la console ; rien n'est envoyé hors du navigateur."
     },
     "N2": {
       "note": 2,
@@ -93,9 +93,9 @@
       "comment": "Parcours pensés pour majeurs, mineurs, proches ; pas encore testés avec des profils variés."
     },
     "E3": {
-      "note": "na",
-      "naReason": "LIGHT n'utilise aucune intelligence artificielle.",
-      "comment": ""
+      "note": 1,
+      "proof": "human",
+      "comment": "Assistante à règles simples (pas d'IA externe) : elle affiche qu'elle peut se tromper et que ce n'est pas un avis juridique, mais aucun taux d'erreur ni biais n'a été mesuré."
     },
     "E4": {
       "note": 2,

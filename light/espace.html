@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-title" content="Calculatrice">
+<title>Light · Espace</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/light-icon.svg">
+<link rel="apple-touch-icon" href="assets/calc-192.png">
+<link rel="stylesheet" href="assets/light.css">
+<link rel="stylesheet" href="assets/espace.css">
+<script src="assets/light.js" defer></script>
+<script src="assets/camouflage.js" defer></script>
+<script src="assets/espace-core.js" defer></script>
+<script src="assets/espace.js" defer></script>
+</head>
+<body>
+<div class="fiction-banner" role="note"><strong>SITE FICTIF</strong> — Créé exclusivement pour une démonstration pédagogique. Ce site n'est pas un service officiel et ne reçoit aucun signalement réel.</div>
+<button type="button" class="quick-exit" data-quick-exit aria-label="Sortie rapide : quitter le site immédiatement (touche Échap)">Quitter ✕</button>
+<header class="top">
+  <a class="brand" href="index.html"><img src="assets/light-icon.svg" alt="" width="26" height="26"> Light</a>
+  <nav aria-label="Navigation principale">
+    <a href="index.html">Accueil</a>
+    <a href="espace.html" aria-current="page">Mon espace</a>
+    <a href="ecrire.html">Écrire</a>
+    <a href="contacts.html">Contacts</a>
+    <a href="discret.html">Mode discret</a>
+    <a href="confidentialite.html">Confidentialité</a>
+  </nav>
+</header>
+<main id="contenu">
+  <h1>Mon espace</h1>
+  <p class="warning-box"><strong>Prototype de démonstration.</strong> Utilisez uniquement des situations inventées : pas de vraie voix reconnaissable, pas de vraie preuve, pas de vrai nom. Tout reste sur ce téléphone ; rien n'est envoyé à un service réel.</p>
+
+  <div class="tabs" role="tablist" aria-label="Fonctions de l'espace">
+    <button type="button" role="tab" data-tab="v-voice" aria-selected="true">🎙️ Parler</button>
+    <button type="button" role="tab" data-tab="v-reply" aria-selected="false">📩 Ma réponse</button>
+    <button type="button" role="tab" data-tab="v-chat" aria-selected="false">💬 Assistante</button>
+    <button type="button" role="tab" data-tab="v-vault" aria-selected="false">🔒 Mes preuves</button>
+    <button type="button" role="tab" data-tab="v-alert" aria-selected="false">🛎️ Alerte discrète</button>
+  </div>
+
+  <!-- ===== Message vocal ===== -->
+  <section class="view" id="v-voice" role="tabpanel">
+    <h2>Demander de l'aide en parlant</h2>
+    <p>Dans votre langue, sans écrire. Vous pouvez réécouter avant d'envoyer.</p>
+    <p class="label">1. Dans quelle langue allez-vous parler ?</p>
+    <div class="chips" id="lang-chips"></div>
+    <div id="voice-step2" hidden>
+      <p class="label">2. Appuyez sur le bouton et parlez (2 minutes au plus)</p>
+      <button type="button" class="rec" id="rec-btn" aria-label="Commencer l'enregistrement">🎙️</button>
+      <p class="timer" id="rec-timer" aria-live="polite">0:00</p>
+      <p class="small" id="mic-msg" role="status"></p>
+      <div id="play-wrap" hidden>
+        <audio id="playback" controls></audio>
+        <button type="button" class="btn secondary" id="redo">Recommencer</button>
+      </div>
+      <details><summary>Le micro ne marche pas ? Utiliser un fichier audio</summary>
+        <input type="file" id="audio-file" accept="audio/*">
+      </details>
+    </div>
+    <div id="voice-step3" hidden>
+      <label for="pseudo">3. Un prénom inventé (facultatif)</label>
+      <input type="text" id="pseudo" maxlength="30" autocomplete="off" placeholder="Par exemple : Étoile">
+      <p class="small">N'écrivez pas votre vrai nom. Aucun numéro de téléphone n'est demandé.</p>
+      <p class="warning-box">Votre voix peut permettre de vous reconnaître. Dans un vrai service, votre message serait écouté uniquement par une personne chargée de vous aider, puis effacé après traitement.</p>
+      <label class="inline"><input type="checkbox" id="voice-consent"> J'accepte d'envoyer mon message vocal pour être aidée.</label>
+      <button type="button" class="btn" id="send-voice" disabled>Envoyer mon message</button>
+    </div>
+    <div id="voice-code" hidden>
+      <h3>Votre message est envoyé</h3>
+      <p>Voici votre <strong>code de suivi</strong>. Il ne sera <strong>plus jamais affiché</strong>. Retenez-le, ou notez-le dans un endroit sûr.</p>
+      <p class="code" id="code-show"></p>
+      <button type="button" class="btn" id="code-done">J'ai retenu mon code</button>
+    </div>
+  </section>
+
+  <!-- ===== Réponse ===== -->
+  <section class="view" id="v-reply" role="tabpanel" hidden>
+    <h2>Écouter ma réponse</h2>
+    <label for="code-in">Votre code de suivi</label>
+    <input type="text" id="code-in" placeholder="ABC-DEF-GHJ" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <button type="button" class="btn" id="code-go">Voir la réponse</button>
+    <div id="reply-out" aria-live="polite"></div>
+  </section>
+
+  <!-- ===== Assistante ===== -->
+  <section class="view" id="v-chat" role="tabpanel" hidden>
+    <h2>Parler à l'assistante</h2>
+    <p class="small">Assistante automatique à <strong>règles simples</strong>, sur ce téléphone : elle repère des mots (menace, chantage, contrôle, insultes), surligne ce qui inquiète et donne des conseils. Elle peut se tromper ; ce n'est pas un avis juridique ; elle ne contacte personne. La conversation n'est pas enregistrée et s'efface quand vous quittez.</p>
+    <div class="chatlog" id="chat-log" aria-live="polite"></div>
+    <div class="chips" id="chat-quick">
+      <button type="button" class="chip" data-q="Est-ce que c'est du harcèlement ?">Est-ce du harcèlement ?</button>
+      <button type="button" class="chip" data-q="Comment garder des preuves ?">Garder des preuves</button>
+      <button type="button" class="chip" data-q="Qui je peux appeler ?">Qui contacter ?</button>
+    </div>
+    <label for="chat-in" class="sr-only">Votre message</label>
+    <textarea id="chat-in" rows="3" autocomplete="off" spellcheck="false" placeholder="Écrivez ce qui s'est passé, ou collez un message reçu…"></textarea>
+    <button type="button" class="btn" id="chat-send">Envoyer</button>
+  </section>
+
+  <!-- ===== Coffre de preuves ===== -->
+  <section class="view" id="v-vault" role="tabpanel" hidden>
+    <h2>Mes preuves</h2>
+    <p>Vos preuves sont <strong>chiffrées avec votre code secret</strong> et rangées ici, à l'abri de la galerie. Sans le code, personne ne peut les voir, même en fouillant les fichiers du téléphone.</p>
+    <div id="vault-lock">
+      <label for="vault-code">Code secret (celui de la calculatrice)</label>
+      <input type="password" id="vault-code" inputmode="numeric" maxlength="8" autocomplete="off">
+      <button type="button" class="btn" id="vault-open">Ouvrir mes preuves</button>
+      <p class="small" id="vault-lock-msg" role="status"></p>
+    </div>
+    <div id="vault-body" hidden>
+      <div class="card">
+        <label for="vault-file">Ajouter des captures d'écran ou des enregistrements</label>
+        <input type="file" id="vault-file" accept="image/*,audio/*" multiple>
+        <label for="vault-platform">Où cela s'est passé</label>
+        <select id="vault-platform"><option value="">Choisir…</option><option>WhatsApp</option><option>Facebook</option><option>TikTok</option><option>Instagram</option><option>Messenger</option><option>SMS</option><option>Appel</option><option>Autre</option></select>
+        <label for="vault-date">Date des faits (facultatif)</label>
+        <input type="text" id="vault-date" autocomplete="off" placeholder="Par exemple : 10/11/2026">
+        <label for="vault-note">Note (facultatif)</label>
+        <input type="text" id="vault-note" maxlength="200" autocomplete="off" placeholder="Ce qui s'est passé, en quelques mots">
+        <button type="button" class="btn" id="vault-add" disabled>Mettre à l'abri</button>
+        <p class="small" id="vault-msg" role="status"></p>
+      </div>
+      <p class="warning-box">Après l'ajout, le fichier existe encore dans la galerie. Si c'est sans danger, supprimez-le de la galerie <strong>et</strong> de la corbeille.</p>
+      <h3>Preuves gardées <span id="vault-count" class="small"></span></h3>
+      <div id="vault-list" class="vgrid"></div>
+      <div id="vault-view" class="card" hidden></div>
+      <button type="button" class="btn secondary" id="vault-close">Refermer le coffre</button>
+      <p class="small">Si vous oubliez votre code secret, les preuves ne peuvent pas être récupérées.</p>
+    </div>
+  </section>
+
+  <!-- ===== Alerte discrète ===== -->
+  <section class="view" id="v-alert" role="tabpanel" hidden>
+    <h2>Alerte discrète en 3 appuis</h2>
+    <p>Si vous êtes en danger et ne pouvez pas ouvrir Light : sur la <a href="calculatrice.html">calculatrice</a>, <strong>tapez 3 fois rapidement sur la zone des chiffres</strong> (pas sur les touches). L'enregistrement commence, et une alerte urgente part au bout de 5 secondes. Rien ne change à l'écran.</p>
+    <ul>
+      <li><strong>Annuler</strong> : 3 nouvelles tapes dans les 5 secondes, rien n'est gardé ni envoyé.</li>
+      <li><strong>Arrêter l'enregistrement</strong> : encore 3 tapes (arrêt automatique après 5 minutes).</li>
+      <li>L'enregistrement est rangé, chiffré, dans « Mes preuves », avec son empreinte numérique.</li>
+    </ul>
+    <p class="warning-box">Pendant l'enregistrement, le téléphone affiche un petit point vert ou orange : aucune application ne peut le cacher. Light doit être ouverte au premier plan. <strong>Démonstration : l'alerte arrive seulement sur la console agent de ce navigateur ; aucun service réel n'est contacté.</strong></p>
+    <div class="card">
+      <p class="label">État</p>
+      <div class="chips" id="alert-on"></div>
+      <label for="alert-lang">Votre langue préférée (pour l'agent)</label>
+      <select id="alert-lang"></select>
+      <label for="alert-pseudo">Prénom inventé (facultatif)</label>
+      <input type="text" id="alert-pseudo" maxlength="30" autocomplete="off" placeholder="Par exemple : Étoile">
+      <label class="inline"><input type="checkbox" id="alert-vibrate"> Une courte vibration confirme le déclenchement</label>
+      <label for="alert-code">Code secret (pour préparer le dépôt chiffré dans « Mes preuves »)</label>
+      <input type="password" id="alert-code" inputmode="numeric" maxlength="8" autocomplete="off">
+      <button type="button" class="btn" id="alert-prep">Autoriser le micro et préparer (à faire seule)</button>
+      <p class="small" id="alert-msg" role="status"></p>
+    </div>
+  </section>
+
+  <p class="small demo-links">Pour la démonstration : ouvrez la <a href="agent.html" target="_blank" rel="noopener">console agent</a> dans un autre onglet de ce navigateur pour voir les messages et les alertes arriver.</p>
+</main>
+<footer class="foot">
+  <a href="confidentialite.html">Confidentialité et limites</a> · Light — prototype HACK4HER, données fictives uniquement
+</footer>
+</body>
+</html>
